@@ -57,7 +57,7 @@ export const ResultsTab = () => {
       type: 'winner' as const,
     }));
 
-    setResults(prev => [...prev, ...newResults]);
+    setResults(prev => [...newResults, ...prev]);
     setImportText('');
     setActiveTab('historico');
   };

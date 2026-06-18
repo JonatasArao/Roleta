@@ -139,20 +139,94 @@ export const MysteryBoxDisplay = () => {
     }
   };
 
+  const wheelTheme = useAppStore(state => state.wheelTheme);
+  
+  // Theme Variables
+  let bgGradient = "from-[#1c1836] via-[#100e1f] to-[#0a0812]";
+  let outerGlow = "bg-orange-500/5 blur-[100px]";
+  let containerBorder = "border-[#f59e0b]/40 border-[4px] shadow-amber-900/50";
+  let innerBg = "bg-[#0b0a14]";
+  let targetAreaClass = "border-amber-500/50 bg-amber-500/5 shadow-[0_0_50px_rgba(245,158,11,0.15)]";
+  let boxFrontClass = "from-[#2d2a45] to-[#1a1829] border-[#454060]";
+  let boxHighlightClass = "border-amber-400";
+  let dropShadowColor = "rgba(245,158,11,0.6)";
+  let bgPattern = <div className="absolute inset-0 opacity-[0.02] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none transition-all duration-500"></div>;
+
+  switch (wheelTheme) {
+    case 'neon':
+      bgGradient = "from-[#0a0014] via-[#15002b] to-[#0a0014]";
+      outerGlow = "bg-fuchsia-600/30 blur-[120px]";
+      containerBorder = "border-cyan-500/40 border-[4px] shadow-cyan-900/50";
+      innerBg = "bg-[#090014]";
+      targetAreaClass = "border-cyan-500/50 bg-cyan-500/10 shadow-[0_0_50px_rgba(6,182,212,0.25)]";
+      boxFrontClass = "from-[#2d0052] to-[#140026] border-fuchsia-800";
+      boxHighlightClass = "border-cyan-400";
+      dropShadowColor = "rgba(34,211,238,0.6)";
+      bgPattern = (
+        <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none transition-all duration-500">
+           <div className="absolute inset-0 bg-gradient-to-t from-fuchsia-900/10 to-transparent"></div>
+        </div>
+      );
+      break;
+    case 'casino':
+      bgGradient = "from-[#3b0918] via-[#1a0000] to-[#2d1b00]";
+      outerGlow = "bg-amber-500/30 blur-[120px]";
+      containerBorder = "border-amber-600 border-[6px] border-dashed shadow-amber-900/80";
+      innerBg = "bg-[#1a0000]";
+      targetAreaClass = "border-yellow-500/80 bg-yellow-500/10 shadow-[0_0_60px_rgba(234,179,8,0.2)]";
+      boxFrontClass = "from-[#4a0d0d] to-[#260505] border-amber-900";
+      boxHighlightClass = "border-amber-400";
+      dropShadowColor = "rgba(251,191,36,0.6)";
+      bgPattern = (
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(255,215,0,0.15)_0%,transparent_100%)] bg-[size:20px_20px] pointer-events-none transition-all duration-500">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMSIvPgo8cGF0aCBkPSJNMCAwTDggOFpNOCAwTDAgOFoiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW9wYWNpdHk9IjAuMDUiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=')] opacity-30"></div>
+        </div>
+      );
+      break;
+    case 'candy':
+      bgGradient = "from-[#ffe4e6] via-[#fbcfe8] to-[#e0e7ff]";
+      outerGlow = "bg-pink-400/40 blur-[100px]";
+      containerBorder = "border-pink-300 border-[6px] shadow-pink-300/50";
+      innerBg = "bg-[#fff0f5]";
+      targetAreaClass = "border-pink-400/80 bg-pink-100/50 shadow-[0_0_40px_rgba(244,114,182,0.3)]";
+      boxFrontClass = "from-pink-200 to-pink-100 border-pink-300";
+      boxHighlightClass = "border-pink-500";
+      dropShadowColor = "rgba(236,72,153,0.6)";
+      bgPattern = (
+        <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMTgiIGN5PSIxOCIgcj0iMiIgZmlsbD0iI2Y0NzJiNiIvPjwvc3ZnPg==')] pointer-events-none transition-all duration-500"></div>
+      );
+      break;
+    case 'dark':
+      bgGradient = "from-[#0a0a0a] via-[#121212] to-[#000000]";
+      outerGlow = "bg-zinc-500/10 blur-[100px]";
+      containerBorder = "border-zinc-800 border-[2px]";
+      innerBg = "bg-[#0a0a0a]";
+      targetAreaClass = "border-zinc-500/50 bg-zinc-800/30 shadow-[0_0_30px_rgba(255,255,255,0.05)]";
+      boxFrontClass = "from-zinc-800 to-black border-zinc-700";
+      boxHighlightClass = "border-white";
+      dropShadowColor = "rgba(255,255,255,0.6)";
+      bgPattern = (
+        <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none transition-all duration-500"></div>
+      );
+      break;
+  }
+
   // Dimensions
   const containerRatio = 1.8; 
   const cols = Math.max(2, Math.ceil(Math.sqrt(validItems.length * containerRatio)));
 
   return (
-    <div className="flex-1 flex flex-col p-4 lg:p-6 relative bg-gradient-to-br from-[#1c1836] via-[#100e1f] to-[#0a0812] overflow-hidden min-h-0 items-center justify-center">
+    <div className={`flex-1 flex flex-col p-4 lg:p-6 relative bg-gradient-to-br ${bgGradient} overflow-hidden min-h-0 items-center justify-center transition-colors duration-500`}>
+      {bgPattern}
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[600px] md:h-[600px] ${outerGlow} rounded-full pointer-events-none transition-colors duration-500`} />
       
-      <div className="w-[95vw] md:w-[1000px] max-w-full h-[85vh] flex flex-col border-[#f59e0b]/40 border-[4px] rounded-2xl bg-[#0b0a14] overflow-hidden relative shadow-2xl">
+      <div className={`w-[95vw] md:w-[1000px] max-w-full h-[85vh] flex flex-col rounded-2xl overflow-hidden relative shadow-2xl transition-all duration-500 ${containerBorder} ${innerBg}`}>
          
-         <div className="bg-gradient-to-r from-amber-900/60 via-amber-600/80 to-amber-900/60 border-b border-amber-500/50 text-amber-50 shadow-[0_4px_25px_rgba(245,158,11,0.2)] z-20 flex justify-center items-center py-4 relative overflow-hidden shrink-0">
+         <div className={`border-b z-20 flex justify-center items-center py-4 relative overflow-hidden shrink-0 transition-all duration-500 shadow-md ${targetAreaClass}`}>
            {/* Glint effect */}
            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[150%] animate-[shimmer_3s_infinite]"></div>
            <h2 className="uppercase tracking-[0.3em] font-black text-center text-xl md:text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] px-4">
-               {isSpinning ? "Qual é a sua mala?" : (winner ? "A Mala Escolhida!" : "Escolha Sua Mala")}
+               {isSpinning ? "Misturando..." : (winner ? "A Escolhida!" : "Escolher")}
            </h2>
          </div>
 
@@ -185,8 +259,8 @@ export const MysteryBoxDisplay = () => {
                         className={`group relative transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] 
                            ${!winner && !isSpinning ? 'cursor-pointer hover:scale-105' : ''}
                            ${isDimmed ? 'opacity-40 scale-90 grayscale' : 'opacity-100'}
-                           ${isHighlighted && !isWinnerBox ? 'drop-shadow-[0_0_20px_rgba(245,158,11,0.6)] z-10' : ''}
-                           ${isWinnerBox && isRevealed ? 'scale-[1.3] z-30 drop-shadow-[0_0_50px_rgba(245,158,11,0.8)] md:scale-[1.5]' : 'scale-100'}
+                           ${isHighlighted && !isWinnerBox ? `drop-shadow-[0_0_20px_${dropShadowColor}] z-10` : ''}
+                           ${isWinnerBox && isRevealed ? `scale-[1.3] z-30 drop-shadow-[0_0_50px_${dropShadowColor}] md:scale-[1.5]` : 'scale-100'}
                         `}
                         onClick={() => handleBoxClick(idx)}
                      >
@@ -195,14 +269,14 @@ export const MysteryBoxDisplay = () => {
                            
                            {/* Front Face: The Suitcase / Box */}
                            <div 
-                              className={`absolute inset-0 [backface-visibility:hidden] bg-gradient-to-b from-[#2d2a45] to-[#1a1829] rounded-xl border-2 shadow-xl overflow-hidden flex flex-col items-center justify-center
-                                 ${isHighlighted ? 'border-amber-400' : 'border-[#454060]'}
+                              className={`absolute inset-0 [backface-visibility:hidden] bg-gradient-to-b rounded-xl border-2 shadow-xl overflow-hidden flex flex-col items-center justify-center ${boxFrontClass}
+                                 ${isHighlighted ? boxHighlightClass : ''}
                               `}
                            >
                               {/* Box Handle */}
-                              <div className="absolute top-2 md:top-3 w-1/3 h-2 md:h-3 rounded-t-lg border-2 border-b-0 border-[#1a1829] bg-transparent"></div>
+                              <div className="absolute top-2 md:top-3 w-1/3 h-2 md:h-3 rounded-t-lg border-2 border-b-0 border-[#1a1829] bg-transparent opacity-50"></div>
                               
-                              <div className="text-amber-500/30 text-3xl md:text-5xl font-black font-serif italic mb-1 group-hover:text-amber-500/70 transition-colors">
+                              <div className="text-white/30 text-3xl md:text-5xl font-black font-serif italic mb-1 group-hover:text-white/70 transition-colors drop-shadow-md">
                                  {idx + 1}
                               </div>
                            </div>

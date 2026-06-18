@@ -31,6 +31,7 @@ export const WheelDisplay = () => {
   const textSize = useAppStore(s => s.textSize);
   const centerSize = useAppStore(s => s.centerSize);
   const centerImage = useAppStore(s => s.centerImage);
+  const wheelTheme = useAppStore(s => s.wheelTheme);
   const winner = useAppStore(s => s.winner);
 
   const { validItems, slices } = useWheelData();
@@ -331,9 +332,70 @@ export const WheelDisplay = () => {
     };
   }, [isSpinning, rotation, slices]);
 
+  // Theme Variables
+  let bgGradient = "from-[#1a2530] via-[#0d131a] to-[#251000]";
+  let outerGlow = "bg-orange-500/5 blur-[100px]";
+  let borderClasses = "border-[6px] border-[#e2e8f0]/10 shadow-[0_0_40px_rgba(0,0,0,0.5)]";
+  let pointerShadow = "drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]";
+  let centerClasses = "bg-white shadow-[0_2px_10px_rgba(0,0,0,0.4)]";
+  let wheelContainerBorder = "border border-slate-700/50";
+  let bgPattern = <div className="absolute inset-0 opacity-[0.02] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none transition-all duration-500"></div>;
+
+  switch (wheelTheme) {
+    case 'neon':
+      bgGradient = "from-[#0a0014] via-[#15002b] to-[#0a0014]";
+      outerGlow = "bg-fuchsia-600/30 blur-[120px]";
+      borderClasses = "border-[8px] border-cyan-500/60 shadow-[0_0_80px_rgba(6,182,212,0.6),inset_0_0_40px_rgba(217,70,239,0.5)]";
+      pointerShadow = "drop-shadow-[0_0_20px_rgba(217,70,239,1)]";
+      centerClasses = "bg-zinc-900 border-[3px] border-fuchsia-500 shadow-[0_0_40px_rgba(217,70,239,0.8)]";
+      wheelContainerBorder = "border-[3px] border-cyan-500/50";
+      bgPattern = (
+        <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none transition-all duration-500">
+           <div className="absolute inset-0 bg-gradient-to-t from-fuchsia-900/10 to-transparent"></div>
+        </div>
+      );
+      break;
+    case 'casino':
+      bgGradient = "from-[#3b0918] via-[#1a0000] to-[#2d1b00]";
+      outerGlow = "bg-amber-500/30 blur-[120px]";
+      borderClasses = "border-[16px] border-amber-500 shadow-[0_0_60px_rgba(245,158,11,0.5),inset_0_0_40px_rgba(0,0,0,0.9)] border-double";
+      pointerShadow = "drop-shadow-[0_4px_15px_rgba(0,0,0,0.9)]";
+      centerClasses = "bg-gradient-to-br from-amber-100 via-yellow-500 to-amber-700 border-4 border-amber-900 shadow-[0_4px_30px_rgba(0,0,0,0.9)]";
+      wheelContainerBorder = "border-[6px] border-amber-900";
+      bgPattern = (
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(255,215,0,0.15)_0%,transparent_100%)] bg-[size:20px_20px] pointer-events-none transition-all duration-500">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMSIvPgo8cGF0aCBkPSJNMCAwTDggOFpNOCAwTDAgOFoiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW9wYWNpdHk9IjAuMDUiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=')] opacity-30"></div>
+        </div>
+      );
+      break;
+    case 'candy':
+      bgGradient = "from-[#ffe4e6] via-[#fbcfe8] to-[#e0e7ff]";
+      outerGlow = "bg-pink-400/40 blur-[100px]";
+      borderClasses = "border-[12px] border-white shadow-[0_15px_50px_rgba(244,114,182,0.5),inset_0_0_20px_rgba(255,255,255,0.8)]";
+      pointerShadow = "drop-shadow-[0_4px_12px_rgba(244,114,182,0.8)]";
+      centerClasses = "bg-gradient-to-br from-white to-pink-100 border-[6px] border-pink-300 shadow-[0_8px_25px_rgba(244,114,182,0.5)]";
+      wheelContainerBorder = "border-[4px] border-white";
+      bgPattern = (
+        <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMTgiIGN5PSIxOCIgcj0iMiIgZmlsbD0iI2Y0NzJiNiIvPjwvc3ZnPg==')] pointer-events-none transition-all duration-500"></div>
+      );
+      break;
+    case 'dark':
+      bgGradient = "from-[#0a0a0a] via-[#121212] to-[#000000]";
+      outerGlow = "bg-zinc-500/10 blur-[100px]";
+      borderClasses = "border-[4px] border-zinc-800 shadow-[0_0_80px_rgba(0,0,0,1)]";
+      pointerShadow = "drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]";
+      centerClasses = "bg-[#0a0a0a] border-2 border-zinc-700 shadow-[inset_0_4px_10px_rgba(255,255,255,0.05)]";
+      wheelContainerBorder = "border-2 border-zinc-800";
+      bgPattern = (
+        <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none transition-all duration-500"></div>
+      );
+      break;
+  }
+
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-4 lg:p-8 relative bg-gradient-to-br from-[#1a2530] via-[#0d131a] to-[#251000] overflow-hidden min-h-0">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[600px] md:h-[600px] bg-orange-500/5 rounded-full blur-[100px] pointer-events-none" />
+    <div className={`flex-1 flex flex-col items-center justify-center p-4 lg:p-8 relative bg-gradient-to-br ${bgGradient} overflow-hidden min-h-0 transition-colors duration-500`}>
+      {bgPattern}
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[600px] md:h-[600px] ${outerGlow} rounded-full pointer-events-none transition-all duration-500`} />
 
       {/* CONTAINER DA RODA */}
       <div 
@@ -345,7 +407,7 @@ export const WheelDisplay = () => {
         ${!isSpinning && validItems.length >= 2 ? 'cursor-pointer hover:scale-[1.02]' : 'opacity-95'}`}
       >
         {/* Ponteiro */}
-        <div className="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 z-40 drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] pointer-events-none">
+        <div className={`absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 z-40 ${pointerShadow} pointer-events-none transition-all duration-500`}>
           <svg width="40" height="40" viewBox="0 0 100 100" className="md:w-[50px] md:h-[50px]">
             <polygon 
               ref={pointerPolygonRef}
@@ -358,7 +420,7 @@ export const WheelDisplay = () => {
           </svg>
         </div>
 
-        <div className="absolute inset-0 rounded-full border-[6px] border-[#e2e8f0]/10 shadow-[0_0_40px_rgba(0,0,0,0.5)] z-20 pointer-events-none" />
+        <div className={`absolute inset-0 rounded-full ${borderClasses} z-20 pointer-events-none transition-all duration-500`} />
 
         {/* Overlay Texto Curvado */}
         {!isSpinning && validItems.length >= 2 && !winner && (
@@ -376,7 +438,7 @@ export const WheelDisplay = () => {
 
         <div 
           ref={wheelContainerRef}
-          className="w-full h-full rounded-full relative overflow-hidden transition-transform ease-[cubic-bezier(0.15,0.8,0.15,1)] border border-slate-700/50 box-border"
+          className={`w-full h-full rounded-full relative overflow-hidden transition-transform ease-[cubic-bezier(0.15,0.8,0.15,1)] ${wheelContainerBorder} box-border`}
           style={{ transform: `rotate(${rotation}deg)`, transitionDuration: `${actualSpinTime}s`, containerType: 'inline-size' }}
         >
           <canvas
@@ -387,7 +449,7 @@ export const WheelDisplay = () => {
         </div>
 
         <div 
-          className="absolute m-auto bg-white rounded-full z-30 shadow-[0_2px_10px_rgba(0,0,0,0.4)] flex items-center justify-center overflow-hidden pointer-events-none transition-all duration-300"
+          className={`absolute m-auto rounded-full z-30 flex items-center justify-center overflow-hidden pointer-events-none transition-all duration-300 ${centerClasses}`}
           style={{ width: `${centerSize}px`, height: `${centerSize}px` }}
         >
             <img 

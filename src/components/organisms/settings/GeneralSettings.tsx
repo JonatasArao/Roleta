@@ -25,6 +25,12 @@ export const GeneralSettings = () => {
   const setAutoContinueElimination = useAppStore(s => s.setAutoContinueElimination);
   const pitySystemEnabled = useAppStore(s => s.pitySystemEnabled);
   const setPitySystemEnabled = useAppStore(s => s.setPitySystemEnabled);
+  const showPitySystemVisually = useAppStore(s => s.showPitySystemVisually);
+  const setShowPitySystemVisually = useAppStore(s => s.setShowPitySystemVisually);
+  const antiRepetitionEnabled = useAppStore(s => s.antiRepetitionEnabled);
+  const setAntiRepetitionEnabled = useAppStore(s => s.setAntiRepetitionEnabled);
+  const antiRepetitionCount = useAppStore(s => s.antiRepetitionCount);
+  const setAntiRepetitionCount = useAppStore(s => s.setAntiRepetitionCount);
   const eliminationSpinTime = useAppStore(s => s.eliminationSpinTime);
   const setEliminationSpinTime = useAppStore(s => s.setEliminationSpinTime);
 
@@ -94,11 +100,43 @@ export const GeneralSettings = () => {
 
           <div className="flex items-center justify-between pt-4 border-t border-slate-700">
             <div>
+              <label className="text-sm font-medium text-slate-300 flex items-center gap-2">🔄 Sistema Anti-Repetição</label>
+              <p className="text-xs text-slate-500 mt-1">Ganhadores recentes terão menos chance de serem sorteados consecutivamente.</p>
+            </div>
+            <Toggle enabled={antiRepetitionEnabled} onChange={setAntiRepetitionEnabled} />
+          </div>
+
+          {antiRepetitionEnabled && (
+            <div className="flex items-center justify-between bg-slate-800/40 p-3 rounded-lg border border-slate-700/50 ml-4">
+              <label className="text-sm text-slate-300">Evitar os últimos X ganhadores</label>
+              <input 
+                type="number"
+                min="1"
+                max="20"
+                value={antiRepetitionCount}
+                onChange={(e) => setAntiRepetitionCount(Math.max(1, parseInt(e.target.value) || 1))}
+                className="w-16 bg-slate-900 border border-slate-600 rounded px-2 py-1 text-sm text-center focus:border-blue-500 focus:outline-none"
+              />
+            </div>
+          )}
+
+          <div className="flex items-center justify-between pt-4 border-t border-slate-700">
+            <div>
               <label className="text-sm font-medium text-slate-300 flex items-center gap-2">⚖️ Pesos Dinâmicos (Pity System)</label>
               <p className="text-xs text-slate-500 mt-1">Acumula pesos/chances para os participantes que não forem sorteados a cada rodada.</p>
             </div>
             <Toggle enabled={pitySystemEnabled} onChange={setPitySystemEnabled} />
           </div>
+
+          {pitySystemEnabled && (
+            <div className="flex items-center justify-between bg-slate-800/40 p-3 rounded-lg border border-slate-700/50 ml-4">
+              <label className="text-sm text-slate-300">Mostrar visualmente na roleta</label>
+              <Toggle 
+                enabled={showPitySystemVisually}
+                onChange={setShowPitySystemVisually} 
+              />
+            </div>
+          )}
 
           <div className="flex items-center justify-between pt-4 border-t border-slate-700">
             <div>

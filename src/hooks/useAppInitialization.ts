@@ -62,8 +62,12 @@ export const useAppInitialization = () => {
           if (settings.eliminationMode !== undefined) state.setEliminationMode(settings.eliminationMode);
           if (settings.autoContinueElimination !== undefined) state.setAutoContinueElimination(settings.autoContinueElimination);
           if (settings.pitySystemEnabled !== undefined) state.setPitySystemEnabled(settings.pitySystemEnabled);
+          if (settings.showPitySystemVisually !== undefined) state.setShowPitySystemVisually(settings.showPitySystemVisually);
+          if (settings.antiRepetitionEnabled !== undefined) state.setAntiRepetitionEnabled(settings.antiRepetitionEnabled);
+          if (settings.antiRepetitionCount !== undefined) state.setAntiRepetitionCount(settings.antiRepetitionCount);
           if (settings.eliminationSoundType !== undefined) state.setEliminationSoundType(settings.eliminationSoundType);
           if (settings.eliminationSpinTime !== undefined) state.setEliminationSpinTime(settings.eliminationSpinTime);
+          if (settings.wheelTheme !== undefined) state.setWheelTheme(settings.wheelTheme);
         }
 
         const dbAudios = await getAudios();
@@ -147,8 +151,12 @@ export const useAppInitialization = () => {
   const eliminationMode = useAppStore(s => s.eliminationMode);
   const autoContinueElimination = useAppStore(s => s.autoContinueElimination);
   const pitySystemEnabled = useAppStore(s => s.pitySystemEnabled);
+  const showPitySystemVisually = useAppStore(s => s.showPitySystemVisually);
+  const antiRepetitionEnabled = useAppStore(s => s.antiRepetitionEnabled);
+  const antiRepetitionCount = useAppStore(s => s.antiRepetitionCount);
   const eliminationSoundType = useAppStore(s => s.eliminationSoundType);
   const eliminationSpinTime = useAppStore(s => s.eliminationSpinTime);
+  const wheelTheme = useAppStore(s => s.wheelTheme);
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -169,15 +177,19 @@ export const useAppInitialization = () => {
       eliminationMode,
       autoContinueElimination,
       pitySystemEnabled,
+      showPitySystemVisually,
+      antiRepetitionEnabled,
+      antiRepetitionCount,
       eliminationSoundType,
-      eliminationSpinTime
+      eliminationSpinTime,
+      wheelTheme
     });
   }, [
     isLoaded, spinTime, showConfetti, autoRemoveWinner, soundEnabled, 
     masterVolume, tickSoundType, spinSoundMode, winSoundType, textSize, 
     centerSize, isAdvancedEntries, eliminationMessage, grandWinnerMessage,
-    eliminationMode, autoContinueElimination, pitySystemEnabled, eliminationSoundType,
-    eliminationSpinTime
+    eliminationMode, autoContinueElimination, pitySystemEnabled, showPitySystemVisually, antiRepetitionEnabled, antiRepetitionCount, eliminationSoundType,
+    eliminationSpinTime, wheelTheme
   ]);
 
   // Save Results

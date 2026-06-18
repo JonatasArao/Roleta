@@ -19,6 +19,8 @@ interface AppState {
   setEliminationMessage: (eliminationMessage: string) => void;
   grandWinnerMessage: string;
   setGrandWinnerMessage: (grandWinnerMessage: string) => void;
+  wheelTheme: string;
+  setWheelTheme: (theme: string) => void;
   eliminationSpinTime: number;
   setEliminationSpinTime: (spinTime: number) => void;
   spinTime: number;
@@ -35,6 +37,12 @@ interface AppState {
   setAutoContinueElimination: (autoContinueElimination: boolean) => void;
   pitySystemEnabled: boolean;
   setPitySystemEnabled: (pitySystemEnabled: boolean) => void;
+  showPitySystemVisually: boolean;
+  setShowPitySystemVisually: (show: boolean) => void;
+  antiRepetitionEnabled: boolean;
+  setAntiRepetitionEnabled: (antiRepetitionEnabled: boolean) => void;
+  antiRepetitionCount: number;
+  setAntiRepetitionCount: (count: number) => void;
   pityWeights: Record<string, number>;
   setPityWeights: (weights: Record<string, number> | ((prev: Record<string, number>) => Record<string, number>)) => void;
 
@@ -130,6 +138,8 @@ export const useAppStore = create<AppState>((set) => ({
   setEliminationMessage: (eliminationMessage) => set({ eliminationMessage }),
   grandWinnerMessage: "GRANDE VENCEDOR!",
   setGrandWinnerMessage: (grandWinnerMessage) => set({ grandWinnerMessage }),
+  wheelTheme: 'default',
+  setWheelTheme: (wheelTheme) => set({ wheelTheme }),
   eliminationSpinTime: DEFAULT_ELIMINATION_SPIN_TIME,
   setEliminationSpinTime: (eliminationSpinTime) => set({ eliminationSpinTime }),
   spinTime: DEFAULT_SPIN_TIME_SECONDS,
@@ -145,6 +155,12 @@ export const useAppStore = create<AppState>((set) => ({
   setAutoContinueElimination: (autoContinueElimination) => set({ autoContinueElimination }),
   pitySystemEnabled: false,
   setPitySystemEnabled: (pitySystemEnabled) => set({ pitySystemEnabled }),
+  showPitySystemVisually: true,
+  setShowPitySystemVisually: (show) => set({ showPitySystemVisually: show }),
+  antiRepetitionEnabled: false,
+  setAntiRepetitionEnabled: (antiRepetitionEnabled) => set({ antiRepetitionEnabled }),
+  antiRepetitionCount: 5,
+  setAntiRepetitionCount: (count) => set({ antiRepetitionCount: count }),
   pityWeights: {},
   setPityWeights: (weights) => set((state) => ({ pityWeights: typeof weights === 'function' ? weights(state.pityWeights) : weights })),
 

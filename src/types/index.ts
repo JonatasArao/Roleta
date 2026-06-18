@@ -69,6 +69,10 @@ export interface AppSettings {
   eliminationMode?: boolean;
   autoContinueElimination?: boolean;
   pitySystemEnabled?: boolean;
+  showPitySystemVisually?: boolean;
+  antiRepetitionEnabled?: boolean;
+  antiRepetitionCount?: number;
   eliminationSoundType?: string;
   eliminationSpinTime?: number;
+  wheelTheme?: string;
 }

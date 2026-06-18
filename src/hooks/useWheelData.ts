@@ -6,13 +6,14 @@ export const useWheelData = () => {
   const items = useAppStore(state => state.items);
   const colors = useAppStore(state => state.colors);
   const pitySystemEnabled = useAppStore(state => state.pitySystemEnabled);
+  const showPitySystemVisually = useAppStore(state => state.showPitySystemVisually);
   const eliminationMode = useAppStore(state => state.eliminationMode);
   const results = useAppStore(state => state.results);
 
   const validItems = useMemo(
     () => items.filter((i) => i.text.trim() !== "" && i.enabled !== false).map(i => {
       let extraWeight = 0;
-      if (pitySystemEnabled && !eliminationMode) {
+      if (pitySystemEnabled && showPitySystemVisually && !eliminationMode) {
         const idx = results.findIndex((r) => 
           r.id === i.id || r.text.trim().toLowerCase() === i.text.trim().toLowerCase()
         );
@@ -23,7 +24,7 @@ export const useWheelData = () => {
         weight: (i.weight || 1) + extraWeight
       };
     }),
-    [items, pitySystemEnabled, eliminationMode, results],
+    [items, pitySystemEnabled, showPitySystemVisually, eliminationMode, results],
   );
 
   const { conicGradient, slices } = useMemo(() => {

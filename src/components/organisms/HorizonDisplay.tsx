@@ -102,24 +102,89 @@ export const HorizonDisplay = () => {
   // Let's use the same target logic so results map identically to classic.
   // We want the item that has (90 - rot(modulo 360) + 360)%360 within [startAngle, endAngle) to be centered.
   
-  // Actually, angle under center:
+  const wheelTheme = useAppStore(state => state.wheelTheme);
+
+  // Offset logic
   const pointerAngle = ((90 - currentRotation) % 360 + 360) % 360;
-  
-  // In the DOM, y increases downwards. Let's map degrees directly to Y.
-  // 0 degrees corresponds to y = 0.
   const offsetY = (pointerAngle / 360) * TOTAL_HEIGHT;
 
+  // Theme Variables
+  let bgGradient = "from-[#1a2530] via-[#0d131a] to-[#251000]";
+  let outerGlow = "bg-orange-500/5 blur-[100px]";
+  let containerBorder = "border-slate-700/50";
+  let pointerColor = "border-l-orange-500 border-r-orange-500";
+  let targetAreaClass = "border-white/20 bg-white/5";
+  let targetAreaActive = "border-orange-400 bg-orange-500/10";
+  let containerInnerBg = "bg-[#1a1b26]";
+  let bgPattern = <div className="absolute inset-0 opacity-[0.02] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none transition-all duration-500"></div>;
+
+  switch (wheelTheme) {
+    case 'neon':
+      bgGradient = "from-[#0a0014] via-[#15002b] to-[#0a0014]";
+      outerGlow = "bg-fuchsia-600/30 blur-[120px]";
+      containerBorder = "border-cyan-500/50 shadow-[0_0_50px_rgba(6,182,212,0.3)]";
+      pointerColor = "border-l-cyan-400 border-r-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]";
+      targetAreaClass = "border-fuchsia-500/30 bg-fuchsia-500/10";
+      targetAreaActive = "border-cyan-400 bg-cyan-400/20 shadow-[0_0_40px_rgba(34,211,238,0.5)]";
+      containerInnerBg = "bg-[#090014]";
+      bgPattern = (
+        <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none transition-all duration-500">
+           <div className="absolute inset-0 bg-gradient-to-t from-fuchsia-900/10 to-transparent"></div>
+        </div>
+      );
+      break;
+    case 'casino':
+      bgGradient = "from-[#3b0918] via-[#1a0000] to-[#2d1b00]";
+      outerGlow = "bg-amber-500/30 blur-[120px]";
+      containerBorder = "border-amber-600/60 shadow-[0_0_60px_rgba(245,158,11,0.2)]";
+      pointerColor = "border-l-amber-400 border-r-amber-400 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]";
+      targetAreaClass = "border-amber-500/30 bg-amber-500/5";
+      targetAreaActive = "border-amber-300 bg-amber-400/20 shadow-[0_0_50px_rgba(251,191,36,0.3)]";
+      containerInnerBg = "bg-[#2d1b00]";
+      bgPattern = (
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(255,215,0,0.15)_0%,transparent_100%)] bg-[size:20px_20px] pointer-events-none transition-all duration-500">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMSIvPgo8cGF0aCBkPSJNMCAwTDggOFpNOCAwTDAgOFoiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW9wYWNpdHk9IjAuMDUiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=')] opacity-30"></div>
+        </div>
+      );
+      break;
+    case 'candy':
+      bgGradient = "from-[#ffe4e6] via-[#fbcfe8] to-[#e0e7ff]";
+      outerGlow = "bg-pink-400/40 blur-[100px]";
+      containerBorder = "border-white shadow-[0_15px_50px_rgba(244,114,182,0.3)]";
+      pointerColor = "border-l-pink-500 border-r-pink-500 drop-shadow-[0_0_10px_rgba(236,72,153,0.5)]";
+      targetAreaClass = "border-pink-300 bg-pink-100/50";
+      targetAreaActive = "border-pink-500 bg-pink-300/40 shadow-[0_0_30px_rgba(244,114,182,0.4)]";
+      containerInnerBg = "bg-white";
+      bgPattern = (
+        <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMTgiIGN5PSIxOCIgcj0iMiIgZmlsbD0iI2Y0NzJiNiIvPjwvc3ZnPg==')] pointer-events-none transition-all duration-500"></div>
+      );
+      break;
+    case 'dark':
+      bgGradient = "from-[#0a0a0a] via-[#121212] to-[#000000]";
+      outerGlow = "bg-zinc-500/10 blur-[100px]";
+      containerBorder = "border-zinc-800";
+      pointerColor = "border-l-zinc-300 border-r-zinc-300";
+      targetAreaClass = "border-zinc-700 bg-zinc-800/50";
+      targetAreaActive = "border-gray-200 bg-gray-100/10 shadow-[0_0_30px_rgba(255,255,255,0.05)]";
+      containerInnerBg = "bg-[#0a0a0a]";
+      bgPattern = (
+        <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none transition-all duration-500"></div>
+      );
+      break;
+  }
+
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-4 lg:p-8 relative bg-gradient-to-br from-[#1a2530] via-[#0d131a] to-[#251000] overflow-hidden min-h-0">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[600px] md:h-[600px] bg-orange-500/5 rounded-full blur-[100px] pointer-events-none" />
+    <div className={`flex-1 flex flex-col items-center justify-center p-4 lg:p-8 relative bg-gradient-to-br ${bgGradient} overflow-hidden min-h-0 transition-colors duration-500`}>
+      {bgPattern}
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[600px] md:h-[600px] ${outerGlow} rounded-full pointer-events-none transition-colors duration-500`} />
 
       {/* Reel Container */}
       <div 
         onClick={() => {
            if (!isSpinning && !winner && validItems.length >= 2) spinWheel();
         }}
-        className={`w-[90vw] md:w-[500px] h-[60vh] md:h-[500px] bg-[#1a1b26] rounded-[2rem] relative overflow-hidden shadow-2xl border transition-all duration-300 box-border
-          ${!isSpinning && !winner && validItems.length >= 2 ? 'cursor-pointer hover:scale-[1.02] border-slate-500' : 'border-slate-700/50'}
+        className={`w-[90vw] md:w-[500px] h-[60vh] md:h-[500px] ${containerInnerBg} rounded-[2rem] relative overflow-hidden shadow-2xl border transition-all duration-500 box-border
+          ${!isSpinning && !winner && validItems.length >= 2 ? `cursor-pointer hover:scale-[1.02] ${containerBorder}` : `border-transparent`}
           ${!isSpinning && winner ? 'shadow-[0_0_80px_rgba(255,0,85,0.2)] border-orange-500/50 scale-100' : 'opacity-95'}
         `}
       >
@@ -127,10 +192,10 @@ export const HorizonDisplay = () => {
         {/* Transparent frame highlight for winning row */}
         <div className="absolute top-1/2 left-0 w-full h-[120px] -translate-y-1/2 z-30 pointer-events-none box-border flex items-center justify-between transition-all duration-500">
             {/* The white frame in the center */}
-            <div className={`absolute inset-0 border-y-2 pointer-events-none transition-all duration-500 ${!isSpinning && winner ? 'border-orange-400 bg-orange-500/10' : 'border-white/20 bg-white/5'}`}></div>
+            <div className={`absolute inset-0 border-y-2 pointer-events-none transition-all duration-500 ${!isSpinning && winner ? targetAreaActive : targetAreaClass}`}></div>
             {/* Small triangles pointing inward */}
-            <div className="w-0 h-0 border-y-[12px] border-y-transparent border-l-[16px] border-l-orange-500 drop-shadow-md z-40 relative"></div>
-            <div className="w-0 h-0 border-y-[12px] border-y-transparent border-r-[16px] border-r-orange-500 drop-shadow-md z-40 relative"></div>
+            <div className={`w-0 h-0 border-y-[12px] border-y-transparent border-l-[16px] ${pointerColor} drop-shadow-md z-40 relative transition-colors duration-500`}></div>
+            <div className={`w-0 h-0 border-y-[12px] border-y-transparent border-r-[16px] ${pointerColor} drop-shadow-md z-40 relative transition-colors duration-500`}></div>
         </div>
 
         {/* The reel */}

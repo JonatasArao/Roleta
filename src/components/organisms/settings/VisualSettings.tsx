@@ -15,6 +15,8 @@ export const VisualSettings = () => {
   const colors = useAppStore(s => s.colors);
   const newColor = useAppStore(s => s.newColor);
   const setNewColor = useAppStore(s => s.setNewColor);
+  const wheelTheme = useAppStore(s => s.wheelTheme);
+  const setWheelTheme = useAppStore(s => s.setWheelTheme);
 
   const { handleAddColor, handleRemoveColor } = useWheelActions();
 
@@ -51,6 +53,28 @@ export const VisualSettings = () => {
                 </div>
                 <span className="font-semibold text-sm">Caixas</span>
               </button>
+            </div>
+          </div>
+
+          <div className="space-y-4 pt-4 border-t border-slate-700/50">
+            <label className="text-sm font-medium text-slate-300 flex items-center gap-2">TEMA VISUAL (Skins)</label>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+              {[
+                { id: 'default', name: 'Padrão', color: 'bg-slate-700' },
+                { id: 'neon', name: 'Neon Cyber', color: 'bg-fuchsia-600' },
+                { id: 'casino', name: 'Casino Ouro', color: 'bg-amber-500' },
+                { id: 'candy', name: 'Candy', color: 'bg-pink-400' },
+                { id: 'dark', name: 'Escuro Minimal', color: 'bg-black border border-slate-700' }
+              ].map(theme => (
+                <button
+                  key={theme.id}
+                  onClick={() => setWheelTheme(theme.id)}
+                  className={`p-3 rounded-xl border-2 transition-all flex flex-col items-center gap-2 ${wheelTheme === theme.id ? 'border-white text-white' : 'border-transparent bg-[#1e2029] text-slate-400 hover:text-slate-300'}`}
+                >
+                  <div className={`w-8 h-8 rounded-full ${theme.color} ${wheelTheme === theme.id ? 'ring-2 ring-offset-2 ring-offset-[#1e2029] ring-white' : ''}`}></div>
+                  <span className="font-semibold text-xs whitespace-nowrap">{theme.name}</span>
+                </button>
+              ))}
             </div>
           </div>
 
