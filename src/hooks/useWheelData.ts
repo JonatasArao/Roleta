@@ -5,6 +5,7 @@ import { FULL_CIRCLE_DEG } from '../constants';
 export const useWheelData = () => {
   const items = useAppStore(state => state.items);
   const colors = useAppStore(state => state.colors);
+  const balanceWeightsByWins = useAppStore(state => state.balanceWeightsByWins);
   const pitySystemEnabled = useAppStore(state => state.pitySystemEnabled);
   const showPitySystemVisually = useAppStore(state => state.showPitySystemVisually);
   const eliminationMode = useAppStore(state => state.eliminationMode);
@@ -12,19 +13,28 @@ export const useWheelData = () => {
 
   const validItems = useMemo(
     () => items.filter((i) => i.text.trim() !== "" && i.enabled !== false).map(i => {
+      let finalWeight = i.weight || 1;
       let extraWeight = 0;
       if (pitySystemEnabled && showPitySystemVisually && !eliminationMode) {
         const idx = results.findIndex((r) => 
           r.id === i.id || r.text.trim().toLowerCase() === i.text.trim().toLowerCase()
         );
         extraWeight = idx === -1 ? results.length : idx;
+        finalWeight += extraWeight;
+      }
+      
+      if (balanceWeightsByWins && showPitySystemVisually && !eliminationMode) {
+        const winCount = results.filter((r) => r.id === i.id || r.text.trim().toLowerCase() === i.text.trim().toLowerCase()).length;
+        if (winCount > 0) {
+           finalWeight = finalWeight / (winCount + 1);
+        }
       }
       return {
         ...i,
-        weight: (i.weight || 1) + extraWeight
+        weight: finalWeight
       };
     }),
-    [items, pitySystemEnabled, showPitySystemVisually, eliminationMode, results],
+    [items, pitySystemEnabled, balanceWeightsByWins, showPitySystemVisually, eliminationMode, results],
   );
 
   const { conicGradient, slices } = useMemo(() => {

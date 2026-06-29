@@ -23,6 +23,8 @@ export const GeneralSettings = () => {
   const setEliminationMode = useAppStore(s => s.setEliminationMode);
   const autoContinueElimination = useAppStore(s => s.autoContinueElimination);
   const setAutoContinueElimination = useAppStore(s => s.setAutoContinueElimination);
+  const balanceWeightsByWins = useAppStore(s => s.balanceWeightsByWins);
+  const setBalanceWeightsByWins = useAppStore(s => s.setBalanceWeightsByWins);
   const pitySystemEnabled = useAppStore(s => s.pitySystemEnabled);
   const setPitySystemEnabled = useAppStore(s => s.setPitySystemEnabled);
   const showPitySystemVisually = useAppStore(s => s.showPitySystemVisually);
@@ -120,23 +122,35 @@ export const GeneralSettings = () => {
             </div>
           )}
 
-          <div className="flex items-center justify-between pt-4 border-t border-slate-700">
-            <div>
-              <label className="text-sm font-medium text-slate-300 flex items-center gap-2">⚖️ Pesos Dinâmicos (Pity System)</label>
-              <p className="text-xs text-slate-500 mt-1">Acumula pesos/chances para os participantes que não forem sorteados a cada rodada.</p>
+          <div className="pt-4 border-t border-slate-700 space-y-4">
+            <h4 className="text-sm font-semibold text-slate-300 flex items-center gap-2">⚖️ Balanceamento de Chances</h4>
+            
+            <div className="flex items-center justify-between ml-2">
+              <div>
+                <label className="text-sm font-medium text-slate-300">📉 Redução por Vitórias</label>
+                <p className="text-xs text-slate-500 mt-1">Reduz a chance a cada vitória (chances = peso / vitórias + 1).</p>
+              </div>
+              <Toggle enabled={balanceWeightsByWins} onChange={setBalanceWeightsByWins} />
             </div>
-            <Toggle enabled={pitySystemEnabled} onChange={setPitySystemEnabled} />
-          </div>
 
-          {pitySystemEnabled && (
-            <div className="flex items-center justify-between bg-slate-800/40 p-3 rounded-lg border border-slate-700/50 ml-4">
-              <label className="text-sm text-slate-300">Mostrar visualmente na roleta</label>
-              <Toggle 
-                enabled={showPitySystemVisually}
-                onChange={setShowPitySystemVisually} 
-              />
+            <div className="flex items-center justify-between ml-2">
+              <div>
+                <label className="text-sm font-medium text-slate-300">📈 Acumulação por Derrotas</label>
+                <p className="text-xs text-slate-500 mt-1">Acumula chances a cada rodada não sorteado (Pity System).</p>
+              </div>
+              <Toggle enabled={pitySystemEnabled} onChange={setPitySystemEnabled} />
             </div>
-          )}
+
+            {(pitySystemEnabled || balanceWeightsByWins) && (
+              <div className="flex items-center justify-between bg-slate-800/40 p-3 rounded-lg border border-slate-700/50 ml-2">
+                <label className="text-sm text-slate-300">Mostrar mudança de pesos na roleta</label>
+                <Toggle 
+                  enabled={showPitySystemVisually}
+                  onChange={setShowPitySystemVisually} 
+                />
+              </div>
+            )}
+          </div>
 
           <div className="flex items-center justify-between pt-4 border-t border-slate-700">
             <div>

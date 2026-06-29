@@ -68,6 +68,7 @@ export interface AppSettings {
   grandWinnerMessage?: string;
   eliminationMode?: boolean;
   autoContinueElimination?: boolean;
+  balanceWeightsByWins?: boolean;
   pitySystemEnabled?: boolean;
   showPitySystemVisually?: boolean;
   antiRepetitionEnabled?: boolean;

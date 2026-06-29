@@ -61,6 +61,7 @@ export const useAppInitialization = () => {
           if (settings.grandWinnerMessage !== undefined) state.setGrandWinnerMessage(settings.grandWinnerMessage);
           if (settings.eliminationMode !== undefined) state.setEliminationMode(settings.eliminationMode);
           if (settings.autoContinueElimination !== undefined) state.setAutoContinueElimination(settings.autoContinueElimination);
+          if (settings.balanceWeightsByWins !== undefined) state.setBalanceWeightsByWins(settings.balanceWeightsByWins);
           if (settings.pitySystemEnabled !== undefined) state.setPitySystemEnabled(settings.pitySystemEnabled);
           if (settings.showPitySystemVisually !== undefined) state.setShowPitySystemVisually(settings.showPitySystemVisually);
           if (settings.antiRepetitionEnabled !== undefined) state.setAntiRepetitionEnabled(settings.antiRepetitionEnabled);
@@ -150,6 +151,7 @@ export const useAppInitialization = () => {
   const grandWinnerMessage = useAppStore(s => s.grandWinnerMessage);
   const eliminationMode = useAppStore(s => s.eliminationMode);
   const autoContinueElimination = useAppStore(s => s.autoContinueElimination);
+  const balanceWeightsByWins = useAppStore(s => s.balanceWeightsByWins);
   const pitySystemEnabled = useAppStore(s => s.pitySystemEnabled);
   const showPitySystemVisually = useAppStore(s => s.showPitySystemVisually);
   const antiRepetitionEnabled = useAppStore(s => s.antiRepetitionEnabled);
@@ -176,6 +178,7 @@ export const useAppInitialization = () => {
       grandWinnerMessage,
       eliminationMode,
       autoContinueElimination,
+      balanceWeightsByWins,
       pitySystemEnabled,
       showPitySystemVisually,
       antiRepetitionEnabled,
@@ -188,7 +191,7 @@ export const useAppInitialization = () => {
     isLoaded, spinTime, showConfetti, autoRemoveWinner, soundEnabled, 
     masterVolume, tickSoundType, spinSoundMode, winSoundType, textSize, 
     centerSize, isAdvancedEntries, eliminationMessage, grandWinnerMessage,
-    eliminationMode, autoContinueElimination, pitySystemEnabled, showPitySystemVisually, antiRepetitionEnabled, antiRepetitionCount, eliminationSoundType,
+    eliminationMode, autoContinueElimination, balanceWeightsByWins, pitySystemEnabled, showPitySystemVisually, antiRepetitionEnabled, antiRepetitionCount, eliminationSoundType,
     eliminationSpinTime, wheelTheme
   ]);
 

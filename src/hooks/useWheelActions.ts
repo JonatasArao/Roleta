@@ -130,13 +130,26 @@ export const useWheelActions = () => {
     const getActualWeight = (item: any) => {
       const baseWeight = item.weight || 1;
       let extraWeight = 0;
+      let finalWeight = baseWeight;
+      
       if (state.pitySystemEnabled && !state.eliminationMode) {
+        // Increase weight for those who haven't won
         const idx = state.results.findIndex((r) => 
           r.id === item.id || r.text.trim().toLowerCase() === item.text.trim().toLowerCase()
         );
         extraWeight = idx === -1 ? state.results.length : idx;
+        finalWeight += extraWeight;
       }
-      return baseWeight + extraWeight;
+
+      if (state.balanceWeightsByWins && !state.eliminationMode) {
+        // Decrease weight based on win count
+        const winCount = state.results.filter((r) => r.id === item.id || r.text.trim().toLowerCase() === item.text.trim().toLowerCase()).length;
+        if (winCount > 0) {
+           finalWeight = finalWeight / (winCount + 1);
+        }
+      }
+
+      return finalWeight;
     };
 
     let totalWeight = currentValidItems.reduce(

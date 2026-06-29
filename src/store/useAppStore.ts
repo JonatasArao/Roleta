@@ -35,6 +35,8 @@ interface AppState {
   setEliminationMode: (eliminationMode: boolean) => void;
   autoContinueElimination: boolean;
   setAutoContinueElimination: (autoContinueElimination: boolean) => void;
+  balanceWeightsByWins: boolean;
+  setBalanceWeightsByWins: (balanceWeightsByWins: boolean) => void;
   pitySystemEnabled: boolean;
   setPitySystemEnabled: (pitySystemEnabled: boolean) => void;
   showPitySystemVisually: boolean;
@@ -153,6 +155,8 @@ export const useAppStore = create<AppState>((set) => ({
   setEliminationMode: (eliminationMode) => set({ eliminationMode }),
   autoContinueElimination: true,
   setAutoContinueElimination: (autoContinueElimination) => set({ autoContinueElimination }),
+  balanceWeightsByWins: false,
+  setBalanceWeightsByWins: (balanceWeightsByWins) => set({ balanceWeightsByWins }),
   pitySystemEnabled: false,
   setPitySystemEnabled: (pitySystemEnabled) => set({ pitySystemEnabled }),
   showPitySystemVisually: true,
