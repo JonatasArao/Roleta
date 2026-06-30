@@ -1,93 +1,93 @@
-# Roleta Master (Wheel of Fortune) 🎡
+# Roleta Master (Roda da Fortuna) 🎡
 
-A modern, highly customizable, and robust Wheel of Fortune application built with React, TypeScript, and Zustand. 
-This application provides advanced fair-play mechanisms, sound effects, animations, and detailed configuration options, making it ideal for giveaways, raffles, team selections, and more.
+Uma aplicação moderna, altamente customizável e robusta de Roda da Fortuna construída com React, TypeScript e Zustand. 
+Esta aplicação oferece mecanismos avançados de balanceamento e "jogo justo", efeitos sonoros, animações e opções detalhadas de configuração, tornando-a ideal para sorteios, rifas, seleções de equipes e muito mais.
 
-## 🚀 Features
+## 🚀 Funcionalidades
 
-### Advanced Balancing & Fair Play ⚖️
-- **Acumulação por tempo (Pity System):** Automatically increases the winning weight of participants who haven't been drawn in consecutive rounds.
-- **Divisão por vitórias (Balanceamento):** Dynamically reduces the probability of participants winning repeatedly by dividing their weight based on their number of previous wins.
-- **Anti-Repetition Engine:** Prevents the same item from being drawn back-to-back within a configurable number of rounds.
-- **Visual Weight Indicator:** Option to visually display how the dynamic weights (pity system and win balance) affect the wheel slices in real-time.
+### Balanceamento Avançado e Jogo Justo ⚖️
+- **Acumulação por tempo (Pity System):** Aumenta automaticamente o peso/chance de vitória dos participantes que não foram sorteados nas rodadas anteriores.
+- **Divisão por vitórias (Balanceamento):** Reduz dinamicamente a probabilidade de participantes ganharem repetidamente, dividindo seu peso com base no número de vitórias anteriores.
+- **Motor Anti-Repetição:** Evita que o mesmo item seja sorteado seguidamente dentro de um número configurável de rodadas.
+- **Indicador Visual de Pesos:** Opção para exibir visualmente na roleta como os pesos dinâmicos (acumulação e divisão) afetam as fatias em tempo real.
 
-### Multiple Wheel Modes 🎡
-- **Classic Wheel:** The traditional spinning wheel layout.
-- **Horizon Mode:** A horizontal scrolling selector, similar to casino slot machines or game loot boxes.
-- **Mystery Box Mode:** A suspenseful display that reveals the winner after an animation.
+### Múltiplos Modos de Roleta 🎡
+- **Roleta Clássica:** O layout tradicional da roda giratória.
+- **Modo Horizonte:** Um seletor de rolagem horizontal, semelhante a máquinas caça-níqueis de cassino.
+- **Modo Caixa Misteriosa:** Uma exibição de suspense que revela o vencedor após uma animação de abertura.
 
-### Gameplay Modes 🎮
-- **Standard Mode:** Classic random drawing.
-- **Elimination Mode (Mata-mata):** Automatically eliminates winners or specific participants round by round until a single Grand Winner remains. Features auto-continue options and dramatic sound effects.
-- **Auto-Remove Winner:** Automatically removes drawn items from the wheel for subsequent rounds.
+### Modos de Jogo 🎮
+- **Modo Padrão:** Sorteio aleatório clássico.
+- **Modo Eliminação (Mata-mata):** Elimina automaticamente vencedores ou participantes específicos rodada por rodada até restar apenas um Grande Vencedor. Conta com opções de continuação automática e sons dramáticos.
+- **Auto-Remover Vencedor:** Remove automaticamente os itens sorteados da roleta para as próximas rodadas.
 
-### Immersive Audio & Visuals ✨
-- Custom sound effects for spinning ticks and winning announcements.
-- Add your own custom audios (supports importing custom files).
-- Confetti explosion animations upon winning.
-- Highly customizable UI themes, fonts, and colors.
-- Fine-grained controls over spin duration and animation easing.
+### Áudio e Visuais Imersivos ✨
+- Efeitos sonoros personalizados para os "ticks" do giro e para o anúncio dos vencedores.
+- Adicione seus próprios áudios (suporta a importação de arquivos customizados).
+- Animações de explosão de confetes ao anunciar um ganhador.
+- Temas de interface, fontes e cores altamente personalizáveis.
+- Controles precisos sobre o tempo de rotação e animações.
 
-### Data Management 💾
-- **Local Storage Persistence:** All settings, participants, and historical results are automatically saved in the browser's IndexedDB / LocalStorage.
-- Complete results history with timestamps.
+### Gerenciamento de Dados 💾
+- **Persistência Local (Local Storage):** Todas as configurações, participantes e histórico de resultados são salvos automaticamente no IndexedDB / LocalStorage do navegador.
+- Histórico completo de resultados com data e hora.
 
-## 🛠️ Tech Stack
+## 🛠️ Tecnologias Utilizadas
 
 - **Framework:** React 19 + TypeScript
-- **Styling:** Tailwind CSS (v4)
-- **State Management:** Zustand
-- **Animations:** Motion (Framer Motion)
-- **Local Database:** `idb-keyval` (IndexedDB for robust storage)
-- **Icons:** Lucide React
-- **Build Tool:** Vite
+- **Estilização:** Tailwind CSS (v4)
+- **Gerenciamento de Estado:** Zustand
+- **Animações:** Motion (Framer Motion)
+- **Banco de Dados Local:** `idb-keyval` (IndexedDB para armazenamento seguro)
+- **Ícones:** Lucide React
+- **Ferramenta de Build:** Vite
 
-## 📦 Installation & Setup
+## 📦 Instalação e Configuração
 
-1. **Clone the repository:**
+1. **Clone o repositório:**
    ```bash
-   git clone <repository-url>
-   cd <project-directory>
+   git clone <url-do-repositorio>
+   cd <diretorio-do-projeto>
    ```
 
-2. **Install dependencies:**
-   Make sure you have Node.js installed.
+2. **Instale as dependências:**
+   Certifique-se de ter o Node.js instalado.
    ```bash
    npm install
    ```
 
-3. **Run the development server:**
+3. **Inicie o servidor de desenvolvimento:**
    ```bash
    npm run dev
    ```
-   The application will be accessible at `http://localhost:3000`.
+   A aplicação estará acessível em `http://localhost:3000`.
 
-4. **Build for production:**
+4. **Build para produção:**
    ```bash
    npm run build
    ```
-   The output will be generated in the `dist` folder.
+   Os arquivos de produção serão gerados na pasta `dist`.
 
-## ⚙️ Architecture Highlights
+## ⚙️ Destaques da Arquitetura
 
-### `useWheelData` Hook
-Calculates the dynamic weights, angle boundaries, and SVG paths for the wheel slices. It considers base weights, the pity system (accumulation), and the win reduction logic to compute the final display and probability mechanics.
+### Hook `useWheelData`
+Calcula os pesos dinâmicos, limites de ângulo e caminhos SVG para as fatias da roleta. Ele leva em consideração os pesos básicos, o sistema de acumulação (pity system) e a lógica de redução por vitórias para computar a exibição final e a mecânica de probabilidade.
 
-### `useWheelActions` Hook
-Manages the core spin mechanics, random number generation using the Cryptography API (`crypto.getRandomValues`) for fair unpredictability, and applies the logic for elimination modes and anti-repetition.
+### Hook `useWheelActions`
+Gerencia a mecânica central do giro, a geração de números aleatórios utilizando a API de Criptografia (`crypto.getRandomValues`) para garantir imprevisibilidade e aplica a lógica dos modos de eliminação e anti-repetição.
 
 ### `useAppStore` (Zustand)
-A centralized store that manages:
-- Application configurations and visual themes.
-- Participant lists (Items).
-- Results history.
-- Sound configurations and volume levels.
-- Advanced wheel metrics (rotation, timeouts).
+Um estado centralizado que gerencia:
+- Configurações da aplicação e temas visuais.
+- Listas de participantes (Itens).
+- Histórico de resultados.
+- Configurações de som e volume.
+- Métricas avançadas da roleta (rotação, timeouts).
 
-## 🤝 Contributing
+## 🤝 Como Contribuir
 
-Contributions are welcome! Feel free to open issues, submit pull requests, or suggest new features to improve the app's fair play mechanics or visual flair.
+Contribuições são bem-vindas! Sinta-se à vontade para abrir "issues", enviar "pull requests" ou sugerir novos recursos para melhorar a mecânica do sistema e interface.
 
-## 📝 License
+## 📝 Licença
 
-This project is open-source and available under the MIT License.
+Este projeto é de código aberto e está disponível sob a Licença MIT.
