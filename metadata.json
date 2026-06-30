@@ -1,6 +1,6 @@
 {
   "name": "Roleta",
-  "description": "",
+  "description": "Roleta de sorteios avançada com modos de jogo, balanceamento de probabilidade dinâmico, sons customizáveis e mais.",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }
