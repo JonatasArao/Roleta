@@ -15,9 +15,11 @@ import {
 import { useAppStore } from "../../store/useAppStore";
 import { useWheelData } from "../../hooks/useWheelData";
 import { useAudioActions } from "../../hooks/useAppActions";
+import { useTranslation } from "react-i18next";
 import { Item } from "../../types";
 
 export const EntrySettingsModal = () => {
+  const { t } = useTranslation();
   const items = useAppStore(s => s.items);
   const setItems = useAppStore(s => s.setItems);
   const editingEntryId = useAppStore(s => s.editingEntryId);
@@ -154,7 +156,7 @@ export const EntrySettingsModal = () => {
       <div className="bg-[#1a1b23] border border-slate-700 w-[600px] max-w-full rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700/50 bg-[#22242f]">
           <div className="flex items-center gap-2 text-white font-semibold">
-            <Settings2 size={20} className="text-blue-400" /> Personalizar Entrada
+            <Settings2 size={20} className="text-blue-400" /> {t('entrySettings.customizeEntry')}
           </div>
           <button
             onClick={handleCancel}
@@ -176,7 +178,7 @@ export const EntrySettingsModal = () => {
                 <ArrowLeft size={16} />
               </button>
               <div className="text-slate-300 font-medium text-xs">
-                {itemIndex + 1} de {items.length}
+                {itemIndex + 1} {t('entrySettings.of')} {items.length}
               </div>
               <button
                 onClick={handleNext}
@@ -190,12 +192,11 @@ export const EntrySettingsModal = () => {
               onClick={handleAdd}
               className="flex items-center gap-1.5 text-xs font-medium bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white px-3 py-1.5 rounded-full transition-colors"
             >
-              <Plus size={14} /> Adicionar
+              <Plus size={14} /> {t('sidebar.entries.add')}
             </button>
           </div>
 
-          <div className="p-6 space-y-8">
-            {/* Quick Actions */}
+          <div className="p-6 space-y-8">             {/* Quick Actions */}
             <div className="flex justify-between items-center bg-[#252733] p-3 rounded-xl border border-slate-700/50">
               <label className="flex items-center gap-2 cursor-pointer group">
                 <div className="relative flex items-center justify-center w-5 h-5 rounded border border-slate-600 bg-slate-800 group-hover:border-blue-500 transition-colors">
@@ -212,7 +213,7 @@ export const EntrySettingsModal = () => {
                   )}
                 </div>
                 <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">
-                  Visível na Roda
+                  {t('entrySettings.visibleOnWheel')}
                 </span>
               </label>
 
@@ -221,13 +222,13 @@ export const EntrySettingsModal = () => {
                   onClick={handleDuplicate}
                   className="flex items-center gap-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
                 >
-                  <Copy size={14} /> Duplicar
+                  <Copy size={14} /> {t('entrySettings.duplicate')}
                 </button>
                 <button
                   onClick={handleDelete}
                   className="flex items-center gap-1.5 bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
                 >
-                  <Trash size={14} /> Excluir
+                  <Trash size={14} /> {t('entrySettings.delete')}
                 </button>
               </div>
             </div>
@@ -236,7 +237,7 @@ export const EntrySettingsModal = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-300">
-                  Texto
+                  {t('entrySettings.text')}
                 </label>
                 <input
                   type="text"
@@ -250,10 +251,10 @@ export const EntrySettingsModal = () => {
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-medium text-slate-300">
-                    Peso{" "}
+                    {t('entryItem.weight')}{" "}
                     {weightPercentage > 0 && (
                       <span className="text-xs text-blue-400 ml-1">
-                        ({weightPercentage}% chance)
+                        ({weightPercentage}% {t('entrySettings.chance')})
                       </span>
                     )}
                   </label>
@@ -301,9 +302,9 @@ export const EntrySettingsModal = () => {
             {/* Fundo da Fatia (Cor ou Imagem) */}
             <div className="space-y-3 bg-[#252733] p-4 rounded-xl border border-slate-700/50">
               <label className="text-sm font-medium text-slate-300">
-                Fundo da Fatia
+                {t('entrySettings.sliceBackground')}
               </label>
-              <p className="text-xs text-slate-500 mb-2">A cor de fundo será ignorada se você colocar uma imagem.</p>
+              <p className="text-xs text-slate-500 mb-2">{t('entrySettings.appearanceDesc')}</p>
               
               <div className="flex flex-col sm:flex-row gap-4">
                 {/* Image Uploader takes precedence */}
@@ -323,7 +324,7 @@ export const EntrySettingsModal = () => {
                       <div className="flex flex-col items-center gap-1">
                         <ImageIcon size={20} className="text-slate-400" />
                         <span className="text-slate-400 font-medium text-xs">
-                          Adicionar Imagem
+                          {t('entrySettings.addImage')}
                         </span>
                       </div>
                     </div>
@@ -331,7 +332,7 @@ export const EntrySettingsModal = () => {
                     <div className="relative bg-[#1e2029] border border-slate-700 rounded-lg flex items-center justify-center h-[80px] overflow-hidden group">
                       <img
                         src={tempItem.image}
-                        alt="Fundo"
+                        alt={t('entrySettings.sliceBackground')}
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -341,7 +342,7 @@ export const EntrySettingsModal = () => {
                             fileInputRef.current?.click();
                           }}
                           className="p-2 text-white hover:text-blue-400 transition-colors"
-                          title="Trocar imagem"
+                          title={t('entrySettings.changeImage')}
                         >
                           <Upload size={18} />
                         </button>
@@ -350,7 +351,7 @@ export const EntrySettingsModal = () => {
                             setTempItem({ ...tempItem, image: undefined })
                           }
                           className="p-2 text-white hover:text-red-400 transition-colors"
-                          title="Remover imagem"
+                          title={t('entrySettings.removeImage')}
                         >
                           <Trash size={18} />
                         </button>
@@ -370,7 +371,7 @@ export const EntrySettingsModal = () => {
                 <div className={`relative w-[120px] shrink-0 h-[80px] rounded-lg overflow-hidden border-2 transition-colors ${tempItem.image ? 'border-slate-800 opacity-30 cursor-not-allowed' : 'border-slate-700 hover:border-blue-500 group'}`}>
                   {!tempItem.image && (
                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/40 transition-opacity pointer-events-none z-10">
-                       <span className="text-xs font-medium text-white drop-shadow-md">Cortar Cor</span>
+                       <span className="text-xs font-medium text-white drop-shadow-md">{t('entrySettings.cropColor')}</span>
                      </div>
                   )}
                   <input
@@ -390,7 +391,7 @@ export const EntrySettingsModal = () => {
                         setTempItem({ ...tempItem, color: undefined });
                       }}
                       className="absolute top-1 right-1 bg-black/60 text-white p-1 rounded hover:bg-red-500 transition-colors z-20"
-                      title="Remover cor"
+                      title={t('entrySettings.removeColor')}
                     >
                       <X size={12} />
                     </button>
@@ -403,11 +404,11 @@ export const EntrySettingsModal = () => {
             {/* Mensagem Pop-up */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-300">
-                Mensagem Pop-up de Vitória
+                {t('entrySettings.winMessage')}
               </label>
               <input
                 type="text"
-                placeholder="Mensagem quando ganhar (opicional)"
+                placeholder={t("entrySettings.winMessagePlh")}
                 value={tempItem.message || ""}
                 onChange={(e) =>
                   setTempItem({ ...tempItem, message: e.target.value })
@@ -420,7 +421,7 @@ export const EntrySettingsModal = () => {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium text-slate-300">
-                  Som Personalizado ao Vencer
+                  {t('entrySettings.customSound')}
                 </label>
                 {tempItem.sound && (
                   <button
@@ -429,7 +430,7 @@ export const EntrySettingsModal = () => {
                     }
                     className="text-xs text-blue-400 hover:text-blue-300 hover:underline transition-colors"
                   >
-                    Usar som padrão geral
+                    {t('entrySettings.useDefaultSound')}
                   </button>
                 )}
               </div>
@@ -454,12 +455,12 @@ export const EntrySettingsModal = () => {
               {/* Custom audios list if any exist */}
               <div className="bg-[#252733] rounded-xl border border-slate-700/50 p-4 space-y-4">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-slate-300">Áudios Enviados</p>
+                  <p className="text-sm font-medium text-slate-300">{t('entrySettings.uploadedAudios')}</p>
                   <button
                     onClick={() => setIsAddAudioModalOpen(true)}
                     className="flex items-center gap-1.5 text-xs font-semibold bg-blue-600/10 text-blue-400 hover:bg-blue-600 hover:text-white px-3 py-1.5 rounded-md transition-colors"
                   >
-                    <Plus size={14} /> Novo Áudio
+                    <Plus size={14} /> {t('entrySettings.newAudio')}
                   </button>
                 </div>
                 {hasCustomAudio ? (
@@ -505,7 +506,7 @@ export const EntrySettingsModal = () => {
                 ) : (
                   <div className="flex flex-col items-center justify-center py-4 text-slate-500 space-y-1">
                     <Music2 size={20} className="opacity-50" />
-                    <p className="text-[10px] italic">Nenhum áudio enviado ainda.</p>
+                    <p className="text-[10px] italic">{t('entrySettings.noAudio')}</p>
                   </div>
                 )}
                 
@@ -519,13 +520,13 @@ export const EntrySettingsModal = () => {
             onClick={handleCancel}
             className="px-6 py-2 rounded-lg font-medium text-slate-300 hover:bg-white/5 transition-colors"
           >
-            Cancelar
+            {t('entrySettings.cancel')}
           </button>
           <button
             onClick={handleSave}
             className="px-8 py-2 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-500 transition-colors shadow-lg shadow-blue-900/20"
           >
-            Salvar
+            {t('entrySettings.saveBtn')}
           </button>
         </div>
       </div>

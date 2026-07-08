@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../../store/useAppStore';
 import { useWheelData } from '../../hooks/useWheelData';
 import { useWheelActions } from '../../hooks/useWheelActions';
+import { useTranslation } from 'react-i18next';
 import { 
   WHEEL_CANVAS_RESOLUTION, 
   WHEEL_REFERENCE_SIZE, 
@@ -23,6 +24,7 @@ function getContrastYIQ(hexcolor: string) {
 }
 
 export const WheelDisplay = () => {
+  const { t } = useTranslation();
   const isSpinning = useAppStore(s => s.isSpinning);
   const rotation = useAppStore(s => s.rotation);
   const spinTime = useAppStore(s => s.spinTime);
@@ -402,7 +404,7 @@ export const WheelDisplay = () => {
         onClick={() => spinWheel()}
         role="button"
         tabIndex={0}
-        aria-label="Girar roleta"
+        aria-label={t("wheelDisplay.ariaLabelSpin")}
         className={`relative flex items-center justify-center w-[min(80vw,320px)] h-[min(80vw,320px)] sm:w-[min(80vw,450px)] sm:h-[min(80vw,450px)] lg:w-[550px] lg:h-[550px] shrink-0 outline-none transition-all duration-300 ease-out
         ${!isSpinning && validItems.length >= 2 ? 'cursor-pointer hover:scale-[1.02]' : 'opacity-95'}`}
       >
@@ -428,10 +430,10 @@ export const WheelDisplay = () => {
             <path id="curveUp" d="M 120 250 A 130 130 0 0 1 380 250" fill="transparent" />
             <path id="curveDown" d="M 120 250 A 130 130 0 0 0 380 250" fill="transparent" />
             <text className="fill-white font-black text-[32px] tracking-wide" textAnchor="middle">
-              <textPath href="#curveUp" startOffset="50%">clique para girar</textPath>
+              <textPath href="#curveUp" startOffset="50%">{t("wheelDisplay.clickToSpin")}</textPath>
             </text>
             <text className="fill-white font-black text-[24px] tracking-wide" textAnchor="middle">
-              <textPath href="#curveDown" startOffset="50%">ou pressione ctrl+enter</textPath>
+              <textPath href="#curveDown" startOffset="50%">{t("wheelDisplay.orPressCtrlEnter")}</textPath>
             </text>
           </svg>
         )}

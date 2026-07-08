@@ -1,6 +1,7 @@
 import React from 'react';
 import { Trophy, Skull, Crown } from 'lucide-react';
 import { Result } from '../../types';
+import { useTranslation } from 'react-i18next';
 
 interface ResultItemProps {
   result: Result;
@@ -8,11 +9,12 @@ interface ResultItemProps {
 }
 
 export const ResultItem: React.FC<ResultItemProps> = ({ result, index }) => {
+  const { t } = useTranslation();
   const isEliminated = result.type === 'eliminated';
   const isGrandWinner = result.type === 'grand_winner';
   
   let Icon = Trophy;
-  let label = "Vencedor";
+  let label = t("resultItem.winner");
   let colorTheme = "from-emerald-900/40 to-emerald-800/10 border-emerald-500/30 text-emerald-400";
   let iconColor = "text-emerald-400";
   let textColor = "text-emerald-100";
@@ -20,14 +22,14 @@ export const ResultItem: React.FC<ResultItemProps> = ({ result, index }) => {
 
   if (isEliminated) {
     Icon = Skull;
-    label = "Eliminado";
+    label = t("resultItem.eliminated");
     colorTheme = "from-red-900/30 to-red-800/10 border-red-500/20 text-red-400/80";
     iconColor = "text-red-400/70";
     textColor = "text-red-200/50 line-through decoration-red-500/30";
     numberColor = "text-red-500/40";
   } else if (isGrandWinner) {
     Icon = Crown;
-    label = "Grande Campeão";
+    label = t("resultItem.grandChampion");
     colorTheme = "from-yellow-900/40 to-yellow-800/20 border-yellow-500/50 text-yellow-400 shadow-[0_0_15px_rgba(234,179,8,0.1)]";
     iconColor = "text-yellow-400 drop-shadow-md";
     textColor = "text-yellow-50 font-bold";

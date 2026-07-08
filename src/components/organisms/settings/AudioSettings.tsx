@@ -3,9 +3,11 @@ import { PlayCircle, Trash2, Plus, Music2 } from "lucide-react";
 import { Toggle } from "../../atoms/Toggle";
 import { useAppStore } from "../../../store/useAppStore";
 import { useAudioActions } from "../../../hooks/useAppActions";
-import { playTickSound, playWinSound, playFailureSound } from "../../../utils/audioEngine";
+import { playTickSound, playWinSound, playFailureSound } from '../../../utils/audioEngine';
+import { useTranslation } from 'react-i18next';
 
 export const AudioSettings = () => {
+  const { t } = useTranslation();
   const soundEnabled = useAppStore(s => s.soundEnabled);
   const setSoundEnabled = useAppStore(s => s.setSoundEnabled);
   const masterVolume = useAppStore(s => s.masterVolume);
@@ -31,7 +33,7 @@ export const AudioSettings = () => {
     <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
       <div className="flex justify-between items-center bg-[#252733] border border-slate-700 p-4 rounded-xl">
         <h3 className="font-bold text-white flex items-center gap-3">
-          Som do Sorteio
+          {t('audioSettings.title')}
         </h3>
         <Toggle enabled={soundEnabled} onChange={setSoundEnabled} />
       </div>
@@ -40,7 +42,7 @@ export const AudioSettings = () => {
         <div className="bg-[#252733] border border-slate-700 rounded-xl p-5 space-y-4">
           <div className="flex justify-between items-center">
             <label className="text-sm font-medium text-slate-300">
-              Volume Principal
+              {t('audioSettings.masterVolume')}
             </label>
             <span className="text-xs font-bold bg-slate-800 px-2 py-1 rounded text-slate-300">
               {masterVolume}%
@@ -62,30 +64,30 @@ export const AudioSettings = () => {
               onClick={() => setActiveTab('roleta')}
               className={`flex-1 py-3 text-sm font-medium transition-colors ${activeTab === 'roleta' ? 'text-blue-400 border-b-2 border-blue-500 bg-[#252733]' : 'text-slate-400 hover:text-slate-200 hover:bg-[#252733]'}`}
             >
-              Som da Roleta
+              {t('audioSettings.tabWheel')}
             </button>
             <button
               onClick={() => setActiveTab('vencedor')}
               className={`flex-1 py-3 text-sm font-medium transition-colors ${activeTab === 'vencedor' ? 'text-blue-400 border-b-2 border-blue-500 bg-[#252733]' : 'text-slate-400 hover:text-slate-200 hover:bg-[#252733]'}`}
             >
-              Som de Vitória
+              {t('audioSettings.tabWin')}
             </button>
             {eliminationMode && (
               <button
                 onClick={() => setActiveTab('eliminacao')}
                 className={`flex-1 py-3 text-sm font-medium transition-colors ${activeTab === 'eliminacao' ? 'text-red-400 border-b-2 border-red-500 bg-[#252733]' : 'text-slate-400 hover:text-slate-200 hover:bg-[#252733]'}`}
               >
-                Som de Eliminação
+                {t('audioSettings.tabElimination')}
               </button>
             )}
           </div>
 
           <div className="p-5">
-            {activeTab === 'roleta' && (
+             {activeTab === 'roleta' && (
               <div className="space-y-6 animate-in slide-in-from-left-2 fade-in">
                 <div className="space-y-3">
                   <label className="text-sm font-medium text-slate-300">
-                    Sons Padrão
+                    {t('audioSettings.defaultTickSounds')}
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                     {[
@@ -116,13 +118,13 @@ export const AudioSettings = () => {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium text-slate-300">
-                      Áudios Personalizados
+                      {t('audioSettings.customAudios')}
                     </label>
                     <button
                       onClick={() => setIsAddAudioModalOpen(true)}
                       className="flex items-center gap-1.5 text-xs font-semibold bg-blue-600/10 text-blue-400 hover:bg-blue-600 hover:text-white px-3 py-1.5 rounded-md transition-colors"
                     >
-                      <Plus size={14} /> Novo Áudio
+                      <Plus size={14} /> {t('audioSettings.newAudio')}
                     </button>
                   </div>
                   
@@ -154,15 +156,15 @@ export const AudioSettings = () => {
                               {audio.name}
                             </span>
                             <span className="text-[10px] text-slate-500">
-                              {audio.isFile ? 'Arquivo Local' : 'URL Externa'} 
-                              {audio.mode === 'continuous' ? ' • Música de Fundo' : ' • Bate e Volta'}
+                              {audio.isFile ? t('audioSettings.localFile') : t('audioSettings.externalURL')} 
+                              {audio.mode === 'continuous' ? t('audioSettings.continuousMusicMode') : t('audioSettings.tickMode')}
                             </span>
                           </div>
                         </div>
                         <button
                           onClick={() => removeCustomAudio("tick", audio.id)}
                           className="text-slate-500 hover:text-red-400 hover:bg-red-500/10 p-2 rounded-md transition-colors shrink-0"
-                          title="Remover"
+                          title={t('entryItem.delete')}
                         >
                           <Trash2 size={16} />
                         </button>
@@ -171,7 +173,7 @@ export const AudioSettings = () => {
                     {customTickAudios.length === 0 && (
                       <div className="flex flex-col items-center justify-center py-6 text-slate-500 space-y-2">
                         <Music2 size={24} className="opacity-50" />
-                        <p className="text-xs italic">Nenhum áudio personalizado adicionado.</p>
+                        <p className="text-xs italic">{t('audioSettings.noCustomAudio')}</p>
                       </div>
                     )}
                   </div>
@@ -184,7 +186,7 @@ export const AudioSettings = () => {
               <div className="space-y-6 animate-in slide-in-from-right-2 fade-in">
                 <div className="space-y-3">
                   <label className="text-sm font-medium text-slate-300">
-                    Sons Padrão
+                    {t('audioSettings.defaultWinSounds')}
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                     {[
@@ -217,13 +219,13 @@ export const AudioSettings = () => {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium text-slate-300">
-                      Áudios Personalizados
+                      {t('audioSettings.customAudios')}
                     </label>
                     <button
                       onClick={() => setIsAddAudioModalOpen(true)}
                       className="flex items-center gap-1.5 text-xs font-semibold bg-blue-600/10 text-blue-400 hover:bg-blue-600 hover:text-white px-3 py-1.5 rounded-md transition-colors"
                     >
-                      <Plus size={14} /> Novo Áudio
+                      <Plus size={14} /> {t('audioSettings.newAudio')}
                     </button>
                   </div>
                   
@@ -253,13 +255,13 @@ export const AudioSettings = () => {
                             <span className={`text-sm truncate ${winSoundType === audio.id ? "text-blue-300 font-medium" : "text-slate-300"}`}>
                               {audio.name}
                             </span>
-                            <span className="text-[10px] text-slate-500">{audio.isFile ? 'Arquivo Local' : 'URL Externa'}</span>
+                            <span className="text-[10px] text-slate-500">{audio.isFile ? t('audioSettings.localFile') : t('audioSettings.externalURL')}</span>
                           </div>
                         </div>
                         <button
                           onClick={() => removeCustomAudio("win", audio.id)}
                           className="text-slate-500 hover:text-red-400 hover:bg-red-500/10 p-2 rounded-md transition-colors shrink-0"
-                          title="Remover"
+                          title={t('entryItem.delete')}
                         >
                           <Trash2 size={16} />
                         </button>
@@ -268,7 +270,7 @@ export const AudioSettings = () => {
                     {customWinAudios.length === 0 && (
                       <div className="flex flex-col items-center justify-center py-6 text-slate-500 space-y-2">
                         <Music2 size={24} className="opacity-50" />
-                        <p className="text-xs italic">Nenhum áudio personalizado adicionado.</p>
+                        <p className="text-xs italic">{t('audioSettings.noCustomAudio')}</p>
                       </div>
                     )}
                   </div>
@@ -281,7 +283,7 @@ export const AudioSettings = () => {
               <div className="space-y-6 animate-in slide-in-from-right-2 fade-in">
                 <div className="space-y-3">
                   <label className="text-sm font-medium text-slate-300">
-                    Sons Padrão de Eliminação
+                    {t('audioSettings.defaultEliminationSounds')}
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {[
@@ -306,7 +308,7 @@ export const AudioSettings = () => {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium text-slate-300">
-                      Áudios Personalizados (Partilhados com Vitória)
+                      {t('audioSettings.customAudiosShared')}
                     </label>
                   </div>
                   
@@ -336,7 +338,7 @@ export const AudioSettings = () => {
                             <span className={`text-sm truncate ${eliminationSoundType === audio.id ? "text-red-300 font-medium" : "text-slate-300"}`}>
                               {audio.name}
                             </span>
-                            <span className="text-[10px] text-slate-500">{audio.isFile ? 'Arquivo Local' : 'URL Externa'}</span>
+                            <span className="text-[10px] text-slate-500">{audio.isFile ? t('audioSettings.localFile') : t('audioSettings.externalURL')}</span>
                           </div>
                         </div>
                       </div>
@@ -344,7 +346,7 @@ export const AudioSettings = () => {
                     {customWinAudios.length === 0 && (
                       <div className="flex flex-col items-center justify-center py-6 text-slate-500 space-y-2">
                         <Music2 size={24} className="opacity-50" />
-                        <p className="text-xs italic">Nenhum áudio configurado.</p>
+                        <p className="text-xs italic">{t('audioSettings.noAudioConfigured')}</p>
                       </div>
                     )}
                   </div>

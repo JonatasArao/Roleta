@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAppStore } from '../../store/useAppStore';
+import { useTranslation } from 'react-i18next';
 
 export const EliminationFeed = () => {
+  const { t } = useTranslation();
   const winner = useAppStore(s => s.winner);
-  const eliminationMessage = useAppStore(s => s.eliminationMessage) || 'Eliminado';
+  const eliminationMessage = useAppStore(s => s.eliminationMessage) || t('eliminationFeed.eliminated');
   const [feed, setFeed] = useState<{ id: string; text: string; eliminatedAt: number }[]>([]);
   const timeoutRefs = useRef<{ [id: string]: NodeJS.Timeout }>({});
 

@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { Trophy, Crown } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
 import { useWheelActions } from '../../hooks/useWheelActions';
+import { useTranslation } from 'react-i18next';
 
 export const WinnerModal = () => {
+  const { t } = useTranslation();
   const winner = useAppStore(s => s.winner);
   const setWinner = useAppStore(s => s.setWinner);
   const winMessage = useAppStore(s => s.winMessage);
@@ -61,7 +63,7 @@ export const WinnerModal = () => {
                 }}
                 className="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 shadow-[0_0_20px_rgba(239,68,68,0.2)] text-white px-5 py-3 rounded-xl font-black text-sm transition-all hover:-translate-y-1"
               >
-                REJEITAR
+                {t('horizonDisplay.reject').toUpperCase()}
               </button>
               <button 
                 onClick={() => {
@@ -80,7 +82,7 @@ export const WinnerModal = () => {
                 }}
                 className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 shadow-[0_0_20px_rgba(16,185,129,0.2)] text-white px-5 py-3 rounded-xl font-black text-sm transition-all hover:-translate-y-1"
               >
-                ACEITAR
+                {t('horizonDisplay.accept').toUpperCase()}
               </button>
             </div>
         </div>
@@ -115,7 +117,7 @@ export const WinnerModal = () => {
             }}
             className="flex-1 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 shadow-[0_0_20px_rgba(239,68,68,0.2)] hover:shadow-[0_0_30px_rgba(239,68,68,0.4)] text-white px-6 py-4 rounded-xl font-black text-lg transition-all hover:-translate-y-1"
           >
-            REJEITO
+            {t('horizonDisplay.reject').toUpperCase()}
           </button>
           <button 
             onClick={() => {
@@ -135,7 +137,7 @@ export const WinnerModal = () => {
             }}
             className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] text-white px-6 py-4 rounded-xl font-black text-lg transition-all hover:-translate-y-1"
           >
-            ACEITO
+            {t('horizonDisplay.accept').toUpperCase()}
           </button>
         </div>
       </div>

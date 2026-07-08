@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUp, ArrowDown, Settings2, X, Palette, Eye, EyeOff } from 'lucide-react';
 import { Item } from '../../types';
+import { useTranslation } from 'react-i18next';
 
 function getContrastYIQ(hexcolor: string) {
   if (!hexcolor || typeof hexcolor !== 'string' || !hexcolor.startsWith('#')) return '#ffffff';
@@ -44,6 +45,7 @@ export const EntryItem: React.FC<EntryItemProps> = ({
   onMove,
   onEditSettings,
 }) => {
+  const { t } = useTranslation();
   const currentWeight = effectiveWeight !== undefined ? effectiveWeight : (item.weight || 1);
   const weightPercentage = item.enabled !== false ? Math.round((currentWeight / totalWeight) * 100) : 0;
   const itemColor = item.color || color || '#cccccc';
@@ -54,7 +56,7 @@ export const EntryItem: React.FC<EntryItemProps> = ({
         <label 
           className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center shadow-inner ring-2 ring-slate-800 transition-transform hover:scale-110 ${isSpinning ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
           style={{ backgroundColor: itemColor }}
-          title="Mudar cor"
+          title={t('entryItem.changeColor')}
         >
           <input 
             type="color" 
@@ -71,7 +73,7 @@ export const EntryItem: React.FC<EntryItemProps> = ({
             value={item.text} 
             onChange={(e) => onUpdate(item.id, { text: e.target.value })}
             className={`flex-1 min-w-0 bg-transparent border-none text-slate-100 font-medium focus:outline-none focus:ring-0 px-1 py-1 ${item.enabled === false ? 'line-through text-slate-400' : ''}`}
-            placeholder="Digite um nome..."
+            placeholder={t('entryItem.placeholderCompact')}
             disabled={isSpinning}
           />
         </div>
@@ -79,7 +81,7 @@ export const EntryItem: React.FC<EntryItemProps> = ({
         <div className="flex items-center gap-1">
           <span 
             className={`text-xs font-semibold px-2 py-1 rounded-md min-w-[3rem] text-center border ${currentWeight !== (item.weight || 1) ? 'text-amber-400 bg-amber-500/10 border-amber-500/20' : 'text-slate-400 bg-slate-800/60 border-slate-700/50'}`}
-            title={`Peso Efetivo: ${currentWeight.toFixed(1)}${currentWeight !== (item.weight || 1) ? ' (Ajustado pelo balanceamento)' : ''}`}
+            title={`${t('entryItem.effectiveWeight')}: ${currentWeight.toFixed(1)}${currentWeight !== (item.weight || 1) ? ` (${t('entryItem.adjustedByBalance')})` : ''}`}
           >
             {weightPercentage}%
           </span>
@@ -89,16 +91,15 @@ export const EntryItem: React.FC<EntryItemProps> = ({
               onClick={() => onUpdate(item.id, { enabled: item.enabled === false ? true : false })} 
               disabled={isSpinning} 
               className="text-slate-500 hover:text-slate-300 p-1.5 rounded-lg hover:bg-slate-700/50 transition-colors disabled:opacity-50 focus:opacity-100 focus:outline-none" 
-              title={item.enabled !== false ? 'Desativar' : 'Ativar'}
+              title={item.enabled !== false ? t('entryItem.disable') : t('entryItem.enable')}
             >
               {item.enabled !== false ? <Eye size={16} /> : <EyeOff size={16} />}
             </button>
-
             <button 
               onClick={() => onRemove(item.id)} 
               disabled={isSpinning} 
               className="text-slate-500 hover:text-red-400 p-1.5 rounded-lg hover:bg-red-500/10 transition-colors disabled:opacity-50 focus:opacity-100 focus:outline-none" 
-              title="Remover"
+              title={t('entryItem.delete')}
             >
               <X size={16} />
             </button>
@@ -136,7 +137,7 @@ export const EntryItem: React.FC<EntryItemProps> = ({
           value={item.text} 
           onChange={(e) => onUpdate(item.id, { text: e.target.value })}
           className={`w-full bg-slate-900/60 border border-slate-700/80 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder-slate-600 ${item.enabled === false ? 'line-through text-slate-400' : ''}`}
-          placeholder="Nome do participante..."
+          placeholder={t('entryItem.placeholderFull')}
           disabled={isSpinning}
         />
         
@@ -144,7 +145,7 @@ export const EntryItem: React.FC<EntryItemProps> = ({
           <label 
             className={`relative flex items-center justify-center w-9 h-9 rounded-lg overflow-hidden border border-white/10 shadow-sm transition-transform hover:scale-105 shrink-0 ${isSpinning ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
             style={{ backgroundColor: itemColor }}
-            title="Mudar cor"
+            title={t('entryItem.changeColor')}
           >
             <input 
               type="color" 
@@ -158,7 +159,7 @@ export const EntryItem: React.FC<EntryItemProps> = ({
           
           <div className={`flex-1 flex items-center bg-slate-900/60 border border-slate-700/80 rounded-lg overflow-hidden focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-colors h-9 ${isSpinning ? 'opacity-50' : ''}`}>
             <div className="px-2 py-1.5 text-xs font-semibold text-slate-400 border-r border-slate-700/80 bg-slate-800/40 h-full flex items-center shrink-0">
-              Peso
+              {t('entryItem.weight')}
             </div>
             <input 
               type="number" 
@@ -172,14 +173,14 @@ export const EntryItem: React.FC<EntryItemProps> = ({
             {currentWeight !== (item.weight || 1) && (
               <div 
                 className="px-1.5 text-[10px] font-bold text-amber-400 h-full flex items-center justify-center border-l border-slate-700/80 bg-amber-500/10 shrink-0" 
-                title={`Ajustado pelo balanceamento.\nBase: ${item.weight || 1}\nAtual: ${currentWeight.toFixed(1)}`}
+                title={`${t('entryItem.adjustedByBalance')}: ${item.weight || 1}\n${t('entryItem.current')}: ${currentWeight.toFixed(1)}`}
               >
                 {currentWeight > (item.weight || 1) ? '▲' : '▼'}{currentWeight.toFixed(1)}
               </div>
             )}
             <div 
               className="px-2 text-xs font-bold text-blue-400 bg-blue-500/10 border-l border-blue-500/20 h-full flex items-center min-w-[3rem] justify-center shrink-0"
-              title={`Peso Efetivo: ${currentWeight.toFixed(1)}`}
+              title={`${t('entryItem.effectiveWeight')}: ${currentWeight.toFixed(1)}`}
             >
               {weightPercentage}%
             </div>
@@ -193,22 +194,21 @@ export const EntryItem: React.FC<EntryItemProps> = ({
           onClick={() => onRemove(item.id)} 
           disabled={isSpinning} 
           className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-30 disabled:hover:bg-transparent" 
-          title="Remover"
+          title={t('entryItem.delete')}
         >
           <X size={18} />
         </button>
-
         <div className="flex flex-col items-center gap-2 mt-auto">
           <button 
             onClick={() => onEditSettings(item.id)}
             disabled={isSpinning}
             className="p-2 text-blue-400 hover:text-white bg-blue-500/10 hover:bg-blue-500 rounded-lg transition-all disabled:opacity-30 disabled:hover:bg-blue-500/10 disabled:hover:text-blue-400 shadow-sm"
-            title="Configurações da Fatia"
+            title={t('entryItem.sliceSettings')}
           >
             <Settings2 size={16} />
           </button>
           
-          <label className={`flex items-center justify-center pt-1 transition-colors ${item.enabled !== false ? 'text-blue-400' : 'text-slate-500'} ${isSpinning ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`} title={item.enabled !== false ? 'Ativado' : 'Desativado'}>
+          <label className={`flex items-center justify-center pt-1 transition-colors ${item.enabled !== false ? 'text-blue-400' : 'text-slate-500'} ${isSpinning ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`} title={item.enabled !== false ? t('entryItem.enable') : t('entryItem.disable')}>
             <input 
               type="checkbox" 
               disabled={isSpinning}

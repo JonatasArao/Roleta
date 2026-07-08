@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useAppStore } from '../../store/useAppStore';
 import { useWheelData } from '../../hooks/useWheelData';
 import { useWheelActions } from '../../hooks/useWheelActions';
+import { useTranslation } from 'react-i18next';
 
 function getContrastYIQ(hexcolor: string) {
   if (!hexcolor || typeof hexcolor !== 'string' || !hexcolor.startsWith('#')) return '#ffffff';
@@ -17,6 +18,7 @@ function getContrastYIQ(hexcolor: string) {
 }
 
 export const MysteryBoxDisplay = () => {
+  const { t } = useTranslation();
   const isSpinning = useAppStore(s => s.isSpinning);
   const winner = useAppStore(s => s.winner);
   const { validItems, slices } = useWheelData();
@@ -226,7 +228,7 @@ export const MysteryBoxDisplay = () => {
            {/* Glint effect */}
            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[150%] animate-[shimmer_3s_infinite]"></div>
            <h2 className="uppercase tracking-[0.3em] font-black text-center text-xl md:text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] px-4">
-               {isSpinning ? "Misturando..." : (winner ? "A Escolhida!" : "Escolher")}
+               {isSpinning ? t("mysteryBox.mixing") : (winner ? t("mysteryBox.chosen") : t("mysteryBox.choose"))}
            </h2>
          </div>
 
@@ -324,7 +326,7 @@ export const MysteryBoxDisplay = () => {
             
             {!winner && !isSpinning && validItems.length >= 2 && (
                <div className="text-white/60 text-sm font-bold uppercase tracking-widest hidden sm:block">
-                 Clique em uma caixa ou
+                 {t('mysteryBox.clickBoxOr')}
                </div>
             )}
 
@@ -338,7 +340,7 @@ export const MysteryBoxDisplay = () => {
                   }
                `}
             >
-               {isSpinning ? 'Embaralhando...' : 'Escolha Aleatória'}
+               {isSpinning ? t('mysteryBox.shuffling') : t('mysteryBox.randomChoice')}
             </button>
             
             {/* Rejeitar/Aceitar from WinnerModal moved here conceptually! Actually, WinnerModal is handling the action for mystery_box at the bottom? Let's check! */}

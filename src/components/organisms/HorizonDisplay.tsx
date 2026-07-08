@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../../store/useAppStore';
 import { useWheelData } from '../../hooks/useWheelData';
 import { useWheelActions } from '../../hooks/useWheelActions';
+import { useTranslation } from 'react-i18next';
 
 function getContrastYIQ(hexcolor: string) {
   if (!hexcolor || typeof hexcolor !== 'string' || !hexcolor.startsWith('#')) return '#ffffff';
@@ -17,6 +18,7 @@ function getContrastYIQ(hexcolor: string) {
 }
 
 export const HorizonDisplay = () => {
+  const { t } = useTranslation();
   const isSpinning = useAppStore(s => s.isSpinning);
   const rotation = useAppStore(s => s.rotation);
   const spinTime = useAppStore(s => s.spinTime);
@@ -248,22 +250,22 @@ export const HorizonDisplay = () => {
                onClick={(e) => { e.stopPropagation(); spinWheel(); }}
                className="bg-amber-600 hover:bg-amber-500 text-white px-10 py-3 uppercase tracking-[0.2em] font-black text-xl md:text-2xl rounded-xl shadow-[0_10px_30px_rgba(245,158,11,0.4)] border-b-4 border-amber-800 hover:border-amber-700 active:translate-y-1 active:border-b-0 transition-all flex items-center gap-3"
             >
-               Girar Roleta
+               {t('horizonDisplay.spin')}
             </button>
-            <p className="text-white/40 text-xs font-bold uppercase tracking-widest leading-none">ou pressione ctrl+enter</p>
+            <p className="text-white/40 text-xs font-bold uppercase tracking-widest leading-none">{t('horizonDisplay.pressEnter')}</p>
           </div>
         )}
 
         {isSpinning && (
           <div className="text-amber-500/80 font-black text-2xl uppercase tracking-[0.4em] animate-pulse">
-            Sorteando...
+            {t('horizonDisplay.spinning')}
           </div>
         )}
 
         {!isSpinning && winner && (
           <div className="flex flex-col items-center gap-4 animate-in slide-in-from-bottom-5 fade-in duration-300">
             <h3 className="text-orange-400 font-extrabold text-2xl uppercase tracking-widest drop-shadow-[0_0_10px_rgba(249,115,22,0.8)]">
-              {winner.type === 'grand_winner' ? 'GRANDE VENCEDOR!' : 'TEMOS UM VENCEDOR!'}
+              {winner.type === 'grand_winner' ? t('horizonDisplay.grandWinner') : t('horizonDisplay.winner')}
             </h3>
             <div className="flex w-full justify-center gap-4">
                <button 
@@ -278,7 +280,7 @@ export const HorizonDisplay = () => {
                  }}
                  className="flex-1 max-w-[200px] bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white px-6 py-3 rounded-xl font-black text-base transition-all hover:-translate-y-1 shadow-[0_10px_30px_rgba(239,68,68,0.3)] border-b-4 border-red-800 hover:border-red-600 active:translate-y-1 active:border-b-0 uppercase tracking-wider"
                >
-                 Rejeitar
+                 {t('horizonDisplay.reject')}
                </button>
                <button 
                  onClick={(e) => {
@@ -298,7 +300,7 @@ export const HorizonDisplay = () => {
                  }}
                  className="flex-1 max-w-[200px] bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white px-6 py-3 rounded-xl font-black text-base transition-all hover:-translate-y-1 shadow-[0_10px_30px_rgba(16,185,129,0.3)] border-b-4 border-emerald-800 hover:border-emerald-600 active:translate-y-1 active:border-b-0 uppercase tracking-wider"
                >
-                 Aceitar
+                 {t('horizonDisplay.accept')}
                </button>
             </div>
           </div>

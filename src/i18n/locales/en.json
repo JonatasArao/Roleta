@@ -1,0 +1,317 @@
+{
+  "sidebar": {
+    "tabs": {
+      "entries": "Entries",
+      "results": "Results"
+    },
+    "entries": {
+      "shuffle": "Shuffle",
+      "sort": "Sort",
+      "participant": "participant",
+      "participants": "participants",
+      "advanced": "Advanced",
+      "add": "Add",
+      "bulkAdd": "Paste list...",
+      "pastePlaceholder": "Paste names here, one per line...",
+      "importing": "Importing..."
+    },
+    "results": {
+      "empty": "No results yet",
+      "winners": "Winners"
+    },
+    "hidePanel": "Hide Panel",
+    "showPanel": "Show Panel"
+  },
+  "settings": {
+    "title": "Settings",
+    "tabs": {
+      "general": "General",
+      "visual": "Visuals",
+      "audio": "Audio",
+      "system": "System & Data"
+    },
+    "system": {
+      "language": "Language",
+      "interfaceLanguage": "Interface Language",
+      "languageDesc": "Change the application language.",
+      "data": "Data",
+      "export": "Save Draw (.wheel)",
+      "exportDesc": "Saves all participants, settings, and visual theme of the current wheel.",
+      "exportBtn": "Export",
+      "import": "Load Draw (.wheel)",
+      "importDesc": "Loads a previously saved file.",
+      "importBtn": "Import"
+    },
+    "general": {
+      "title": "General Settings",
+      "drawName": "Draw Name",
+      "eliminationMessage": "Elimination Message",
+      "eliminationMessagePlh": "Ex: ELIMINATED 💀",
+      "winnerMessage": "Grand Winner Message",
+      "winnerMessagePlh": "Ex: GRAND WINNER!",
+      "winMessage": "Win Message",
+      "winMessagePlh": "Ex: Congratulations!",
+      "spinTimeFinal": "Final Battle Spin Time (1 vs 1)",
+      "spinTime": "Spin Time",
+      "seconds": "Seconds",
+      "eliminationMode": "Elimination Mode",
+      "eliminationModeDesc": "The selected person does not win, they are eliminated. The wheel continues until one person remains.",
+      "autoContinue": "Auto Continue (Fast Battle)",
+      "autoContinueDesc": "Automatically continues spinning until 1 player remains.",
+      "fastSpinTime": "Fast Round Spin Time",
+      "antiRepetition": "Anti-Repetition System",
+      "antiRepetitionDesc": "Recent winners will have less chance of being drawn consecutively.",
+      "avoidLastX": "Avoid the last X winners",
+      "balance": "Chance Balancing",
+      "reduceByWins": "Reduce by Wins",
+      "reduceByWinsDesc": "Reduces the chance with each win (chances = weight / wins + 1).",
+      "pitySystem": "Pity System",
+      "pitySystemDesc": "Accumulates chances each round not drawn (Pity System).",
+      "showPity": "Show weight changes on the wheel",
+      "confetti": "Confetti Effect",
+      "confettiDesc": "Trigger a rain of confetti on the screen when there is a winner.",
+      "autoRemove": "Auto-remove Winner",
+      "autoRemoveDesc": "Automatically removes the option from the list after winning."
+    },
+    "visual": {
+      "title": "Visual Appearance",
+      "format": "Wheel Format",
+      "classic": "Classic",
+      "slot": "Slot",
+      "boxes": "Boxes",
+      "theme": "VISUAL THEME (Skins)",
+      "textSize": "Text Size",
+      "centerSize": "Center Size",
+      "centerImage": "Center Image (URL)",
+      "centerImagePlh": "Paste image URL...",
+      "centerImageTip": "Tip: Use transparent image URLs (PNG) for a better result.",
+      "palette": "Color Palette",
+      "add": "Add"
+    },
+    "audio": {
+      "title": "Audio & Effects",
+      "masterVolume": "Master Volume",
+      "mute": "Mute",
+      "music": "Background Music",
+      "spinSound": "Sound Effect (Spinning)",
+      "winSound": "Sound Effect (Win)",
+      "eliminatedSound": "Sound Effect (Eliminated)",
+      "select": "Select...",
+      "none": "None",
+      "addCustom": "+ Add Audio",
+      "customFiles": "My Audio Files",
+      "noCustomFiles": "No audio configured.",
+      "uploadCustom": "Upload audio file",
+      "addModal": {
+        "title": "Add New Audio",
+        "whereToUse": "Where do you want to use this audio?",
+        "music": "Background Music",
+        "effect": "Sound Effect",
+        "name": "Audio Name",
+        "namePlh": "Ex: Applause",
+        "file": "Audio File (.mp3, .wav, .ogg)",
+        "uploadBtn": "Click to choose file",
+        "cancel": "Cancel",
+        "save": "Add Audio"
+      }
+    }
+  },
+  "header": {
+    "fullscreen": "Fullscreen",
+    "exitFullscreen": "Exit Fullscreen",
+    "theme": "Theme",
+    "language": "Language",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "history": "Winners History"
+  },
+  "resultsModal": {
+    "title": "Wheel Results",
+    "subtitle": "History, ranking and import",
+    "tabs": {
+      "history": "Draw History",
+      "ranking": "Leaderboard (Ranking)",
+      "import": "Import Results"
+    },
+    "filter": {
+      "title": "Filter Draws",
+      "groupBy": "Group by:",
+      "start": "Start:",
+      "end": "End:",
+      "all": "All",
+      "last": "Last"
+    },
+    "history": {
+      "showing": "Showing",
+      "results": "result(s)",
+      "export": "Export CSV",
+      "clearAll": "Clear All",
+      "empty": "No results found for this filter.",
+      "unknownDate": "Unknown date"
+    },
+    "ranking": {
+      "empty": "No ranking available.",
+      "win": "Win",
+      "wins": "Wins"
+    },
+    "import": {
+      "title": "Add winners manually",
+      "placeholder": "Paste names here (one per line)...\nOptionally include date.\n\nJane Doe\nJohn S., 12/05/2023\nAnn Davis 12/05/2023",
+      "info1": "Importing will add these names to the app's ",
+      "info2": " They will also be computed in the ",
+      "info3": "Tip: You can paste data exported via CSV to import results with dates and status.",
+      "btn": "Import Results"
+    },
+    "draw": "Draw"
+  },
+  "winnerModal": {
+    "title": "We have a winner!",
+    "remove": "Remove from list",
+    "close": "Close"
+  },
+  "entryItem": {
+    "delete": "Remove",
+    "toggle": "Enable/Disable",
+    "settings": "Advanced Options",
+    "placeholderCompact": "Enter a name...",
+    "placeholderFull": "Participant's name...",
+    "weight": "Weight",
+    "changeColor": "Change color",
+    "sliceSettings": "Slice Settings",
+    "effectiveWeight": "Effective Weight",
+    "adjustedByBalance": "Adjusted by balance.\\nBase",
+    "current": "Current",
+    "disable": "Disable",
+    "enable": "Enable"
+  },
+  "entrySettings": {
+    "title": "Slice Settings",
+    "weight": "Weight / Probability",
+    "weightDesc": "The higher the weight, the greater the chance of being drawn.",
+    "wins": "Wins Recorded",
+    "winsDesc": "Number of times this option has been drawn.",
+    "pity": "Pity Accumulation",
+    "pityDesc": "Points accumulated for not being drawn.",
+    "save": "Save Changes",
+    "customAppearance": "Custom Appearance",
+    "appearanceDesc": "Select an image or color to replace the default",
+    "cropImage": "Crop Image",
+    "cropColor": "Crop Color",
+    "winMessage": "Win Pop-up Message",
+    "winMessagePlh": "Message when winning (optional)",
+    "customSound": "Custom Win Sound",
+    "useDefaultSound": "Use general default sound",
+    "uploadedAudios": "Uploaded Audios",
+    "newAudio": "New Audio",
+    "noAudio": "No audio uploaded yet.",
+    "cancel": "Cancel",
+    "customizeEntry": "Customize Entry",
+    "of": "of",
+    "visibleOnWheel": "Visible on Wheel",
+    "duplicate": "Duplicate",
+    "delete": "Delete",
+    "text": "Text",
+    "chance": "chance",
+    "sliceBackground": "Slice Background",
+    "addImage": "Add Image",
+    "changeImage": "Change image",
+    "removeImage": "Remove image",
+    "removeColor": "Remove color",
+    "saveBtn": "Save"
+  },
+  "eliminationFeed": {
+    "title": "Eliminated",
+    "eliminated": "Eliminated",
+    "survivor": "survivor"
+  },
+  "horizonDisplay": {
+    "winner": "WE HAVE A WINNER!",
+    "pressEnter": "or press ctrl+enter",
+    "clickToSpin": "click to spin",
+    "spin": "Spin Wheel",
+    "spinning": "Spinning...",
+    "grandWinner": "GRAND WINNER!",
+    "reject": "Reject",
+    "accept": "Accept"
+  },
+  "themes": {
+    "default": "Default",
+    "neon": "Neon Cyber",
+    "casino": "Gold Casino",
+    "candy": "Candy",
+    "dark": "Dark Minimal"
+  },
+  "addAudioModal": {
+    "title": "Add Custom Audio",
+    "whereToUse": "Where do you want to use this audio?",
+    "spin": "Wheel Spin",
+    "win": "Win",
+    "selectOption": "Select at least one option.",
+    "behavior": "Behavior (Wheel Spin)",
+    "tickMode": "Tick (Pointer)",
+    "musicMode": "Background Music",
+    "audioName": "Audio Name",
+    "audioNamePlh": "Ex: Super Mario Effect",
+    "uploadFile": "Upload File",
+    "copyURL": "Copy Direct URL",
+    "clickToSelect": "Click to select MP3 / WAV",
+    "cancel": "Cancel",
+    "add": "Add",
+    "alertNoCategory": "Please select where the audio will be used (Spin, Win or Both).",
+    "alertNoFile": "Please select a file.",
+    "alertNoURL": "Please paste a valid URL.",
+    "alertNoName": "Please enter a name for the audio."
+  },
+  "visualSettings": {
+    "title": "Visual Appearance",
+    "wheelFormat": "Wheel Format",
+    "classic": "Classic",
+    "slot": "Slot",
+    "boxes": "Boxes",
+    "visualTheme": "VISUAL THEME (Skins)",
+    "textSize": "Text Size",
+    "centerSize": "Center Size",
+    "centerImage": "Center Image (URL)",
+    "centerImagePlh": "Paste image URL...",
+    "centerImageHint": "Hint: Use transparent image URLs (PNG) for better results.",
+    "colorPalette": "Color Palette",
+    "add": "Add"
+  },
+  "audioSettings": {
+    "title": "Draw Sound",
+    "masterVolume": "Master Volume",
+    "tabWheel": "Wheel",
+    "tabWin": "Win",
+    "tabElimination": "Elimination",
+    "defaultTickSounds": "Default Spin Sounds",
+    "customAudios": "Custom Audios",
+    "newAudio": "New Audio",
+    "noCustomAudio": "No custom audio added.",
+    "defaultWinSounds": "Default Win Sounds",
+    "defaultEliminationSounds": "Default Elimination Sounds",
+    "customAudiosShared": "Custom Audios (Shared with Win)",
+    "noAudioConfigured": "No audio configured.",
+    "localFile": "Local File",
+    "externalURL": "External URL",
+    "continuousMusicMode": " • Background Music",
+    "tickMode": " • Sound Effect"
+  },
+  "wheelDisplay": {
+    "clickToSpin": "click to spin",
+    "orPressCtrlEnter": "or press ctrl+enter",
+    "ariaLabelSpin": "Spin wheel"
+  },
+  "mysteryBox": {
+    "mixing": "Mixing...",
+    "chosen": "The Chosen One!",
+    "choose": "Choose",
+    "clickBoxOr": "Click a box or",
+    "shuffling": "Shuffling...",
+    "randomChoice": "Random Choice"
+  },
+  "resultItem": {
+    "winner": "Winner",
+    "eliminated": "Eliminated",
+    "grandChampion": "Grand Champion"
+  }
+}

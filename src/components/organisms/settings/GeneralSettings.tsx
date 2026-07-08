@@ -1,10 +1,12 @@
 import React from 'react';
 import { Sparkles, Clock, Trash2, Skull, Crown } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Toggle } from '../../atoms/Toggle';
 import { Input } from '../../atoms/Input';
 import { useAppStore } from '../../../store/useAppStore';
 
 export const GeneralSettings = () => {
+  const { t } = useTranslation();
   const title = useAppStore(s => s.title);
   const setTitle = useAppStore(s => s.setTitle);
   const winMessage = useAppStore(s => s.winMessage);
@@ -23,51 +25,51 @@ export const GeneralSettings = () => {
   const setEliminationMode = useAppStore(s => s.setEliminationMode);
   const autoContinueElimination = useAppStore(s => s.autoContinueElimination);
   const setAutoContinueElimination = useAppStore(s => s.setAutoContinueElimination);
+  const eliminationSpinTime = useAppStore(s => s.eliminationSpinTime);
+  const setEliminationSpinTime = useAppStore(s => s.setEliminationSpinTime);
+  const antiRepetitionEnabled = useAppStore(s => s.antiRepetitionEnabled);
+  const setAntiRepetitionEnabled = useAppStore(s => s.setAntiRepetitionEnabled);
+  const antiRepetitionCount = useAppStore(s => s.antiRepetitionCount);
+  const setAntiRepetitionCount = useAppStore(s => s.setAntiRepetitionCount);
   const balanceWeightsByWins = useAppStore(s => s.balanceWeightsByWins);
   const setBalanceWeightsByWins = useAppStore(s => s.setBalanceWeightsByWins);
   const pitySystemEnabled = useAppStore(s => s.pitySystemEnabled);
   const setPitySystemEnabled = useAppStore(s => s.setPitySystemEnabled);
   const showPitySystemVisually = useAppStore(s => s.showPitySystemVisually);
   const setShowPitySystemVisually = useAppStore(s => s.setShowPitySystemVisually);
-  const antiRepetitionEnabled = useAppStore(s => s.antiRepetitionEnabled);
-  const setAntiRepetitionEnabled = useAppStore(s => s.setAntiRepetitionEnabled);
-  const antiRepetitionCount = useAppStore(s => s.antiRepetitionCount);
-  const setAntiRepetitionCount = useAppStore(s => s.setAntiRepetitionCount);
-  const eliminationSpinTime = useAppStore(s => s.eliminationSpinTime);
-  const setEliminationSpinTime = useAppStore(s => s.setEliminationSpinTime);
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
+    <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300 pb-10">
       <div>
-        <h3 className="text-lg font-bold text-white mb-4">Geral</h3>
+        <h3 className="text-lg font-bold text-white mb-4">{t('settings.general.title')}</h3>
         <div className="bg-[#252733] border border-slate-700 rounded-xl p-5 space-y-6">
           <div className="space-y-2 flex flex-col">
-            <label className="text-sm font-medium text-slate-300">Nome do Sorteio</label>
-            <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Ex: Sorteio de Sexta" className="w-full bg-[#14151a] border border-slate-700 rounded-lg p-3 text-white focus:border-blue-500 outline-none transition-colors" />
+            <label className="text-sm font-medium text-slate-300">{t('settings.general.drawName')}</label>
+            <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full bg-[#14151a] border border-slate-700 rounded-lg p-3 text-white focus:border-blue-500 outline-none transition-colors" />
           </div>
           
           {eliminationMode ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2 flex flex-col">
-                <label className="text-sm font-medium text-slate-300 flex items-center gap-2"><Skull size={14} /> Mensagem de Eliminação</label>
-                <Input type="text" value={eliminationMessage} onChange={(e) => setEliminationMessage(e.target.value)} placeholder="Ex: ELIMINADO 💀" className="w-full bg-[#14151a] border border-slate-700 rounded-lg p-3 text-white focus:border-red-500 outline-none transition-colors" />
+                <label className="text-sm font-medium text-slate-300 flex items-center gap-2"><Skull size={14} /> {t('settings.general.eliminationMessage')}</label>
+                <Input type="text" value={eliminationMessage} onChange={(e) => setEliminationMessage(e.target.value)} placeholder={t('settings.general.eliminationMessagePlh')} className="w-full bg-[#14151a] border border-slate-700 rounded-lg p-3 text-white focus:border-red-500 outline-none transition-colors" />
               </div>
               <div className="space-y-2 flex flex-col">
-                <label className="text-sm font-medium text-slate-300 flex items-center gap-2"><Crown size={14} /> Mensagem do Vencedor</label>
-                <Input type="text" value={grandWinnerMessage} onChange={(e) => setGrandWinnerMessage(e.target.value)} placeholder="Ex: GRANDE VENCEDOR!" className="w-full bg-[#14151a] border border-slate-700 rounded-lg p-3 text-white focus:border-yellow-500 outline-none transition-colors" />
+                <label className="text-sm font-medium text-slate-300 flex items-center gap-2"><Crown size={14} /> {t('settings.general.winnerMessage')}</label>
+                <Input type="text" value={grandWinnerMessage} onChange={(e) => setGrandWinnerMessage(e.target.value)} placeholder={t('settings.general.winnerMessagePlh')} className="w-full bg-[#14151a] border border-slate-700 rounded-lg p-3 text-white focus:border-yellow-500 outline-none transition-colors" />
               </div>
             </div>
           ) : (
             <div className="space-y-2 flex flex-col">
-              <label className="text-sm font-medium text-slate-300">Mensagem de Vitória</label>
-              <Input type="text" value={winMessage} onChange={(e) => setWinMessage(e.target.value)} placeholder="Ex: Parabéns!" className="w-full bg-[#14151a] border border-slate-700 rounded-lg p-3 text-white focus:border-blue-500 outline-none transition-colors" />
+              <label className="text-sm font-medium text-slate-300">{t('settings.general.winMessage')}</label>
+              <Input type="text" value={winMessage} onChange={(e) => setWinMessage(e.target.value)} placeholder={t('settings.general.winMessagePlh')} className="w-full bg-[#14151a] border border-slate-700 rounded-lg p-3 text-white focus:border-blue-500 outline-none transition-colors" />
             </div>
           )}
 
           <div className="space-y-2 pt-2 border-t border-slate-700">
             <div className="flex justify-between items-center">
-              <label className="text-sm font-medium text-slate-300 flex items-center gap-2"><Clock size={16}/> {eliminationMode ? 'Tempo da Batalha Final (1 vs 1)' : 'Tempo de Rotação'}</label>
-              <span className="text-xs font-bold bg-blue-600/20 px-2 py-1 rounded text-blue-400 border border-blue-500/20">{spinTime} Segundos</span>
+              <label className="text-sm font-medium text-slate-300 flex items-center gap-2"><Clock size={16}/> {eliminationMode ? t('settings.general.spinTimeFinal') : t('settings.general.spinTime')}</label>
+              <span className="text-xs font-bold bg-blue-600/20 px-2 py-1 rounded text-blue-400 border border-blue-500/20">{spinTime} {t('settings.general.seconds')}</span>
             </div>
             <input type="range" min="1" max="15" value={spinTime} onChange={(e) => setSpinTime(Number(e.target.value))} className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500 mt-3" />
           </div>
@@ -75,8 +77,8 @@ export const GeneralSettings = () => {
           <div className="flex flex-col gap-4 pt-4 border-t border-slate-700">
             <div className="flex items-center justify-between">
               <div>
-                <label className="text-sm font-medium text-slate-300 flex items-center gap-2">⚔️ Modo Eliminação</label>
-                <p className="text-xs text-slate-500 mt-1">O sorteado não é o ganhador, ele é eliminado. A roleta continua até sobrar uma pessoa.</p>
+                <label className="text-sm font-medium text-slate-300 flex items-center gap-2">⚔️ {t('settings.general.eliminationMode')}</label>
+                <p className="text-xs text-slate-500 mt-1">{t('settings.general.eliminationModeDesc')}</p>
               </div>
               <Toggle enabled={eliminationMode} onChange={setEliminationMode} />
             </div>
@@ -84,15 +86,15 @@ export const GeneralSettings = () => {
               <>
                 <div className="flex items-center justify-between pl-6 py-2 border-l-2 border-slate-700 ml-2">
                   <div>
-                    <label className="text-sm font-medium text-slate-300 flex items-center gap-2">Automático (Batalha Rápida)</label>
-                    <p className="text-xs text-slate-500 mt-1">Continua girando automaticamente até restar 1 jogador.</p>
+                    <label className="text-sm font-medium text-slate-300 flex items-center gap-2">{t('settings.general.autoContinue')}</label>
+                    <p className="text-xs text-slate-500 mt-1">{t('settings.general.autoContinueDesc')}</p>
                   </div>
                   <Toggle enabled={autoContinueElimination} onChange={setAutoContinueElimination} />
                 </div>
                 <div className="space-y-2 pl-6 py-2 border-l-2 border-slate-700 ml-2">
                   <div className="flex justify-between items-center">
-                    <label className="text-sm font-medium text-slate-300 flex items-center gap-2">Tempo das Rodadas Rápidas</label>
-                    <span className="text-xs font-bold bg-red-600/20 px-2 py-1 rounded text-red-400 border border-red-500/20">{eliminationSpinTime} Segundos</span>
+                    <label className="text-sm font-medium text-slate-300 flex items-center gap-2">{t('settings.general.fastSpinTime')}</label>
+                    <span className="text-xs font-bold bg-red-600/20 px-2 py-1 rounded text-red-400 border border-red-500/20">{eliminationSpinTime} {t('settings.general.seconds')}</span>
                   </div>
                   <input type="range" min="0.5" max="10" step="0.5" value={eliminationSpinTime} onChange={(e) => setEliminationSpinTime(Number(e.target.value))} className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-red-500 mt-3" />
                 </div>
@@ -102,15 +104,14 @@ export const GeneralSettings = () => {
 
           <div className="flex items-center justify-between pt-4 border-t border-slate-700">
             <div>
-              <label className="text-sm font-medium text-slate-300 flex items-center gap-2">🔄 Sistema Anti-Repetição</label>
-              <p className="text-xs text-slate-500 mt-1">Ganhadores recentes terão menos chance de serem sorteados consecutivamente.</p>
+              <label className="text-sm font-medium text-slate-300 flex items-center gap-2">🔄 {t('settings.general.antiRepetition')}</label>
+              <p className="text-xs text-slate-500 mt-1">{t('settings.general.antiRepetitionDesc')}</p>
             </div>
             <Toggle enabled={antiRepetitionEnabled} onChange={setAntiRepetitionEnabled} />
           </div>
-
           {antiRepetitionEnabled && (
             <div className="flex items-center justify-between bg-slate-800/40 p-3 rounded-lg border border-slate-700/50 ml-4">
-              <label className="text-sm text-slate-300">Evitar os últimos X ganhadores</label>
+              <label className="text-sm text-slate-300">{t('settings.general.avoidLastX')}</label>
               <input 
                 type="number"
                 min="1"
@@ -123,30 +124,28 @@ export const GeneralSettings = () => {
           )}
 
           <div className="pt-4 border-t border-slate-700 space-y-4">
-            <h4 className="text-sm font-semibold text-slate-300 flex items-center gap-2">⚖️ Balanceamento de Chances</h4>
+            <h4 className="text-sm font-semibold text-slate-300 flex items-center gap-2">⚖️ {t('settings.general.balance')}</h4>
             
             <div className="flex items-center justify-between ml-2">
               <div>
-                <label className="text-sm font-medium text-slate-300">📉 Redução por Vitórias</label>
-                <p className="text-xs text-slate-500 mt-1">Reduz a chance a cada vitória (chances = peso / vitórias + 1).</p>
+                <label className="text-sm font-medium text-slate-300">📉 {t('settings.general.reduceByWins')}</label>
+                <p className="text-xs text-slate-500 mt-1">{t('settings.general.reduceByWinsDesc')}</p>
               </div>
               <Toggle enabled={balanceWeightsByWins} onChange={setBalanceWeightsByWins} />
             </div>
-
             <div className="flex items-center justify-between ml-2">
               <div>
-                <label className="text-sm font-medium text-slate-300">📈 Acumulação por Derrotas</label>
-                <p className="text-xs text-slate-500 mt-1">Acumula chances a cada rodada não sorteado (Pity System).</p>
+                <label className="text-sm font-medium text-slate-300">📈 {t('settings.general.pitySystem')}</label>
+                <p className="text-xs text-slate-500 mt-1">{t('settings.general.pitySystemDesc')}</p>
               </div>
               <Toggle enabled={pitySystemEnabled} onChange={setPitySystemEnabled} />
             </div>
-
             {(pitySystemEnabled || balanceWeightsByWins) && (
               <div className="flex items-center justify-between bg-slate-800/40 p-3 rounded-lg border border-slate-700/50 ml-2">
-                <label className="text-sm text-slate-300">Mostrar mudança de pesos na roleta</label>
+                <label className="text-sm text-slate-300">{t('settings.general.showPity')}</label>
                 <Toggle 
                   enabled={showPitySystemVisually}
-                  onChange={setShowPitySystemVisually} 
+                  onChange={setShowPitySystemVisually}
                 />
               </div>
             )}
@@ -154,15 +153,15 @@ export const GeneralSettings = () => {
 
           <div className="flex items-center justify-between pt-4 border-t border-slate-700">
             <div>
-              <label className="text-sm font-medium text-slate-300 flex items-center gap-2"><Sparkles size={16}/> Efeito de Confetes</label>
-              <p className="text-xs text-slate-500 mt-1">Disparar chuva de confetes no ecrã quando houver um vencedor.</p>
+              <label className="text-sm font-medium text-slate-300 flex items-center gap-2"><Sparkles size={16}/> {t('settings.general.confetti')}</label>
+              <p className="text-xs text-slate-500 mt-1">{t('settings.general.confettiDesc')}</p>
             </div>
             <Toggle enabled={showConfetti} onChange={setShowConfetti} />
           </div>
           <div className="flex items-center justify-between pt-4 border-t border-slate-700">
             <div>
-              <label className="text-sm font-medium text-slate-300 flex items-center gap-2"><Trash2 size={16}/> Auto-remover Vencedor</label>
-              <p className="text-xs text-slate-500 mt-1">Remove a opção automaticamente da lista após ganhar.</p>
+              <label className="text-sm font-medium text-slate-300 flex items-center gap-2"><Trash2 size={16}/> {t('settings.general.autoRemove')}</label>
+              <p className="text-xs text-slate-500 mt-1">{t('settings.general.autoRemoveDesc')}</p>
             </div>
             <Toggle enabled={autoRemoveWinner} onChange={setAutoRemoveWinner} />
           </div>
@@ -171,4 +170,3 @@ export const GeneralSettings = () => {
     </div>
   );
 };
-

@@ -1,10 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { X, ListOrdered, Trophy, Download, AlertCircle, Trash2, Crown, ChevronDown, ChevronUp } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../../store/useAppStore';
 import { ResultItem } from '../molecules/ResultItem';
 import { Button } from '../atoms/Button';
 
 export const ResultsModal = () => {
+  const { t, i18n } = useTranslation();
   const isResultsModalOpen = useAppStore(s => s.isResultsModalOpen);
   const setIsResultsModalOpen = useAppStore(s => s.setIsResultsModalOpen);
   const results = useAppStore(s => s.results);
@@ -253,8 +255,8 @@ export const ResultsModal = () => {
               <Trophy size={24} className="text-blue-400" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-100">Resultados da Roleta</h2>
-              <p className="text-sm text-slate-400 mt-0.5">Histórico, classificação e importação</p>
+              <h2 className="text-xl font-bold text-slate-100">{t('resultsModal.title')}</h2>
+              <p className="text-sm text-slate-400 mt-0.5">{t('resultsModal.subtitle')}</p>
             </div>
           </div>
           <button 
@@ -270,19 +272,19 @@ export const ResultsModal = () => {
             onClick={() => setActiveTab('historico')}
             className={`flex-1 min-w-[150px] text-sm font-semibold py-3.5 transition-all border-b-2 ${activeTab === 'historico' ? 'text-white border-blue-500 bg-blue-500/10 shadow-[inset_0_-2px_10px_rgba(59,130,246,0.1)]' : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-800/80'}`}
           >
-            Histórico de Sorteios
+            {t('resultsModal.tabs.history')}
           </button>
           <button 
             onClick={() => setActiveTab('ranking')}
             className={`flex-1 min-w-[150px] text-sm font-semibold py-3.5 transition-all border-b-2 ${activeTab === 'ranking' ? 'text-white border-blue-500 bg-blue-500/10 shadow-[inset_0_-2px_10px_rgba(59,130,246,0.1)]' : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-800/80'}`}
           >
-            Classificação (Ranking)
+            {t('resultsModal.tabs.ranking')}
           </button>
           <button 
             onClick={() => setActiveTab('importar')}
             className={`flex-1 min-w-[150px] text-sm font-semibold py-3.5 transition-all border-b-2 ${activeTab === 'importar' ? 'text-white border-blue-500 bg-blue-500/10 shadow-[inset_0_-2px_10px_rgba(59,130,246,0.1)]' : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-800/80'}`}
           >
-            Importar Resultados
+            {t('resultsModal.tabs.import')}
           </button>
         </div>
 
@@ -296,7 +298,7 @@ export const ResultsModal = () => {
               >
                 <div className="flex items-center gap-2">
                   <ListOrdered size={18} />
-                  <span className="text-sm font-medium">Filtrar Sorteios</span>
+                  <span className="text-sm font-medium">{t('resultsModal.filter.title')}</span>
                 </div>
                 {isFilterCollapsed ? <ChevronDown size={18} /> : <ChevronUp size={18} />}
               </button>
@@ -306,7 +308,7 @@ export const ResultsModal = () => {
                   <div className="flex flex-col sm:flex-row gap-6">
                     <div className="flex flex-row flex-wrap sm:flex-col gap-3 sm:w-48 shrink-0">
                       <div className="flex items-center gap-2 w-full">
-                        <label className="text-xs font-medium text-slate-400 flex-1">Agrupar por:</label>
+                        <label className="text-xs font-medium text-slate-400 flex-1">{t('resultsModal.filter.groupBy')}</label>
                         <input 
                           type="number" 
                           min="1"
@@ -317,7 +319,7 @@ export const ResultsModal = () => {
                       </div>
                       
                       <div className="flex items-center gap-2 w-full">
-                        <label className="text-xs font-medium text-slate-400 flex-1">Início:</label>
+                        <label className="text-xs font-medium text-slate-400 flex-1">{t('resultsModal.filter.start')}</label>
                         <input 
                           type="number" 
                           min="1"
@@ -329,7 +331,7 @@ export const ResultsModal = () => {
                       </div>
                       
                       <div className="flex items-center gap-2 w-full">
-                        <label className="text-xs font-medium text-slate-400 flex-1">Fim:</label>
+                        <label className="text-xs font-medium text-slate-400 flex-1">{t('resultsModal.filter.end')}</label>
                         <input 
                           type="number" 
                           min="1"
@@ -378,7 +380,7 @@ export const ResultsModal = () => {
                                   style={{ 
                                     backgroundColor: res.color || '#4a72ff'
                                   }}
-                                  title={`Sorteio ${index}: ${res.text}`}
+                                  title={`${t("resultsModal.draw")} ${index}: ${res.text}`}
                                 />
                               )
                             })}
@@ -396,17 +398,17 @@ export const ResultsModal = () => {
             <div className="flex flex-col flex-1 min-h-0">
               <div className="flex justify-between items-center mb-3 shrink-0 px-1">
                 <span className="text-sm font-medium text-slate-400">
-                  Exibindo {filteredResults.length} resultado(s)
+                  {t('resultsModal.history.showing')} {filteredResults.length} {t('resultsModal.history.results')}
                 </span>
                 <div className="flex gap-3">
                   {results.length > 0 && (
                     <button onClick={exportResults} className="text-sm text-blue-400 hover:text-blue-300 transition-colors font-semibold flex items-center gap-1">
-                      <Download size={16} /> Exportar CSV
+                      <Download size={16} /> {t('resultsModal.history.export')}
                     </button>
                   )}
                   {results.length > 0 && (
                     <button onClick={handleClearResults} className="text-sm text-red-400 hover:text-red-300 transition-colors font-semibold flex items-center gap-1">
-                      <Trash2 size={16} /> Limpar Tudo
+                      <Trash2 size={16} /> {t('resultsModal.history.clearAll')}
                     </button>
                   )}
                 </div>
@@ -418,12 +420,12 @@ export const ResultsModal = () => {
                     <div className="p-4 bg-slate-800/50 rounded-full border border-slate-700/50">
                       <ListOrdered size={48} className="text-slate-600" />
                     </div>
-                    <p className="text-lg">Nenhum resultado encontrado para este filtro.</p>
+                    <p className="text-lg">{t('resultsModal.history.empty')}</p>
                   </div>
                 ) : (
                   filteredResults.map((result, i) => {
                     const originalIndex = results.length - results.findIndex(r => r.drawId === result.drawId);
-                    const dateLabel = result.timestamp ? new Date(result.timestamp).toLocaleDateString('pt-BR') : 'Data desconhecida';
+                    const dateLabel = result.timestamp ? new Date(result.timestamp).toLocaleDateString(i18n.language) : t('resultsModal.history.unknownDate');
                     return (
                       <div key={result.drawId} className="relative group">
                         <ResultItem result={result} index={originalIndex} />
@@ -445,7 +447,7 @@ export const ResultsModal = () => {
                   <div className="p-4 bg-slate-800/50 rounded-full border border-slate-700/50">
                     <Crown size={48} className="text-slate-600" />
                   </div>
-                  <p className="text-lg">Nenhum ranking disponível.</p>
+                  <p className="text-lg">{t('resultsModal.ranking.empty')}</p>
                 </div>
               ) : (
                 rankings.map((user, idx) => (
@@ -462,7 +464,7 @@ export const ResultsModal = () => {
                     </div>
                     <div className="flex items-center gap-2 shrink-0 ml-4">
                       <div className="bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-lg text-right">
-                        <p className="text-sm font-bold text-emerald-400">{user.wins} Vitór{user.wins !== 1 ? 'ias' : 'ia'}</p>
+                        <p className="text-sm font-bold text-emerald-400">{user.wins} {user.wins !== 1 ? t('resultsModal.ranking.wins') : t('resultsModal.ranking.win')}</p>
                       </div>
                     </div>
                   </div>
@@ -475,12 +477,12 @@ export const ResultsModal = () => {
             <div className="flex-1 flex flex-col gap-6 text-slate-300 pb-2">
               <div className="flex-1 flex flex-col min-h-[250px]">
                 <label className="text-base font-semibold text-slate-300 mb-3 block">
-                  Adicionar vencedores manualmente
+                  {t('resultsModal.import.title')}
                 </label>
                 <div className="flex-1 bg-slate-900/80 p-1.5 rounded-xl border border-slate-700 shadow-inner">
                   <textarea
                     className="w-full h-full bg-transparent p-3 text-sm text-white resize-none focus:outline-none placeholder-slate-600 custom-scrollbar"
-                    placeholder="Cole aqui os nomes (um por linha)...&#10;Opcionalmente inclua a data.&#10;&#10;Maria Silva&#10;João S., 12/05/2023&#10;Ana Pereira 12/05/2023"
+                    placeholder={t('resultsModal.import.placeholder')}
                     value={importText}
                     onChange={(e) => setImportText(e.target.value)}
                   />
@@ -491,18 +493,18 @@ export const ResultsModal = () => {
                 <div className="bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl flex items-start gap-3">
                   <AlertCircle size={20} className="text-blue-400 shrink-0 mt-0.5" />
                   <p className="text-sm text-blue-200/90 leading-relaxed">
-                    A importação adicionará estes nomes aos <b>Resultados</b> do aplicativo. Eles também serão computados no <b>Ranking</b>. <br/>Dica: Você pode colar os dados exportados via CSV para importar os resultados com datas e status.
+                    {t('resultsModal.import.info1')}<b>{t('sidebar.tabs.results')}</b>{t('resultsModal.import.info2')}<b>{t('resultsModal.tabs.ranking')}</b>. <br/>{t('resultsModal.import.info3')}
                   </p>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
                   {results.length > 0 ? (
                     <Button variant="danger" onClick={handleClearResults} className="w-full gap-2 py-3 rounded-xl border border-red-500/30">
-                      <Trash2 size={18} /> Limpar Tudo
+                      <Trash2 size={18} /> {t('resultsModal.history.clearAll')}
                     </Button>
                   ) : <div></div>}
                   <Button onClick={handleImport} disabled={!importText.trim()} className="w-full gap-2 py-3 rounded-xl shadow-lg">
-                    <Download size={18} /> Importar Resultados
+                    <Download size={18} /> {t('resultsModal.import.btn')}
                   </Button>
                 </div>
               </div>

@@ -1,21 +1,22 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { Volume2, VolumeX, Settings, Download, Upload, Maximize, Minimize, Trophy } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Volume2, VolumeX, Settings, Maximize, Minimize, Trophy } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../../store/useAppStore';
-import { useAppActions } from '../../hooks/useAppActions';
 
 export const Header = () => {
+  const { t } = useTranslation();
   const title = useAppStore(s => s.title);
   const soundEnabled = useAppStore(s => s.soundEnabled);
   const setSoundEnabled = useAppStore(s => s.setSoundEnabled);
   const setIsSettingsOpen = useAppStore(s => s.setIsSettingsOpen);
-  const { exportWheel, importWheel } = useAppActions();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
     };
+
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
@@ -32,19 +33,6 @@ export const Header = () => {
     }
   };
 
-  const handleImportClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      importWheel(file);
-    }
-    // reset input so the same file can be selected again
-    e.target.value = '';
-  };
-
   return (
     <header className="px-4 py-2 bg-[#1a1b23] border-b border-slate-800 flex items-center justify-between shadow-md z-10 shrink-0">
       <div className="flex items-center gap-3 w-full max-w-sm">
@@ -53,38 +41,18 @@ export const Header = () => {
       </div>
       
       <div className="flex items-center gap-2">
-        <input 
-          type="file" 
-          accept=".wheel,application/json" 
-          ref={fileInputRef} 
-          style={{ display: 'none' }} 
-          onChange={handleFileChange} 
-        />
-        <button 
-          onClick={handleImportClick}
-          className="text-slate-300 hover:text-white transition-colors flex items-center p-1.5 rounded-lg bg-slate-800/50 hover:bg-slate-800"
-          title="Abrir arquivo .wheel"
-        >
-          <Upload size={18} />
-        </button>
-        <button 
-          onClick={exportWheel}
-          className="text-slate-300 hover:text-white transition-colors flex items-center p-1.5 rounded-lg bg-slate-800/50 hover:bg-slate-800"
-          title="Salvar como .wheel"
-        >
-          <Download size={18} />
-        </button>
         <button 
           onClick={toggleFullscreen}
           className="text-slate-300 hover:text-white transition-colors flex items-center p-1.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 ml-1"
-          title={isFullscreen ? "Sair da Tela Cheia" : "Tela Cheia"}
+          title={isFullscreen ? t('header.exitFullscreen') : t('header.fullscreen')}
         >
           {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
         </button>
+
         <button 
           onClick={() => setSoundEnabled(!soundEnabled)}
           className={`transition-colors flex items-center gap-2 p-1.5 rounded-lg ml-1 ${soundEnabled ? 'text-blue-400 bg-blue-500/10' : 'text-slate-500 bg-slate-800/50 hover:bg-slate-800 hover:text-white'}`}
-          title={soundEnabled ? "Desativar Som" : "Ativar Som"}
+          title={soundEnabled ? t("header.mute") : t("header.unmute")}
         >
           {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
         </button>
@@ -92,10 +60,10 @@ export const Header = () => {
         <button 
           onClick={() => useAppStore.getState().setIsResultsModalOpen(true)}
           className="text-slate-300 hover:text-white transition-colors flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-600/10 hover:bg-emerald-600/20 border border-emerald-500/30 ml-1"
-          title="Histórico de Vencedores"
+          title={t("header.history")}
         >
           <Trophy size={18} className="text-emerald-400" />
-          <span className="text-sm font-semibold hidden sm:block">Vencedores</span>
+          <span className="text-sm font-semibold hidden sm:block">{t('sidebar.results.winners')}</span>
         </button>
         
         <button 
@@ -103,9 +71,10 @@ export const Header = () => {
           className="text-slate-300 hover:text-white transition-colors flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/30 ml-1"
         >
           <Settings size={18} className="text-blue-400" />
-          <span className="text-sm font-semibold hidden sm:block">Personalizar</span>
+          <span className="text-sm font-semibold hidden sm:block">{t('settings.title')}</span>
         </button>
       </div>
     </header>
   );
-};
+};;
+

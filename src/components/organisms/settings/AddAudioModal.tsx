@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { X, Upload, Plus, Music, PlayCircle } from "lucide-react";
 import { useAudioActions } from "../../../hooks/useAppActions";
+import { useTranslation } from "react-i18next";
 
 interface AddAudioModalProps {
   isOpen: boolean;
@@ -8,6 +9,7 @@ interface AddAudioModalProps {
 }
 
 export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose }) => {
+  const { t } = useTranslation();
   const { addCustomAudio } = useAudioActions();
 
   const [inputType, setInputType] = useState<"file" | "url">("file");
@@ -24,23 +26,23 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
 
   const handleSave = () => {
     if (!name.trim()) {
-      alert("Por favor, digite um nome para o áudio.");
+      alert(t("addAudioModal.alertNoName"));
       return;
     }
     if (categories.length === 0) {
-      alert("Por favor, selecione onde o áudio será usado (Roleta, Vitória ou Ambos).");
+      alert(t("addAudioModal.alertNoCategory"));
       return;
     }
 
     if (inputType === "file") {
       if (!file) {
-        alert("Por favor, selecione um arquivo.");
+        alert(t("addAudioModal.alertNoFile"));
         return;
       }
       addCustomAudio(categories, file, name.trim(), true, mode);
     } else {
       if (!url.trim()) {
-        alert("Por favor, cole uma URL válida.");
+        alert(t("addAudioModal.alertNoURL"));
         return;
       }
       addCustomAudio(categories, url.trim(), name.trim(), false, mode);
@@ -67,7 +69,7 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
       <div className="bg-[#1a1b23] border border-slate-700 w-full max-w-md rounded-xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-700/50 bg-[#22242f]">
           <h2 className="text-white font-semibold flex items-center gap-2">
-            <Music size={18} className="text-blue-400" /> Adicionar Áudio Personalizado
+            <Music size={18} className="text-blue-400" /> {t('addAudioModal.title')}
           </h2>
           <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors">
             <X size={20} />
@@ -77,7 +79,7 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
         <div className="p-5 space-y-6">
           {/* Onde usar */}
           <div className="space-y-3">
-            <label className="text-sm font-medium text-slate-300">Onde deseja usar este áudio?</label>
+            <label className="text-sm font-medium text-slate-300">{t('addAudioModal.whereToUse')}</label>
             <div className="flex gap-3">
               <button
                 onClick={() => toggleCategory("tick")}
@@ -87,7 +89,7 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
                     : "bg-[#252733] text-slate-400 border-slate-700 hover:border-slate-500"
                 }`}
               >
-                Giro da Roleta
+                {t('addAudioModal.spin')}
               </button>
               <button
                 onClick={() => toggleCategory("win")}
@@ -97,11 +99,11 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
                     : "bg-[#252733] text-slate-400 border-slate-700 hover:border-slate-500"
                 }`}
               >
-                Vitória
+                {t('addAudioModal.win')}
               </button>
             </div>
             {categories.length === 0 && (
-              <p className="text-xs text-red-400">Selecione pelo menos uma opção.</p>
+              <p className="text-xs text-red-400">{t('addAudioModal.selectOption')}</p>
             )}
           </div>
 
@@ -109,7 +111,7 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
           {categories.includes("tick") && (
             <div className="space-y-3 animate-in slide-in-from-top-2 fade-in">
               <label className="text-sm font-medium text-slate-300">
-                Comportamento (Giro da Roleta)
+                {t('addAudioModal.behavior')}
               </label>
               <div className="flex bg-[#252733] p-1 rounded-lg border border-slate-700 overflow-hidden">
                 <button
@@ -118,7 +120,7 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
                     mode === "tick" ? "bg-slate-600 text-white" : "text-slate-400 hover:text-slate-200"
                   }`}
                 >
-                  Bate e Volta (Ponteiro)
+                  {t('addAudioModal.tickMode')}
                 </button>
                 <button
                   onClick={() => setMode("continuous")}
@@ -126,7 +128,7 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
                     mode === "continuous" ? "bg-slate-600 text-white" : "text-slate-400 hover:text-slate-200"
                   }`}
                 >
-                  Música de Fundo
+                  {t('addAudioModal.musicMode')}
                 </button>
               </div>
             </div>
@@ -134,10 +136,10 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
 
           {/* Nome do Áudio */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-300">Nome do Áudio</label>
+            <label className="text-sm font-medium text-slate-300">{t('addAudioModal.audioName')}</label>
             <input
               type="text"
-              placeholder="Ex: Efeito Super Mario"
+              placeholder={t('addAudioModal.audioNamePlh')}
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full bg-[#252733] text-sm text-white px-3 py-2 rounded-lg border border-slate-700 focus:border-blue-500 focus:outline-none transition-colors"
@@ -157,7 +159,7 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
                   checked={inputType === "file"}
                   onChange={() => setInputType("file")}
                 />
-                Enviar Arquivo
+                {t('addAudioModal.uploadFile')}
               </label>
               <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer group">
                 <div className="relative flex items-center justify-center w-4 h-4 rounded-full border border-slate-600 group-hover:border-blue-400 transition-colors">
@@ -169,7 +171,7 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
                   checked={inputType === "url"}
                   onChange={() => setInputType("url")}
                 />
-                Copiar URL Direta
+                {t('addAudioModal.copyURL')}
               </label>
             </div>
 
@@ -197,7 +199,7 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
                     {file.name}
                   </span>
                 ) : (
-                  <span className="text-sm text-slate-400">Clique para selecionar MP3 / WAV</span>
+                  <span className="text-sm text-slate-400">{t('addAudioModal.clickToSelect')}</span>
                 )}
               </div>
             ) : (
@@ -214,13 +216,13 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
 
         <div className="p-4 border-t border-slate-700/50 bg-[#22242f] flex justify-end gap-3">
           <button onClick={onClose} className="px-4 py-2 rounded-lg font-medium text-slate-300 hover:bg-white/5 transition-colors">
-            Cancelar
+            {t('addAudioModal.cancel')}
           </button>
           <button
             onClick={handleSave}
             className="px-6 py-2 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-500 transition-colors"
           >
-            Adicionar
+            {t('addAudioModal.add')}
           </button>
         </div>
       </div>

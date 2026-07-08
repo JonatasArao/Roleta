@@ -1,5 +1,6 @@
 import React from 'react';
 import { Shuffle, SortAsc, Plus } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../../../store/useAppStore';
 import { useWheelData } from '../../../hooks/useWheelData';
 import { useWheelActions } from '../../../hooks/useWheelActions';
@@ -7,6 +8,7 @@ import { Button } from '../../atoms/Button';
 import { EntryItem } from '../../molecules/EntryItem';
 
 export const EntriesTab = () => {
+  const { t } = useTranslation();
   const items = useAppStore(s => s.items);
   const isSpinning = useAppStore(s => s.isSpinning);
   const colors = useAppStore(s => s.colors);
@@ -26,16 +28,16 @@ export const EntriesTab = () => {
     <>
       <div className="flex gap-3 mb-4 shrink-0">
         <Button onClick={handleShuffle} disabled={isSpinning || items.length < 2} className="flex-1 w-full gap-2 text-sm">
-          <Shuffle size={16} /> Baralhar
+          <Shuffle size={16} /> {t('sidebar.entries.shuffle')}
         </Button>
         <Button onClick={handleSort} disabled={isSpinning || items.length < 2} className="flex-1 w-full gap-2 text-sm">
-          <SortAsc size={16} /> Ordenar
+          <SortAsc size={16} /> {t('sidebar.entries.sort')}
         </Button>
       </div>
 
       <div className="flex justify-between items-center mb-4 shrink-0 px-1">
         <div className="text-xs font-medium text-slate-400 bg-slate-800/50 px-2.5 py-1 rounded-full border border-slate-700/50">
-          {items.filter(i => i.enabled !== false).length} {items.filter(i => i.enabled !== false).length === 1 ? 'participante' : 'participantes'}
+          {items.filter(i => i.enabled !== false).length} {items.filter(i => i.enabled !== false).length === 1 ? t('sidebar.entries.participant') : t('sidebar.entries.participants')}
         </div>
         <label className={`flex items-center gap-2 text-white font-medium text-sm ${isSpinning ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
           <input 
@@ -45,7 +47,7 @@ export const EntriesTab = () => {
             onChange={(e) => setIsAdvancedEntries(e.target.checked)}
             className="w-4 h-4 rounded text-blue-500 bg-slate-800 border-slate-700 disabled:cursor-not-allowed" 
           />
-          Avançado
+          {t('sidebar.entries.advanced')}
         </label>
       </div>
 
@@ -76,9 +78,10 @@ export const EntriesTab = () => {
 
       <div className="mt-4 pt-4 border-t border-slate-800 shrink-0">
         <Button variant="secondary" onClick={handleAddEmptyItem} disabled={isSpinning} className="w-full gap-2">
-          <Plus size={20} /> Adicionar
+          <Plus size={20} /> {t('sidebar.entries.add')}
         </Button>
       </div>
     </>
   );
 };
+

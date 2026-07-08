@@ -1,0 +1,317 @@
+{
+  "sidebar": {
+    "tabs": {
+      "entries": "Entradas",
+      "results": "Resultados"
+    },
+    "entries": {
+      "shuffle": "Baralhar",
+      "sort": "Ordenar",
+      "participant": "participante",
+      "participants": "participantes",
+      "advanced": "Avançado",
+      "add": "Adicionar",
+      "bulkAdd": "Colar lista...",
+      "pastePlaceholder": "Cole nomes aqui, um por linha...",
+      "importing": "Importando..."
+    },
+    "results": {
+      "empty": "Nenhum resultado ainda",
+      "winners": "Vencedores"
+    },
+    "hidePanel": "Ocultar Painel",
+    "showPanel": "Mostrar Painel"
+  },
+  "settings": {
+    "title": "Configurações",
+    "tabs": {
+      "general": "Geral",
+      "visual": "Aparência",
+      "audio": "Áudio",
+      "system": "Sistema e Dados"
+    },
+    "system": {
+      "language": "Idioma",
+      "interfaceLanguage": "Idioma da Interface",
+      "languageDesc": "Altere o idioma da aplicação.",
+      "data": "Dados",
+      "export": "Salvar Sorteio (.wheel)",
+      "exportDesc": "Salva todos os participantes, configurações e visual da roleta atual.",
+      "exportBtn": "Exportar",
+      "import": "Carregar Sorteio (.wheel)",
+      "importDesc": "Carrega um arquivo salvo anteriormente.",
+      "importBtn": "Importar"
+    },
+    "general": {
+      "title": "Configurações Gerais",
+      "drawName": "Nome do Sorteio",
+      "eliminationMessage": "Mensagem de Eliminação",
+      "eliminationMessagePlh": "Ex: ELIMINADO 💀",
+      "winnerMessage": "Mensagem do Vencedor",
+      "winnerMessagePlh": "Ex: GRANDE VENCEDOR!",
+      "winMessage": "Mensagem de Vitória",
+      "winMessagePlh": "Ex: Parabéns!",
+      "spinTimeFinal": "Tempo da Batalha Final (1 vs 1)",
+      "spinTime": "Tempo de Rotação",
+      "seconds": "Segundos",
+      "eliminationMode": "Modo Eliminação",
+      "eliminationModeDesc": "O sorteado não é o ganhador, ele é eliminado. A roleta continua até sobrar uma pessoa.",
+      "autoContinue": "Automático (Batalha Rápida)",
+      "autoContinueDesc": "Continua girando automaticamente até restar 1 jogador.",
+      "fastSpinTime": "Tempo das Rodadas Rápidas",
+      "antiRepetition": "Sistema Anti-Repetição",
+      "antiRepetitionDesc": "Ganhadores recentes terão menos chance de serem sorteados consecutivamente.",
+      "avoidLastX": "Evitar os últimos X ganhadores",
+      "balance": "Balanceamento de Chances",
+      "reduceByWins": "Redução por Vitórias",
+      "reduceByWinsDesc": "Reduz a chance a cada vitória (chances = peso / vitórias + 1).",
+      "pitySystem": "Acumulação por Derrotas",
+      "pitySystemDesc": "Acumula chances a cada rodada não sorteado (Pity System).",
+      "showPity": "Mostrar mudança de pesos na roleta",
+      "confetti": "Efeito de Confetes",
+      "confettiDesc": "Disparar chuva de confetes no ecrã quando houver um vencedor.",
+      "autoRemove": "Auto-remover Vencedor",
+      "autoRemoveDesc": "Remove a opção automaticamente da lista após ganhar."
+    },
+    "visual": {
+      "title": "Aparência Visual",
+      "format": "Formato da Roleta",
+      "classic": "Clássica",
+      "slot": "Slot",
+      "boxes": "Caixas",
+      "theme": "TEMA VISUAL (Skins)",
+      "textSize": "Tamanho do Texto",
+      "centerSize": "Tamanho do Centro",
+      "centerImage": "Imagem Central (URL)",
+      "centerImagePlh": "Cole o URL da imagem...",
+      "centerImageTip": "Dica: Use URLs de imagens transparentes (PNG) para um melhor resultado.",
+      "palette": "Paleta de Cores",
+      "add": "Adicionar"
+    },
+    "audio": {
+      "title": "Áudio e Efeitos",
+      "masterVolume": "Volume Principal",
+      "mute": "Mudo",
+      "music": "Música de Fundo",
+      "spinSound": "Efeito Sonoro (Rodando)",
+      "winSound": "Efeito Sonoro (Vitória)",
+      "eliminatedSound": "Efeito Sonoro (Eliminado)",
+      "select": "Selecionar...",
+      "none": "Nenhum",
+      "addCustom": "+ Adicionar Áudio",
+      "customFiles": "Meus Arquivos de Áudio",
+      "noCustomFiles": "Nenhum áudio configurado.",
+      "uploadCustom": "Fazer upload de áudio",
+      "addModal": {
+        "title": "Adicionar Novo Áudio",
+        "whereToUse": "Onde deseja usar este áudio?",
+        "music": "Música de Fundo",
+        "effect": "Efeito Sonoro",
+        "name": "Nome do Áudio",
+        "namePlh": "Ex: Aplausos",
+        "file": "Arquivo de Áudio (.mp3, .wav, .ogg)",
+        "uploadBtn": "Clique para escolher o arquivo",
+        "cancel": "Cancelar",
+        "save": "Adicionar Áudio"
+      }
+    }
+  },
+  "header": {
+    "fullscreen": "Tela Cheia",
+    "exitFullscreen": "Sair da Tela Cheia",
+    "theme": "Tema",
+    "language": "Idioma",
+    "mute": "Desativar Som",
+    "unmute": "Ativar Som",
+    "history": "Histórico de Vencedores"
+  },
+  "resultsModal": {
+    "title": "Resultados da Roleta",
+    "subtitle": "Histórico, classificação e importação",
+    "tabs": {
+      "history": "Histórico de Sorteios",
+      "ranking": "Classificação (Ranking)",
+      "import": "Importar Resultados"
+    },
+    "filter": {
+      "title": "Filtrar Sorteios",
+      "groupBy": "Agrupar por:",
+      "start": "Início:",
+      "end": "Fim:",
+      "all": "Todos",
+      "last": "Últimos"
+    },
+    "history": {
+      "showing": "Exibindo",
+      "results": "resultado(s)",
+      "export": "Exportar CSV",
+      "clearAll": "Limpar Tudo",
+      "empty": "Nenhum resultado encontrado para este filtro.",
+      "unknownDate": "Data desconhecida"
+    },
+    "ranking": {
+      "empty": "Nenhum ranking disponível.",
+      "win": "Vitória",
+      "wins": "Vitórias"
+    },
+    "import": {
+      "title": "Adicionar vencedores manualmente",
+      "placeholder": "Cole aqui os nomes (um por linha)...\nOpcionalmente inclua a data.\n\nMaria Silva\nJoão S., 12/05/2023\nAna Pereira 12/05/2023",
+      "info1": "A importação adicionará estes nomes aos ",
+      "info2": " do aplicativo. Eles também serão computados no ",
+      "info3": "Dica: Você pode colar os dados exportados via CSV para importar os resultados com datas e status.",
+      "btn": "Importar Resultados"
+    },
+    "draw": "Sorteio"
+  },
+  "winnerModal": {
+    "title": "Temos um Vencedor!",
+    "remove": "Remover da lista",
+    "close": "Fechar"
+  },
+  "entryItem": {
+    "delete": "Remover",
+    "toggle": "Ativar/Desativar",
+    "settings": "Opções Avançadas",
+    "placeholderCompact": "Digite um nome...",
+    "placeholderFull": "Nome do participante...",
+    "weight": "Peso",
+    "changeColor": "Mudar cor",
+    "sliceSettings": "Configurações da Fatia",
+    "effectiveWeight": "Peso Efetivo",
+    "adjustedByBalance": "Ajustado pelo balanceamento.\\nBase",
+    "current": "Atual",
+    "disable": "Desativar",
+    "enable": "Ativar"
+  },
+  "entrySettings": {
+    "title": "Configurações da Fatia",
+    "weight": "Peso / Probabilidade",
+    "weightDesc": "Quanto maior o peso, maior a chance de ser sorteado.",
+    "wins": "Vitórias Registradas",
+    "winsDesc": "Número de vezes que esta opção foi sorteada.",
+    "pity": "Acúmulo de Pity",
+    "pityDesc": "Pontos acumulados por não ter sido sorteado.",
+    "save": "Salvar Alterações",
+    "customAppearance": "Aparência Personalizada",
+    "appearanceDesc": "Selecione uma imagem ou cor para substituir a padrão",
+    "cropImage": "Cortar Imagem",
+    "cropColor": "Cortar Cor",
+    "winMessage": "Mensagem Pop-up de Vitória",
+    "winMessagePlh": "Mensagem quando ganhar (opcional)",
+    "customSound": "Som Personalizado ao Vencer",
+    "useDefaultSound": "Usar som padrão geral",
+    "uploadedAudios": "Áudios Enviados",
+    "newAudio": "Novo Áudio",
+    "noAudio": "Nenhum áudio enviado ainda.",
+    "cancel": "Cancelar",
+    "customizeEntry": "Personalizar Entrada",
+    "of": "de",
+    "visibleOnWheel": "Visível na Roda",
+    "duplicate": "Duplicar",
+    "delete": "Excluir",
+    "text": "Texto",
+    "chance": "chance",
+    "sliceBackground": "Fundo da Fatia",
+    "addImage": "Adicionar Imagem",
+    "changeImage": "Trocar imagem",
+    "removeImage": "Remover imagem",
+    "removeColor": "Remover cor",
+    "saveBtn": "Salvar"
+  },
+  "eliminationFeed": {
+    "title": "Eliminados",
+    "eliminated": "Eliminado",
+    "survivor": "sobrevivente"
+  },
+  "horizonDisplay": {
+    "winner": "TEMOS UM VENCEDOR!",
+    "pressEnter": "ou pressione ctrl+enter",
+    "clickToSpin": "clique para girar",
+    "spin": "Girar Roleta",
+    "spinning": "Sorteando...",
+    "grandWinner": "GRANDE VENCEDOR!",
+    "reject": "Rejeitar",
+    "accept": "Aceitar"
+  },
+  "themes": {
+    "default": "Padrão",
+    "neon": "Neon Cyber",
+    "casino": "Casino Ouro",
+    "candy": "Candy",
+    "dark": "Escuro Minimal"
+  },
+  "addAudioModal": {
+    "title": "Adicionar Áudio Personalizado",
+    "whereToUse": "Onde deseja usar este áudio?",
+    "spin": "Giro da Roleta",
+    "win": "Vitória",
+    "selectOption": "Selecione pelo menos uma opção.",
+    "behavior": "Comportamento (Giro da Roleta)",
+    "tickMode": "Bate e Volta (Ponteiro)",
+    "musicMode": "Música de Fundo",
+    "audioName": "Nome do Áudio",
+    "audioNamePlh": "Ex: Efeito Super Mario",
+    "uploadFile": "Enviar Arquivo",
+    "copyURL": "Copiar URL Direta",
+    "clickToSelect": "Clique para selecionar MP3 / WAV",
+    "cancel": "Cancelar",
+    "add": "Adicionar",
+    "alertNoCategory": "Por favor, selecione onde o áudio será usado (Roleta, Vitória ou Ambos).",
+    "alertNoFile": "Por favor, selecione um arquivo.",
+    "alertNoURL": "Por favor, cole uma URL válida.",
+    "alertNoName": "Por favor, digite um nome para o áudio."
+  },
+  "visualSettings": {
+    "title": "Aparência Visual",
+    "wheelFormat": "Formato da Roleta",
+    "classic": "Clássica",
+    "slot": "Slot",
+    "boxes": "Caixas",
+    "visualTheme": "TEMA VISUAL (Skins)",
+    "textSize": "Tamanho do Texto",
+    "centerSize": "Tamanho do Centro",
+    "centerImage": "Imagem Central (URL)",
+    "centerImagePlh": "Cole o URL da imagem...",
+    "centerImageHint": "Dica: Use URLs de imagens transparentes (PNG) para um melhor resultado.",
+    "colorPalette": "Paleta de Cores",
+    "add": "Adicionar"
+  },
+  "audioSettings": {
+    "title": "Som do Sorteio",
+    "masterVolume": "Volume Principal",
+    "tabWheel": "Roleta",
+    "tabWin": "Vitória",
+    "tabElimination": "Eliminação",
+    "defaultTickSounds": "Sons Padrão de Giro",
+    "customAudios": "Áudios Personalizados",
+    "newAudio": "Novo Áudio",
+    "noCustomAudio": "Nenhum áudio personalizado adicionado.",
+    "defaultWinSounds": "Sons Padrão de Vitória",
+    "defaultEliminationSounds": "Sons Padrão de Eliminação",
+    "customAudiosShared": "Áudios Personalizados (Partilhados com Vitória)",
+    "noAudioConfigured": "Nenhum áudio configurado.",
+    "localFile": "Arquivo Local",
+    "externalURL": "URL Externa",
+    "continuousMusicMode": " • Música de Fundo",
+    "tickMode": " • Bate e Volta"
+  },
+  "wheelDisplay": {
+    "clickToSpin": "clique para girar",
+    "orPressCtrlEnter": "ou pressione ctrl+enter",
+    "ariaLabelSpin": "Girar roleta"
+  },
+  "mysteryBox": {
+    "mixing": "Misturando...",
+    "chosen": "A Escolhida!",
+    "choose": "Escolher",
+    "clickBoxOr": "Clique em uma caixa ou",
+    "shuffling": "Embaralhando...",
+    "randomChoice": "Escolha Aleatória"
+  },
+  "resultItem": {
+    "winner": "Vencedor",
+    "eliminated": "Eliminado",
+    "grandChampion": "Grande Campeão"
+  }
+}

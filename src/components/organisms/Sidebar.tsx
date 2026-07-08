@@ -1,9 +1,11 @@
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
+import { useTranslation } from 'react-i18next';
 import { EntriesTab } from './sidebar/EntriesTab';
 
 export const Sidebar = () => {
+  const { t } = useTranslation();
   const isSidebarOpen = useAppStore(s => s.isSidebarOpen);
   const setIsSidebarOpen = useAppStore(s => s.setIsSidebarOpen);
   const items = useAppStore(s => s.items);
@@ -25,7 +27,7 @@ export const Sidebar = () => {
           <button 
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             className={`absolute top-3 ${isSidebarOpen ? '-left-5' : '-left-12'} w-10 h-10 bg-[#4a72ff] hover:bg-[#3b5ecc] rounded-full flex items-center justify-center text-white z-50 shadow-lg transition-all duration-300`}
-            title={isSidebarOpen ? "Ocultar Painel" : "Mostrar Painel"}
+            title={isSidebarOpen ? t("sidebar.hidePanel") : t("sidebar.showPanel")}
           >
             <ChevronRight size={24} className={`transform transition-transform duration-300 ${isSidebarOpen ? '' : 'rotate-180'}`} />
           </button>
