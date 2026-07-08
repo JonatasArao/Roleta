@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Volume2, VolumeX, Settings, Download, Upload, Maximize, Minimize } from 'lucide-react';
+import { Volume2, VolumeX, Settings, Download, Upload, Maximize, Minimize, Trophy } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
 import { useAppActions } from '../../hooks/useAppActions';
 
@@ -87,6 +87,15 @@ export const Header = () => {
           title={soundEnabled ? "Desativar Som" : "Ativar Som"}
         >
           {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+        </button>
+        
+        <button 
+          onClick={() => useAppStore.getState().setIsResultsModalOpen(true)}
+          className="text-slate-300 hover:text-white transition-colors flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-600/10 hover:bg-emerald-600/20 border border-emerald-500/30 ml-1"
+          title="Histórico de Vencedores"
+        >
+          <Trophy size={18} className="text-emerald-400" />
+          <span className="text-sm font-semibold hidden sm:block">Vencedores</span>
         </button>
         
         <button 

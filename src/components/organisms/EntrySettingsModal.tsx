@@ -263,7 +263,7 @@ export const EntrySettingsModal = () => {
                     onClick={() =>
                       setTempItem({
                         ...tempItem,
-                        weight: Math.max(1, (tempItem.weight || 1) - 1),
+                        weight: Math.max(0.1, Number((tempItem.weight || 1)) - 1),
                       })
                     }
                     className="w-10 h-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
@@ -272,13 +272,14 @@ export const EntrySettingsModal = () => {
                   </button>
                   <input
                     type="number"
-                    min="1"
+                    min="0.1"
+                    step="0.1"
                     className="flex-1 bg-transparent text-center text-white font-medium border-none focus:outline-none focus:ring-0"
                     value={tempItem.weight || 1}
                     onChange={(e) =>
                       setTempItem({
                         ...tempItem,
-                        weight: Math.max(1, parseInt(e.target.value) || 1),
+                        weight: Math.max(0.1, parseFloat(e.target.value) || 0.1),
                       })
                     }
                   />
@@ -286,7 +287,7 @@ export const EntrySettingsModal = () => {
                     onClick={() =>
                       setTempItem({
                         ...tempItem,
-                        weight: (tempItem.weight || 1) + 1,
+                        weight: Number((tempItem.weight || 1)) + 1,
                       })
                     }
                     className="w-10 h-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"

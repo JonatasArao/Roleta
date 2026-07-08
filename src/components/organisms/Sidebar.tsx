@@ -2,15 +2,11 @@ import React from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
 import { EntriesTab } from './sidebar/EntriesTab';
-import { ResultsTab } from './sidebar/ResultsTab';
 
 export const Sidebar = () => {
   const isSidebarOpen = useAppStore(s => s.isSidebarOpen);
   const setIsSidebarOpen = useAppStore(s => s.setIsSidebarOpen);
-  const activeTab = useAppStore(s => s.activeTab);
-  const setActiveTab = useAppStore(s => s.setActiveTab);
   const items = useAppStore(s => s.items);
-  const results = useAppStore(s => s.results);
 
   return (
     <>
@@ -35,26 +31,9 @@ export const Sidebar = () => {
           </button>
 
           <div className="w-full h-full flex flex-col overflow-hidden">
-            <div className="flex border-b border-slate-700 bg-[#1e2029] shrink-0 pt-2 px-1 relative overflow-x-auto no-scrollbar">
-              <button 
-                onClick={() => setActiveTab('entradas')}
-                className={`flex-1 pb-3 pt-2 px-2 text-center text-sm sm:text-base font-semibold flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap ${activeTab === 'entradas' ? 'text-white border-b-[3px] border-white' : 'text-slate-400 hover:text-slate-300 border-b-[3px] border-transparent'}`}
-              >
-                Entradas <span className={`${activeTab === 'entradas' ? 'bg-slate-500/50 text-white' : 'bg-slate-800 text-slate-400'} text-xs px-2 py-0.5 rounded-full`}>{items.length}</span>
-              </button>
-              <button 
-                onClick={() => setActiveTab('resultados')}
-                className={`flex-1 pb-3 pt-2 px-2 text-center text-sm sm:text-base font-semibold flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap ${activeTab === 'resultados' ? 'text-white border-b-[3px] border-white' : 'text-slate-400 hover:text-slate-300 border-b-[3px] border-transparent'}`}
-              >
-                Resultados <span className={`${activeTab === 'resultados' ? 'bg-slate-500/50 text-white' : 'bg-slate-800 text-slate-400'} text-xs px-2 py-0.5 rounded-full`}>{results.length}</span>
-              </button>
+            <div className="px-6 pl-10 pt-8 pb-4 flex-1 flex flex-col overflow-hidden min-h-0">
+              <EntriesTab />
             </div>
-
-            <div className="p-4 flex-1 flex flex-col overflow-hidden min-h-0">
-              {activeTab === 'entradas' && <EntriesTab />}
-              {activeTab === 'resultados' && <ResultsTab />}
-            </div>
-
           </div>
         </div>
       </div>

@@ -33,8 +33,11 @@ export const EntriesTab = () => {
         </Button>
       </div>
 
-      <div className="flex justify-end items-center mb-4 shrink-0 px-1">
-        <label className={`flex items-center gap-2 text-white font-medium text-sm ml-auto ${isSpinning ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
+      <div className="flex justify-between items-center mb-4 shrink-0 px-1">
+        <div className="text-xs font-medium text-slate-400 bg-slate-800/50 px-2.5 py-1 rounded-full border border-slate-700/50">
+          {items.filter(i => i.enabled !== false).length} {items.filter(i => i.enabled !== false).length === 1 ? 'participante' : 'participantes'}
+        </div>
+        <label className={`flex items-center gap-2 text-white font-medium text-sm ${isSpinning ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
           <input 
             type="checkbox" 
             disabled={isSpinning}
@@ -47,22 +50,28 @@ export const EntriesTab = () => {
       </div>
 
       <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar min-h-0">
-        {items.map((item, index) => (
-          <EntryItem
-            key={item.id}
-            item={item}
-            index={index}
-            totalItems={items.length}
-            totalWeight={totalWeight}
-            isAdvancedEntries={isAdvancedEntries}
-            isSpinning={isSpinning}
-            color={colors[index % (colors.length || 1)] || '#cccccc'}
-            onUpdate={handleUpdateItem}
-            onRemove={handleRemoveItem}
-            onMove={handleMoveItem}
-            onEditSettings={setEditingEntryId}
-          />
-        ))}
+        {items.map((item, index) => {
+          const validItem = validItems.find(vi => vi.id === item.id);
+          const effectiveWeight = validItem ? validItem.weight : item.weight || 1;
+          
+          return (
+            <EntryItem
+              key={item.id}
+              item={item}
+              index={index}
+              totalItems={items.length}
+              totalWeight={totalWeight}
+              effectiveWeight={effectiveWeight}
+              isAdvancedEntries={isAdvancedEntries}
+              isSpinning={isSpinning}
+              color={colors[index % (colors.length || 1)] || '#cccccc'}
+              onUpdate={handleUpdateItem}
+              onRemove={handleRemoveItem}
+              onMove={handleMoveItem}
+              onEditSettings={setEditingEntryId}
+            />
+          );
+        })}
       </div>
 
       <div className="mt-4 pt-4 border-t border-slate-800 shrink-0">

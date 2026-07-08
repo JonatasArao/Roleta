@@ -109,6 +109,8 @@ interface AppState {
   setEditingEntryId: (id: string | null) => void;
   isSettingsOpen: boolean;
   setIsSettingsOpen: (isOpen: boolean) => void;
+  isResultsModalOpen: boolean;
+  setIsResultsModalOpen: (isOpen: boolean) => void;
   settingsTab: string;
   setSettingsTab: (tab: string) => void;
   activeTab: string;
@@ -241,6 +243,8 @@ export const useAppStore = create<AppState>((set) => ({
   setEditingEntryId: (editingEntryId) => set({ editingEntryId }),
   isSettingsOpen: false,
   setIsSettingsOpen: (isSettingsOpen) => set({ isSettingsOpen }),
+  isResultsModalOpen: false,
+  setIsResultsModalOpen: (isResultsModalOpen) => set({ isResultsModalOpen }),
   settingsTab: "geral",
   setSettingsTab: (settingsTab) => set({ settingsTab }),
   activeTab: "entradas",

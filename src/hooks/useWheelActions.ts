@@ -284,7 +284,7 @@ export const useWheelActions = () => {
       
       if (type !== 'eliminated') {
         currentState.setResults((prev) => [
-          { ...winningItem, drawId, type },
+          { ...winningItem, drawId, type, timestamp: Date.now() },
           ...prev,
         ]);
       }

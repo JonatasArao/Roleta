@@ -10,6 +10,7 @@ import { WinnerModal } from '../organisms/WinnerModal';
 import { Confetti } from '../atoms/Confetti';
 import { EntrySettingsModal } from '../organisms/EntrySettingsModal';
 import { AddAudioModal } from '../organisms/settings/AddAudioModal';
+import { ResultsModal } from '../organisms/ResultsModal';
 import { useGameLoop } from '../../hooks/useGameLoop';
 import { EliminationFeed } from '../organisms/EliminationFeed';
 
@@ -35,6 +36,7 @@ export const HomePage = () => {
       <EntrySettingsModal />
       <AddAudioModal isOpen={isAddAudioModalOpen} onClose={() => setIsAddAudioModalOpen(false)} />
       <WinnerModal />
+      <ResultsModal />
       {winner && showConfetti && winner.isEliminated !== true && <Confetti />}
 
       {/* Global CSS injected here to maintain original structure without moving to index.css if not needed */}

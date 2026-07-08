@@ -15,6 +15,7 @@ export interface Item {
 export interface Result extends Item {
   drawId: string;
   type?: "winner" | "eliminated" | "grand_winner";
+  timestamp?: number;
 }
 
 export interface CustomAudioItem {

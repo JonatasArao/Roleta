@@ -66,7 +66,7 @@ export const useGameLoop = () => {
                const drawId = crypto.randomUUID();
                updatedState.setWinner({ ...grandWinner, type: 'grand_winner', drawId });
                updatedState.setResults((prev) => [
-                 { ...grandWinner, drawId, type: 'grand_winner' },
+                 { ...grandWinner, drawId, type: 'grand_winner', timestamp: Date.now() },
                  ...prev,
                ]);
             }, 300);
@@ -101,7 +101,7 @@ export const useGameLoop = () => {
                const drawId = crypto.randomUUID();
                updatedState.setWinner({ ...grandWinner, type: 'grand_winner', drawId });
                updatedState.setResults((prev) => [
-                 { ...grandWinner, drawId, type: 'grand_winner' },
+                 { ...grandWinner, drawId, type: 'grand_winner', timestamp: Date.now() },
                  ...prev,
                ]);
             }, 300);
