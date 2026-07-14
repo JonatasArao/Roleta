@@ -135,11 +135,16 @@
     },
     "filter": {
       "title": "Filtrar Sorteios",
+      "typeDraw": "Por Sorteio",
+      "typeDate": "Por Data",
       "groupBy": "Agrupar por:",
       "start": "Início:",
       "end": "Fim:",
+      "startDate": "Data de Início:",
+      "endDate": "Data de Fim:",
       "all": "Todos",
-      "last": "Últimos"
+      "last": "Últimos",
+      "selected": "Sorteios selecionados:"
     },
     "history": {
       "showing": "Exibindo",
@@ -152,7 +157,9 @@
     "ranking": {
       "empty": "Nenhum ranking disponível.",
       "win": "Vitória",
-      "wins": "Vitórias"
+      "wins": "Vitórias",
+      "showDates": "Ver datas",
+      "hideDates": "Ocultar datas"
     },
     "import": {
       "title": "Adicionar vencedores manualmente",

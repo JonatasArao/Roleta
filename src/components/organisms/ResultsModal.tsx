@@ -1,9 +1,68 @@
 import React, { useState, useMemo } from 'react';
-import { X, ListOrdered, Trophy, Download, AlertCircle, Trash2, Crown, ChevronDown, ChevronUp } from 'lucide-react';
+import { X, ListOrdered, Trophy, Download, AlertCircle, Trash2, Crown, ChevronDown, ChevronUp, ArrowDown, ArrowUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../../store/useAppStore';
 import { ResultItem } from '../molecules/ResultItem';
 import { Button } from '../atoms/Button';
+
+const RankingItem = ({ user, idx, i18n, t }: { user: { name: string; wins: number; dates: number[] }; idx: number; i18n: any; t: any }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className="bg-slate-800/40 hover:bg-slate-800/70 transition-colors flex flex-col p-4 rounded-xl border border-slate-700/50">
+      <div 
+        className={`flex items-center justify-between ${user.dates.length > 0 ? 'cursor-pointer select-none' : ''}`}
+        onClick={() => {
+          if (user.dates.length > 0) setExpanded(!expanded);
+        }}
+      >
+        <div className="flex items-center gap-4 overflow-hidden">
+          <span className={`flex items-center justify-center w-8 h-8 rounded-full font-black text-sm shrink-0 shadow-inner
+            ${idx === 0 ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-yellow-950' : 
+              idx === 1 ? 'bg-gradient-to-br from-slate-300 to-slate-400 text-slate-900' : 
+              idx === 2 ? 'bg-gradient-to-br from-amber-600 to-amber-700 text-amber-50' : 
+              'bg-slate-700/80 text-slate-300 border border-slate-600'}`}>
+            {idx + 1}
+          </span>
+          <div className="flex flex-col min-w-0">
+            <span className="text-white font-semibold text-lg truncate tracking-wide">{user.name}</span>
+            {user.dates.length > 0 && (
+              <span className={`text-[11px] truncate flex items-center gap-1 mt-0.5 transition-colors ${expanded ? 'text-emerald-400/80' : 'text-slate-400 opacity-80'}`}>
+                {expanded ? t('resultsModal.ranking.hideDates') : t('resultsModal.ranking.showDates')}
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="flex items-center gap-3 shrink-0 ml-4">
+          <div className="bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-lg text-right">
+            <p className="text-sm font-bold text-emerald-400">{user.wins} {user.wins !== 1 ? t('resultsModal.ranking.wins') : t('resultsModal.ranking.win')}</p>
+          </div>
+          {user.dates.length > 0 && (
+             <div className="w-6 h-6 flex items-center justify-center bg-slate-700/50 rounded-full shrink-0">
+               <ChevronDown size={14} className={`text-slate-400 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
+             </div>
+          )}
+        </div>
+      </div>
+      
+      {user.dates.length > 0 && (
+        <div className={`grid transition-all duration-300 ease-in-out ${expanded ? 'grid-rows-[1fr] mt-3 opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+          <div className="overflow-hidden">
+            <div className="pt-3 border-t border-slate-700/50">
+              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                {user.dates.map((d, i) => (
+                  <li key={i} className="text-xs text-slate-300 bg-slate-900/50 rounded py-1.5 px-2 text-center border border-slate-700/30 shadow-inner flex items-center justify-center">
+                    <span className="font-semibold text-slate-200">{new Date(d).toLocaleDateString(i18n.language)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export const ResultsModal = () => {
   const { t, i18n } = useTranslation();
@@ -13,9 +72,13 @@ export const ResultsModal = () => {
   const setResults = useAppStore(s => s.setResults);
 
   const [activeTab, setActiveTab] = useState<'historico' | 'ranking' | 'importar'>('historico');
+  const [filterMode, setFilterMode] = useState<'draw' | 'date'>('draw');
   const [customStartDraw, setCustomStartDraw] = useState('');
   const [customEndDraw, setCustomEndDraw] = useState('');
+  const [customStartDate, setCustomStartDate] = useState('');
+  const [customEndDate, setCustomEndDate] = useState('');
   const [customInterval, setCustomInterval] = useState('10');
+  const [intervalOrder, setIntervalOrder] = useState<'asc' | 'desc'>('desc');
   const [importText, setImportText] = useState('');
   const [isFilterCollapsed, setIsFilterCollapsed] = useState(true);
 
@@ -137,6 +200,30 @@ export const ResultsModal = () => {
     setResults([]);
   };
 
+  const isBoxSelectedByDate = (res: any) => {
+    if (!customStartDate && !customEndDate) return true;
+    if (!res.timestamp) return false;
+
+    const itemDate = new Date(res.timestamp);
+    itemDate.setHours(0, 0, 0, 0);
+    
+    if (customStartDate) {
+      const startDate = new Date(customStartDate);
+      startDate.setHours(0, 0, 0, 0);
+      const localStartDate = new Date(startDate.getTime() + startDate.getTimezoneOffset() * 60000);
+      if (itemDate < localStartDate) return false;
+    }
+    
+    if (customEndDate) {
+      const endDate = new Date(customEndDate);
+      endDate.setHours(0, 0, 0, 0);
+      const localEndDate = new Date(endDate.getTime() + endDate.getTimezoneOffset() * 60000);
+      if (itemDate > localEndDate) return false;
+    }
+    
+    return true;
+  };
+
   const isBoxSelected = (index: number) => {
     let start = parseInt(customStartDraw, 10);
     let end = parseInt(customEndDraw, 10);
@@ -186,52 +273,85 @@ export const ResultsModal = () => {
 
     const intervalSize = Math.max(1, parseInt(customInterval, 10) || 10);
     
-    if (results.length > intervalSize) {
-      options.push({
-        label: `Últimos ${intervalSize}`,
-        start: Math.max(1, results.length - intervalSize + 1),
-        end: results.length
-      });
-    }
-
     const chunks = Math.ceil(results.length / intervalSize);
-    for (let i = 0; i < chunks; i++) {
-      const start = i * intervalSize + 1;
-      const end = Math.min((i + 1) * intervalSize, results.length);
-      options.push({
-        label: `${start}-${end}`,
-        start,
-        end
-      });
+    if (intervalOrder === 'asc') {
+      for (let i = 0; i < chunks; i++) {
+        const start = i * intervalSize + 1;
+        const end = Math.min((i + 1) * intervalSize, results.length);
+        options.push({
+          label: `${start}-${end}`,
+          start,
+          end
+        });
+      }
+    } else {
+      for (let i = 0; i < chunks; i++) {
+        const end = results.length - i * intervalSize;
+        const start = Math.max(1, end - intervalSize + 1);
+        options.push({
+          label: `${end}-${start}`,
+          start,
+          end
+        });
+      }
     }
     return options;
-  }, [results.length, customInterval]);
+  }, [results.length, customInterval, intervalOrder]);
 
   const filteredResults = useMemo(() => {
-    let start = parseInt(customStartDraw, 10);
-    let end = parseInt(customEndDraw, 10);
-    const min = Math.min(start, end);
-    const max = Math.max(start, end);
-    
     return results.filter((r, i) => {
       const originalIndex = results.length - i;
-      if (!isNaN(min) && originalIndex < min) return false;
-      if (!isNaN(max) && originalIndex > max) return false;
+      
+      if (filterMode === 'draw') {
+        let start = parseInt(customStartDraw, 10);
+        let end = parseInt(customEndDraw, 10);
+        const min = Math.min(start, end);
+        const max = Math.max(start, end);
+        
+        if (!isNaN(min) && originalIndex < min) return false;
+        if (!isNaN(max) && originalIndex > max) return false;
+      }
+      
+      if (filterMode === 'date') {
+        if (customStartDate && r.timestamp) {
+          const itemDate = new Date(r.timestamp);
+          itemDate.setHours(0, 0, 0, 0);
+          const startDate = new Date(customStartDate);
+          startDate.setHours(0, 0, 0, 0);
+          
+          const localStartDate = new Date(startDate.getTime() + startDate.getTimezoneOffset() * 60000);
+          if (itemDate < localStartDate) return false;
+        }
+        
+        if (customEndDate && r.timestamp) {
+          const itemDate = new Date(r.timestamp);
+          itemDate.setHours(0, 0, 0, 0);
+          const endDate = new Date(customEndDate);
+          endDate.setHours(0, 0, 0, 0);
+          
+          const localEndDate = new Date(endDate.getTime() + endDate.getTimezoneOffset() * 60000);
+          if (itemDate > localEndDate) return false;
+        }
+      }
+
       return true;
     });
-  }, [results, customStartDraw, customEndDraw]);
+  }, [results, customStartDraw, customEndDraw, customStartDate, customEndDate, filterMode]);
 
   const rankings = useMemo(() => {
-    const counts = new Map<string, { name: string; wins: number }>();
+    const counts = new Map<string, { name: string; wins: number; dates: number[] }>();
     
     filteredResults.forEach(res => {
       const name = res.text;
       if (!counts.has(name)) {
-        counts.set(name, { name, wins: 0 });
+        counts.set(name, { name, wins: 0, dates: [] });
       }
       const data = counts.get(name)!;
       if (res.type === 'winner' || res.type === 'grand_winner' || !res.type) {
         data.wins++;
+        if (res.timestamp) {
+          data.dates.push(res.timestamp);
+        }
       }
     });
 
@@ -306,45 +426,96 @@ export const ResultsModal = () => {
               {!isFilterCollapsed && (
                 <div className="flex flex-col gap-3 bg-slate-900/50 p-4 rounded-xl border border-slate-800 mt-2 shadow-inner">
                   <div className="flex flex-col sm:flex-row gap-6">
-                    <div className="flex flex-row flex-wrap sm:flex-col gap-3 sm:w-48 shrink-0">
-                      <div className="flex items-center gap-2 w-full">
-                        <label className="text-xs font-medium text-slate-400 flex-1">{t('resultsModal.filter.groupBy')}</label>
-                        <input 
-                          type="number" 
-                          min="1"
-                          value={customInterval}
-                          onChange={(e) => setCustomInterval(e.target.value)}
-                          className="bg-slate-800 border border-slate-700 rounded-md px-2 py-1 w-16 text-xs text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                        />
+                    <div className="flex flex-col gap-4 sm:w-64 shrink-0">
+                      <div className="flex bg-slate-800/80 p-1 rounded-lg border border-slate-700/50">
+                        <button 
+                          onClick={() => setFilterMode('draw')}
+                          className={`flex-1 text-xs font-medium py-1.5 px-2 rounded-md transition-all ${filterMode === 'draw' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:text-slate-200 border border-transparent'}`}
+                        >
+                          {t('resultsModal.filter.typeDraw')}
+                        </button>
+                        <button 
+                          onClick={() => setFilterMode('date')}
+                          className={`flex-1 text-xs font-medium py-1.5 px-2 rounded-md transition-all ${filterMode === 'date' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:text-slate-200 border border-transparent'}`}
+                        >
+                          {t('resultsModal.filter.typeDate')}
+                        </button>
                       </div>
-                      
-                      <div className="flex items-center gap-2 w-full">
-                        <label className="text-xs font-medium text-slate-400 flex-1">{t('resultsModal.filter.start')}</label>
-                        <input 
-                          type="number" 
-                          min="1"
-                          placeholder="20"
-                          value={customStartDraw}
-                          onChange={(e) => setCustomStartDraw(e.target.value)}
-                          className="bg-slate-800 border border-slate-700 rounded-md px-2 py-1 w-16 text-xs text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                        />
-                      </div>
-                      
-                      <div className="flex items-center gap-2 w-full">
-                        <label className="text-xs font-medium text-slate-400 flex-1">{t('resultsModal.filter.end')}</label>
-                        <input 
-                          type="number" 
-                          min="1"
-                          placeholder="30"
-                          value={customEndDraw}
-                          onChange={(e) => setCustomEndDraw(e.target.value)}
-                          className="bg-slate-800 border border-slate-700 rounded-md px-2 py-1 w-16 text-xs text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                        />
-                      </div>
+
+                      {filterMode === 'draw' && (
+                        <div className="flex flex-col gap-3">
+                          <div className="flex items-center gap-2 w-full">
+                            <label className="text-xs font-medium text-slate-400 flex-1">{t('resultsModal.filter.groupBy')}</label>
+                            <div className="flex items-center gap-1">
+                              <input 
+                                type="number" 
+                                min="1"
+                                value={customInterval}
+                                onChange={(e) => setCustomInterval(e.target.value)}
+                                className="bg-slate-800 border border-slate-700 rounded-md px-2 py-1 w-16 text-xs text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                              />
+                              <button
+                                onClick={() => setIntervalOrder(prev => prev === 'asc' ? 'desc' : 'asc')}
+                                className="p-1.5 bg-slate-800 border border-slate-700 rounded-md text-slate-400 hover:text-white transition-colors"
+                              >
+                                {intervalOrder === 'asc' ? <ArrowDown size={14} /> : <ArrowUp size={14} />}
+                              </button>
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-center gap-2 w-full">
+                            <label className="text-xs font-medium text-slate-400 flex-1">{t('resultsModal.filter.start')}</label>
+                            <input 
+                              type="number" 
+                              min="1"
+                              placeholder="20"
+                              value={customStartDraw}
+                              onChange={(e) => setCustomStartDraw(e.target.value)}
+                              className="bg-slate-800 border border-slate-700 rounded-md px-2 py-1 w-28 text-xs text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                            />
+                          </div>
+                          
+                          <div className="flex items-center gap-2 w-full">
+                            <label className="text-xs font-medium text-slate-400 flex-1">{t('resultsModal.filter.end')}</label>
+                            <input 
+                              type="number" 
+                              min="1"
+                              placeholder="30"
+                              value={customEndDraw}
+                              onChange={(e) => setCustomEndDraw(e.target.value)}
+                              className="bg-slate-800 border border-slate-700 rounded-md px-2 py-1 w-28 text-xs text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {filterMode === 'date' && (
+                        <div className="flex flex-col gap-3">
+                          <div className="flex items-center gap-2 w-full">
+                            <label className="text-xs font-medium text-slate-400 flex-1">{t('resultsModal.filter.startDate')}</label>
+                            <input 
+                              type="date" 
+                              value={customStartDate}
+                              onChange={(e) => setCustomStartDate(e.target.value)}
+                              className="bg-slate-800 border border-slate-700 rounded-md px-2 py-1 w-28 text-xs text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 [color-scheme:dark]"
+                            />
+                          </div>
+                          
+                          <div className="flex items-center gap-2 w-full">
+                            <label className="text-xs font-medium text-slate-400 flex-1">{t('resultsModal.filter.endDate')}</label>
+                            <input 
+                              type="date" 
+                              value={customEndDate}
+                              onChange={(e) => setCustomEndDate(e.target.value)}
+                              className="bg-slate-800 border border-slate-700 rounded-md px-2 py-1 w-28 text-xs text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 [color-scheme:dark]"
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                     
                     <div className="flex flex-col gap-3 flex-1">
-                      {quickSelects.length > 0 && (
+                      {filterMode === 'draw' && quickSelects.length > 0 && (
                         <div className="flex flex-wrap gap-1.5">
                           {quickSelects.map((opt, idx) => (
                             <button
@@ -363,15 +534,26 @@ export const ResultsModal = () => {
                       
                       {results.length > 0 && (
                         <div className="flex flex-col">
+                          {filterMode === 'date' && (
+                            <div className="text-[11px] font-medium text-slate-400 mb-2 flex items-center gap-1.5 px-0.5">
+                               <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
+                               <span>
+                                 {t('resultsModal.filter.selected')} <strong className="text-white ml-1">{results.filter(r => isBoxSelectedByDate(r)).length}</strong>
+                               </span>
+                            </div>
+                          )}
                           <div className="flex flex-wrap gap-1 max-h-24 overflow-y-auto custom-scrollbar p-0.5">
                             {Array.from({ length: results.length }).map((_, i) => {
                               const index = i + 1;
                               const res = results[results.length - index];
-                              const selected = isBoxSelected(index);
+                              const selected = filterMode === 'draw' ? isBoxSelected(index) : isBoxSelectedByDate(res);
                               return (
                                 <button
                                   key={index}
-                                  onClick={() => handleBoxClick(index)}
+                                  onClick={() => {
+                                    if (filterMode === 'date') setFilterMode('draw');
+                                    handleBoxClick(index);
+                                  }}
                                   className={`w-4 h-4 rounded-[3px] transition-all duration-200 ${
                                     selected 
                                       ? 'ring-1 ring-blue-500 ring-offset-1 ring-offset-slate-900 scale-110 opacity-100 z-10 shadow-sm' 
@@ -451,23 +633,7 @@ export const ResultsModal = () => {
                 </div>
               ) : (
                 rankings.map((user, idx) => (
-                  <div key={user.name} className="bg-slate-800/40 hover:bg-slate-800/70 transition-colors flex items-center justify-between p-4 rounded-xl border border-slate-700/50">
-                    <div className="flex items-center gap-4 overflow-hidden">
-                      <span className={`flex items-center justify-center w-8 h-8 rounded-full font-black text-sm shrink-0 shadow-inner
-                        ${idx === 0 ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-yellow-950' : 
-                          idx === 1 ? 'bg-gradient-to-br from-slate-300 to-slate-400 text-slate-900' : 
-                          idx === 2 ? 'bg-gradient-to-br from-amber-600 to-amber-700 text-amber-50' : 
-                          'bg-slate-700/80 text-slate-300 border border-slate-600'}`}>
-                        {idx + 1}
-                      </span>
-                      <span className="text-white font-semibold text-lg truncate tracking-wide">{user.name}</span>
-                    </div>
-                    <div className="flex items-center gap-2 shrink-0 ml-4">
-                      <div className="bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-lg text-right">
-                        <p className="text-sm font-bold text-emerald-400">{user.wins} {user.wins !== 1 ? t('resultsModal.ranking.wins') : t('resultsModal.ranking.win')}</p>
-                      </div>
-                    </div>
-                  </div>
+                  <RankingItem key={user.name} user={user} idx={idx} i18n={i18n} t={t} />
                 ))
               )}
             </div>

@@ -135,11 +135,16 @@
     },
     "filter": {
       "title": "Filter Draws",
+      "typeDraw": "By Draw",
+      "typeDate": "By Date",
       "groupBy": "Group by:",
       "start": "Start:",
       "end": "End:",
+      "startDate": "Start Date:",
+      "endDate": "End Date:",
       "all": "All",
-      "last": "Last"
+      "last": "Last",
+      "selected": "Selected draws:"
     },
     "history": {
       "showing": "Showing",
@@ -152,7 +157,9 @@
     "ranking": {
       "empty": "No ranking available.",
       "win": "Win",
-      "wins": "Wins"
+      "wins": "Wins",
+      "showDates": "Show dates",
+      "hideDates": "Hide dates"
     },
     "import": {
       "title": "Add winners manually",
