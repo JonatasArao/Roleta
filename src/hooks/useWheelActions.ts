@@ -112,7 +112,7 @@ export const useWheelActions = () => {
     });
   };
 
-  const spinWheel = useCallback((fastSpin: boolean = false) => {
+  const spinWheel = useCallback((fastSpin: boolean = false, ignoreWeights: boolean = false, forcedWinnerId?: string) => {
     const state = useAppStore.getState();
     const currentItems = state.items;
     const currentValidItems = currentItems.filter((i) => i.enabled && i.text.trim() !== "");
@@ -128,6 +128,8 @@ export const useWheelActions = () => {
     clearTimeouts();
 
     const getActualWeight = (item: any) => {
+      if (ignoreWeights) return 1;
+
       const baseWeight = item.weight || 1;
       let extraWeight = 0;
       let finalWeight = baseWeight;
@@ -170,18 +172,26 @@ export const useWheelActions = () => {
       return 0;
     };
 
-    let winIndex = pickWinnerIndex();
+    let winIndex = 0;
+    if (forcedWinnerId) {
+      const idx = currentValidItems.findIndex(i => i.id === forcedWinnerId);
+      if (idx !== -1) {
+        winIndex = idx;
+      }
+    } else {
+      winIndex = pickWinnerIndex();
 
-    if (state.antiRepetitionEnabled && !state.eliminationMode && currentValidItems.length > 2) {
-      // Use configured count, but cap it safely so we don't get stuck in a loop if the pool is small compared to the count
-      const numRecentToCheck = Math.min(state.antiRepetitionCount, Math.max(1, currentValidItems.length - 2));
-      const recentWinnersTexts = state.results.slice(0, numRecentToCheck).map((r) => r.text.trim().toLowerCase());
-      
-      let rerolls = 0;
-      // Re-roll up to 10 times to try to find a non-recent winner
-      while (recentWinnersTexts.includes(currentValidItems[winIndex].text.trim().toLowerCase()) && rerolls < 10) {
-        winIndex = pickWinnerIndex();
-        rerolls++;
+      if (state.antiRepetitionEnabled && !state.eliminationMode && currentValidItems.length > 2) {
+        // Use configured count, but cap it safely so we don't get stuck in a loop if the pool is small compared to the count
+        const numRecentToCheck = Math.min(state.antiRepetitionCount, Math.max(1, currentValidItems.length - 2));
+        const recentWinnersTexts = state.results.slice(0, numRecentToCheck).map((r) => r.text.trim().toLowerCase());
+        
+        let rerolls = 0;
+        // Re-roll up to 10 times to try to find a non-recent winner
+        while (recentWinnersTexts.includes(currentValidItems[winIndex].text.trim().toLowerCase()) && rerolls < 10) {
+          winIndex = pickWinnerIndex();
+          rerolls++;
+        }
       }
     }
 

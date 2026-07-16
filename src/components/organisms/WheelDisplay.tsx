@@ -401,16 +401,22 @@ export const WheelDisplay = () => {
 
       {/* CONTAINER DA RODA */}
       <div 
-        onClick={() => spinWheel()}
+        onClick={() => {
+           if (!isSpinning && !winner && validItems.length >= 2) spinWheel();
+        }}
         role="button"
         tabIndex={0}
         aria-label={t("wheelDisplay.ariaLabelSpin")}
-        className={`relative flex items-center justify-center w-[min(80vw,320px)] h-[min(80vw,320px)] sm:w-[min(80vw,450px)] sm:h-[min(80vw,450px)] lg:w-[550px] lg:h-[550px] shrink-0 outline-none transition-all duration-300 ease-out
-        ${!isSpinning && validItems.length >= 2 ? 'cursor-pointer hover:scale-[1.02]' : 'opacity-95'}`}
+        className={`relative flex items-center justify-center shrink-0 outline-none transition-all duration-300 ease-out group
+        ${!isSpinning && validItems.length >= 2 ? 'cursor-pointer hover:scale-[1.03]' : 'opacity-95'}`}
+        style={{
+          width: 'min(90vw, 75vh, 700px)',
+          height: 'min(90vw, 75vh, 700px)'
+        }}
       >
         {/* Ponteiro */}
-        <div className={`absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 z-40 ${pointerShadow} pointer-events-none transition-all duration-500`}>
-          <svg width="40" height="40" viewBox="0 0 100 100" className="md:w-[50px] md:h-[50px]">
+        <div className={`absolute -right-5 md:-right-8 top-1/2 -translate-y-1/2 z-40 ${pointerShadow} pointer-events-none transition-all duration-500`}>
+          <svg width="60" height="60" viewBox="0 0 100 100" className="w-[40px] h-[40px] md:w-[60px] md:h-[60px]">
             <polygon 
               ref={pointerPolygonRef}
               points="10,50 90,10 90,90" 
@@ -440,7 +446,7 @@ export const WheelDisplay = () => {
 
         <div 
           ref={wheelContainerRef}
-          className={`w-full h-full rounded-full relative overflow-hidden transition-transform ease-[cubic-bezier(0.15,0.8,0.15,1)] ${wheelContainerBorder} box-border`}
+          className={`w-full h-full rounded-full relative overflow-hidden transition-transform ease-[cubic-bezier(0.15,0.8,0.15,1)] ${wheelContainerBorder} box-border shadow-[inset_0_0_50px_rgba(0,0,0,0.5)]`}
           style={{ transform: `rotate(${rotation}deg)`, transitionDuration: `${actualSpinTime}s`, containerType: 'inline-size' }}
         >
           <canvas
@@ -449,15 +455,19 @@ export const WheelDisplay = () => {
             style={{ width: '100%', height: '100%' }}
           />
         </div>
+        
+        {/* Curved Glass Reflection over the canvas */}
+        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-white/10 via-transparent to-white/20 pointer-events-none z-20 mix-blend-overlay"></div>
 
         <div 
           className={`absolute m-auto rounded-full z-30 flex items-center justify-center overflow-hidden pointer-events-none transition-all duration-300 ${centerClasses}`}
           style={{ width: `${centerSize}px`, height: `${centerSize}px` }}
         >
+            <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_10px_rgba(0,0,0,0.3)] pointer-events-none z-10"></div>
             <img 
               src={centerImage || "https://api.dicebear.com/7.x/shapes/svg?seed=placeholder"} 
               alt="Logo Central" 
-              className="w-[90%] h-[90%] object-contain rounded-full"
+              className="w-[85%] h-[85%] object-contain rounded-full drop-shadow-md z-0"
               onError={(e) => { (e.target as HTMLImageElement).src = "https://api.dicebear.com/7.x/shapes/svg?seed=fallback" }}
             />
         </div>

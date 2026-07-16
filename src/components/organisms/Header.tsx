@@ -9,6 +9,8 @@ export const Header = () => {
   const soundEnabled = useAppStore(s => s.soundEnabled);
   const setSoundEnabled = useAppStore(s => s.setSoundEnabled);
   const setIsSettingsOpen = useAppStore(s => s.setIsSettingsOpen);
+  const wheelType = useAppStore(s => s.wheelType);
+  const setWheelType = useAppStore(s => s.setWheelType);
 
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -41,6 +43,27 @@ export const Header = () => {
       </div>
       
       <div className="flex items-center gap-2">
+        <div className="hidden sm:flex items-center bg-slate-800/80 p-1 rounded-lg border border-slate-700/50 mr-1">
+          <button 
+            onClick={() => setWheelType('classic')}
+            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${wheelType === 'classic' ? 'bg-blue-500/20 text-blue-400 shadow-sm border border-blue-500/30' : 'text-slate-400 hover:text-slate-200 border border-transparent'}`}
+          >
+            {t('visualSettings.classic')}
+          </button>
+          <button 
+            onClick={() => setWheelType('horizon')}
+            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${wheelType === 'horizon' ? 'bg-[#ff0055]/20 text-[#ff0055] shadow-sm border border-[#ff0055]/30' : 'text-slate-400 hover:text-slate-200 border border-transparent'}`}
+          >
+            {t('visualSettings.slot')}
+          </button>
+          <button 
+            onClick={() => setWheelType('mystery_box')}
+            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${wheelType === 'mystery_box' ? 'bg-[#f59e0b]/20 text-[#f59e0b] shadow-sm border border-[#f59e0b]/30' : 'text-slate-400 hover:text-slate-200 border border-transparent'}`}
+          >
+            {t('visualSettings.boxes')}
+          </button>
+        </div>
+
         <button 
           onClick={toggleFullscreen}
           className="text-slate-300 hover:text-white transition-colors flex items-center p-1.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 ml-1"

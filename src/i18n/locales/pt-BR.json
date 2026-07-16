@@ -123,7 +123,9 @@
     "language": "Idioma",
     "mute": "Desativar Som",
     "unmute": "Ativar Som",
-    "history": "Histórico de Vencedores"
+    "history": "Histórico de Vencedores",
+    "modeNormal": "Normal",
+    "modeElimination": "Eliminação"
   },
   "resultsModal": {
     "title": "Resultados da Roleta",

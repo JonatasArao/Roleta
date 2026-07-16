@@ -194,10 +194,10 @@ export const HorizonDisplay = () => {
         {/* Transparent frame highlight for winning row */}
         <div className="absolute top-1/2 left-0 w-full h-[120px] -translate-y-1/2 z-30 pointer-events-none box-border flex items-center justify-between transition-all duration-500">
             {/* The white frame in the center */}
-            <div className={`absolute inset-0 border-y-2 pointer-events-none transition-all duration-500 ${!isSpinning && winner ? targetAreaActive : targetAreaClass}`}></div>
+            <div className={`absolute inset-0 border-y-[4px] pointer-events-none transition-all duration-500 ${!isSpinning && winner ? targetAreaActive : targetAreaClass} shadow-[inset_0_0_30px_rgba(0,0,0,0.6)] bg-gradient-to-r from-black/20 via-transparent to-black/20`}></div>
             {/* Small triangles pointing inward */}
-            <div className={`w-0 h-0 border-y-[12px] border-y-transparent border-l-[16px] ${pointerColor} drop-shadow-md z-40 relative transition-colors duration-500`}></div>
-            <div className={`w-0 h-0 border-y-[12px] border-y-transparent border-r-[16px] ${pointerColor} drop-shadow-md z-40 relative transition-colors duration-500`}></div>
+            <div className={`w-0 h-0 border-y-[16px] border-y-transparent border-l-[20px] ${pointerColor} drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] z-40 relative transition-colors duration-500 -ml-1`}></div>
+            <div className={`w-0 h-0 border-y-[16px] border-y-transparent border-r-[20px] ${pointerColor} drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] z-40 relative transition-colors duration-500 -mr-1`}></div>
         </div>
 
         {/* The reel */}
@@ -214,19 +214,22 @@ export const HorizonDisplay = () => {
                   const textColor = getContrastYIQ(slice.color);
                   
                   return (
-                     <div key={i} className="absolute left-0 w-full p-2 box-border border-b-[3px] border-black/40" style={{ top: `${top}px`, height: `${height}px`}}>
-                        <div className="w-full h-full rounded shadow-inner flex overflow-hidden relative group" style={{ backgroundColor: slice.color }}>
+                     <div key={i} className="absolute left-0 w-full p-2 box-border border-b-[4px] border-black/60 shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)]" style={{ top: `${top}px`, height: `${height}px`}}>
+                        <div className="w-full h-full rounded-md shadow-[inset_0_0_20px_rgba(0,0,0,0.3)] flex overflow-hidden relative group border-[2px] border-black/20" style={{ backgroundColor: slice.color }}>
+                            {/* Inner gradient to give cylindrical shading on items */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/10 pointer-events-none"></div>
+                            
                             {slice.item.image && (
-                              <div className="h-full min-w-[80px] md:min-w-[120px] bg-white/10 flex items-center justify-center p-2 border-r border-white/20">
-                                <img src={slice.item.image} className="h-full w-full object-contain drop-shadow-md" alt="" />
+                              <div className="h-full min-w-[80px] md:min-w-[120px] bg-white/10 flex items-center justify-center p-2 border-r-[3px] border-black/20 z-10">
+                                <img src={slice.item.image} className="h-full w-full object-contain drop-shadow-lg" alt="" />
                               </div>
                             )}
-                            <div className="flex-1 flex flex-col justify-center px-6 relative">
-                                <span className={`font-black uppercase tracking-wide truncate ${isTiny ? 'text-sm' : 'text-3xl md:text-4xl'}`} style={{ color: textColor }}>
+                            <div className="flex-1 flex flex-col justify-center px-6 relative z-10">
+                                <span className={`font-black uppercase tracking-widest truncate drop-shadow-md ${isTiny ? 'text-sm' : 'text-3xl md:text-5xl'}`} style={{ color: textColor }}>
                                   {slice.item.text}
                                 </span>
                                 {/* Background stylistic element */}
-                                <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-white/20 to-transparent pointer-events-none"></div>
+                                <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-white/20 to-transparent pointer-events-none mix-blend-overlay"></div>
                             </div>
                         </div>
                      </div>
@@ -236,9 +239,12 @@ export const HorizonDisplay = () => {
             ))}
         </div>
         
-        {/* Top/Bottom shadows for depth */}
-        <div className="absolute top-0 left-0 w-full h-[60px] bg-gradient-to-b from-black/80 to-transparent z-40 pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-full h-[60px] bg-gradient-to-t from-black/80 to-transparent z-40 pointer-events-none"></div>
+        {/* Top/Bottom shadows for depth (Cylindrical Illusion) */}
+        <div className="absolute top-0 left-0 w-full h-[120px] bg-gradient-to-b from-black/95 via-black/40 to-transparent z-40 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-full h-[120px] bg-gradient-to-t from-black/95 via-black/40 to-transparent z-40 pointer-events-none"></div>
+        
+        {/* Curved Glass Reflection */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/10 pointer-events-none z-50 mix-blend-overlay"></div>
         
       </div>
 
@@ -246,12 +252,6 @@ export const HorizonDisplay = () => {
       <div className="mt-8 flex flex-col items-center gap-4 relative z-50 h-[120px]">
         {!isSpinning && !winner && validItems.length >= 2 && (
           <div className="flex flex-col items-center gap-2 animate-in fade-in zoom-in-95 duration-300">
-            <button
-               onClick={(e) => { e.stopPropagation(); spinWheel(); }}
-               className="bg-amber-600 hover:bg-amber-500 text-white px-10 py-3 uppercase tracking-[0.2em] font-black text-xl md:text-2xl rounded-xl shadow-[0_10px_30px_rgba(245,158,11,0.4)] border-b-4 border-amber-800 hover:border-amber-700 active:translate-y-1 active:border-b-0 transition-all flex items-center gap-3"
-            >
-               {t('horizonDisplay.spin')}
-            </button>
             <p className="text-white/40 text-xs font-bold uppercase tracking-widest leading-none">{t('horizonDisplay.pressEnter')}</p>
           </div>
         )}

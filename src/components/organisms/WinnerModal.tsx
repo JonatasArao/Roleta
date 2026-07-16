@@ -96,13 +96,13 @@ export const WinnerModal = () => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-all animate-in fade-in duration-200">
-      <div className="bg-gradient-to-b from-[#1e2029] to-[#14151a] px-8 sm:px-12 py-10 rounded-3xl max-w-md w-full shadow-[0_0_80px_rgba(249,115,22,0.15)] border border-orange-500/20 text-center animate-in zoom-in-95 duration-300 relative overflow-hidden">
-        <div className="absolute -top-24 -left-24 w-48 h-48 bg-yellow-500/20 rounded-full blur-[50px]" />
-        <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-orange-500/20 rounded-full blur-[50px]" />
+      <div className="bg-[#131120] px-8 sm:px-12 py-12 rounded-[2.5rem] max-w-lg w-full shadow-[0_0_100px_rgba(245,158,11,0.2)] border-2 border-amber-500/30 text-center animate-in zoom-in-95 duration-500 relative overflow-hidden group">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[200%] h-32 bg-amber-500/10 blur-[60px] pointer-events-none" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200%] h-32 bg-fuchsia-500/10 blur-[60px] pointer-events-none" />
         
-        <Icon className={`mx-auto ${iconColor} mb-6 drop-shadow-[0_0_20px_${dropShadowColor}] relative z-10 animate-bounce`} size={80} />
-        <p className="text-sm text-yellow-500/80 font-bold uppercase tracking-[0.3em] mb-2 relative z-10">{customMessage}</p>
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-10 break-words relative z-10 drop-shadow-lg leading-tight">{winner.text}</h2>
+        <Icon className={`mx-auto ${iconColor} mb-6 drop-shadow-[0_0_25px_${dropShadowColor}] relative z-10 animate-[bounce_2s_infinite]`} size={90} />
+        <p className="text-sm text-amber-500/90 font-black uppercase tracking-[0.4em] mb-4 relative z-10 drop-shadow-md">{customMessage}</p>
+        <h2 className="text-4xl sm:text-6xl font-black text-white mb-12 break-words relative z-10 drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] leading-tight">{winner.text}</h2>
         
         <div className="flex flex-col sm:flex-row gap-4 w-full justify-center relative z-10">
           <button 
@@ -115,7 +115,7 @@ export const WinnerModal = () => {
               }
               setWinner(null);
             }}
-            className="flex-1 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 shadow-[0_0_20px_rgba(239,68,68,0.2)] hover:shadow-[0_0_30px_rgba(239,68,68,0.4)] text-white px-6 py-4 rounded-xl font-black text-lg transition-all hover:-translate-y-1"
+            className="flex-1 bg-gradient-to-br from-slate-800 to-slate-900 hover:from-red-600 hover:to-rose-700 text-slate-300 hover:text-white px-6 py-4 rounded-2xl font-black text-lg transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-[0_10px_30px_rgba(239,68,68,0.4)] border border-slate-700 hover:border-red-500"
           >
             {t('horizonDisplay.reject').toUpperCase()}
           </button>
@@ -135,7 +135,7 @@ export const WinnerModal = () => {
                   setWinner(null);
               }
             }}
-            className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] text-white px-6 py-4 rounded-xl font-black text-lg transition-all hover:-translate-y-1"
+            className="flex-1 bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 shadow-[0_10px_30px_rgba(245,158,11,0.3)] hover:shadow-[0_15px_40px_rgba(245,158,11,0.5)] text-white px-6 py-4 rounded-2xl font-black text-lg transition-all duration-300 hover:-translate-y-1 border-b-4 border-orange-700 hover:border-orange-600 active:translate-y-1 active:border-b-0"
           >
             {t('horizonDisplay.accept').toUpperCase()}
           </button>

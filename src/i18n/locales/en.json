@@ -123,7 +123,9 @@
     "language": "Language",
     "mute": "Mute",
     "unmute": "Unmute",
-    "history": "Winners History"
+    "history": "Winners History",
+    "modeNormal": "Normal",
+    "modeElimination": "Elimination"
   },
   "resultsModal": {
     "title": "Wheel Results",

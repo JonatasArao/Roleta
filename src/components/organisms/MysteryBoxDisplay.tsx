@@ -64,34 +64,32 @@ export const MysteryBoxDisplay = () => {
   // When spin finishes and a winner is chosen
   useEffect(() => {
     if (winner && !isSpinning && validItems.length > 0) {
-      // Determine which box index holds the winner
       let winIdx = userSelectedIndex;
       if (winIdx === null || winIdx >= validItems.length) {
-         // Either user didn't click, or items changed
          winIdx = Math.floor(Math.random() * validItems.length);
-      }
-      
-      setWinnerBoxIndex(winIdx);
-      setHighlightedIndex(winIdx); // Lock highlight to the winner
-
-      // Create the mapping!
-      const unchosenItems = validItems.filter(i => i.id !== winner.id);
-      // Shuffle unchosen
-      for (let i = unchosenItems.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [unchosenItems[i], unchosenItems[j]] = [unchosenItems[j], unchosenItems[i]];
-      }
-
-      const newMapping: Record<number, any> = {};
-      let unchosenCursor = 0;
-      for (let i = 0; i < validItems.length; i++) {
-         if (i === winIdx) {
-            newMapping[i] = winner;
-         } else {
-            newMapping[i] = unchosenItems[unchosenCursor++] || validItems[0]; // fallback
+         setWinnerBoxIndex(winIdx);
+         setHighlightedIndex(winIdx); // Lock highlight to the winner
+         
+         const unchosenItems = validItems.filter(i => i.id !== winner.id);
+         for (let i = unchosenItems.length - 1; i > 0; i--) {
+           const j = Math.floor(Math.random() * (i + 1));
+           [unchosenItems[i], unchosenItems[j]] = [unchosenItems[j], unchosenItems[i]];
          }
+
+         const newMapping: Record<number, any> = {};
+         let unchosenCursor = 0;
+         for (let i = 0; i < validItems.length; i++) {
+            if (i === winIdx) {
+               newMapping[i] = winner;
+            } else {
+               newMapping[i] = unchosenItems[unchosenCursor++] || validItems[0]; // fallback
+            }
+         }
+         setBoxMapping(newMapping);
+      } else {
+         setWinnerBoxIndex(winIdx);
+         setHighlightedIndex(winIdx);
       }
-      setBoxMapping(newMapping);
 
       // Reveal sequence
       // 1. Reveal winner box immediately
@@ -130,14 +128,27 @@ export const MysteryBoxDisplay = () => {
     if (!isSpinning && !winner && validItems.length >= 2) {
        setUserSelectedIndex(index);
        setHighlightedIndex(index);
-       spinWheelRef.current(true);
+       
+       const shuffledItems = [...validItems];
+       for (let i = shuffledItems.length - 1; i > 0; i--) {
+         const j = Math.floor(Math.random() * (i + 1));
+         [shuffledItems[i], shuffledItems[j]] = [shuffledItems[j], shuffledItems[i]];
+       }
+       
+       const newMapping: Record<number, any> = {};
+       for (let i = 0; i < shuffledItems.length; i++) {
+         newMapping[i] = shuffledItems[i];
+       }
+       setBoxMapping(newMapping);
+       
+       spinWheelRef.current(true, false, shuffledItems[index].id); 
     }
   };
 
   const startRandomSpin = () => {
     if (!isSpinning && !winner && validItems.length >= 2) {
        setUserSelectedIndex(null); // System picks
-       spinWheelRef.current();
+       spinWheelRef.current(false, false); // false for fastSpin, false for ignoreWeights
     }
   };
 
@@ -214,8 +225,6 @@ export const MysteryBoxDisplay = () => {
   }
 
   // Dimensions
-  const containerRatio = 1.8; 
-  const cols = Math.max(2, Math.ceil(Math.sqrt(validItems.length * containerRatio)));
 
   return (
     <div className={`flex-1 flex flex-col p-4 lg:p-6 relative bg-gradient-to-br ${bgGradient} overflow-hidden min-h-0 items-center justify-center transition-colors duration-500`}>
@@ -233,8 +242,14 @@ export const MysteryBoxDisplay = () => {
          </div>
 
          {/* Content Area with 3D perspective to enable cool flips */}
-         <div className="flex-1 relative overflow-hidden p-3 md:p-6 flex items-center justify-center [perspective:1000px]">
-            <div className="flex flex-wrap justify-center items-center content-center w-full h-full gap-3 md:gap-4 overflow-hidden">
+         <div className="flex-1 relative overflow-y-auto overflow-x-hidden custom-scrollbar p-4 md:p-8 [perspective:1000px]">
+            <div 
+               className="grid justify-center items-center gap-3 md:gap-4 lg:gap-6 w-full mx-auto"
+               style={{ 
+                  gridTemplateColumns: `repeat(auto-fit, minmax(80px, 120px))`,
+                  maxWidth: '900px'
+               }}
+            >
                {validItems.map((_, idx) => {
                   
                   const isHighlighted = highlightedIndex === idx;
@@ -252,17 +267,12 @@ export const MysteryBoxDisplay = () => {
                   return (
                      <div 
                         key={idx} 
-                        style={{ 
-                           width: `calc(${100 / cols}% - 1rem)`, 
-                           minWidth: '60px',
-                           maxWidth: '180px', 
-                           aspectRatio: '1/1' 
-                        }}
+                        style={{ aspectRatio: '1/1', width: '100%' }}
                         className={`group relative transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] 
                            ${!winner && !isSpinning ? 'cursor-pointer hover:scale-105' : ''}
                            ${isDimmed ? 'opacity-40 scale-90 grayscale' : 'opacity-100'}
                            ${isHighlighted && !isWinnerBox ? `drop-shadow-[0_0_20px_${dropShadowColor}] z-10` : ''}
-                           ${isWinnerBox && isRevealed ? `scale-[1.3] z-30 drop-shadow-[0_0_50px_${dropShadowColor}] md:scale-[1.5]` : 'scale-100'}
+                           ${isWinnerBox && isRevealed ? `scale-[1.2] z-30 drop-shadow-[0_0_50px_${dropShadowColor}] md:scale-[1.4]` : 'scale-100'}
                         `}
                         onClick={() => handleBoxClick(idx)}
                      >
@@ -271,46 +281,51 @@ export const MysteryBoxDisplay = () => {
                            
                            {/* Front Face: The Suitcase / Box */}
                            <div 
-                              className={`absolute inset-0 [backface-visibility:hidden] bg-gradient-to-b rounded-xl border-2 shadow-xl overflow-hidden flex flex-col items-center justify-center ${boxFrontClass}
-                                 ${isHighlighted ? boxHighlightClass : ''}
+                              className={`absolute inset-0 [backface-visibility:hidden] bg-gradient-to-br rounded-xl border-[3px] shadow-xl overflow-hidden flex flex-col items-center justify-center ${boxFrontClass}
+                                 ${isHighlighted ? boxHighlightClass : 'border-transparent'}
                               `}
                            >
-                              {/* Box Handle */}
-                              <div className="absolute top-2 md:top-3 w-1/3 h-2 md:h-3 rounded-t-lg border-2 border-b-0 border-[#1a1829] bg-transparent opacity-50"></div>
+                              {/* Box Ribbon / Decorative elements */}
+                              <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-10 bg-white/5 skew-y-12 shadow-[0_0_15px_rgba(255,255,255,0.1)] pointer-events-none"></div>
+                              <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-6 bg-white/5 -skew-x-12 shadow-[0_0_15px_rgba(255,255,255,0.1)] pointer-events-none"></div>
                               
-                              <div className="text-white/30 text-3xl md:text-5xl font-black font-serif italic mb-1 group-hover:text-white/70 transition-colors drop-shadow-md">
-                                 {idx + 1}
+                              <div className="text-white/40 text-4xl md:text-5xl font-black font-serif italic mb-1 group-hover:text-white/90 group-hover:scale-110 transition-all drop-shadow-md z-10">
+                                 ?
+                              </div>
+                              <div className="absolute bottom-1 md:bottom-2 text-white/30 font-bold text-[10px] md:text-xs z-10 tracking-widest">
+                                 #{idx + 1}
                               </div>
                            </div>
 
                            {/* Back Face: Revealed Content */}
                            <div 
-                              className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-xl border-2 shadow-[0_0_20px_rgba(0,0,0,0.8)] flex flex-col items-center justify-center p-2 text-center"
+                              className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-xl border-[3px] shadow-[0_0_20px_rgba(0,0,0,0.8)] flex flex-col items-center justify-center p-2 text-center overflow-hidden"
                               style={{ 
                                  backgroundColor: bgColor,
                                  borderColor: isWinnerBox ? '#fbbf24' : '#ffffff20' 
                               }}
                            >
                               {/* Inner soft glow/shadow */}
-                              <div className="absolute inset-0 bg-black/20 rounded-xl pointer-events-none"></div>
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
+                              <div className="absolute inset-0 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] pointer-events-none"></div>
                               
                               {mappedItem && (
-                                 <>
+                                 <div className="relative z-10 w-full flex flex-col items-center justify-center">
                                     {mappedItem.image && (
-                                       <img src={mappedItem.image} alt="" className="w-1/2 h-1/2 object-contain mb-1 drop-shadow-md relative z-10" />
+                                       <img src={mappedItem.image} alt="" className="w-12 h-12 md:w-16 md:h-16 object-contain mb-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
                                     )}
                                     <span 
-                                       className="font-black text-[10px] sm:text-xs md:text-sm uppercase tracking-wide break-words w-full px-1 drop-shadow relative z-10 leading-tight"
+                                       className="font-black text-[10px] sm:text-xs md:text-sm uppercase tracking-wider break-words w-full px-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] leading-tight"
                                        style={{ color: textColor }}
                                     >
                                        {mappedItem.text}
                                     </span>
-                                 </>
+                                 </div>
                               )}
                               
                               {/* If it's the winner, add a special star effect */}
                               {isWinnerBox && (
-                                 <div className="absolute -inset-2 bg-gradient-to-r from-amber-400/0 via-amber-400/30 to-amber-400/0 animate-[spin_4s_linear_infinite] pointer-events-none rounded-full blur-xl mix-blend-screen"></div>
+                                 <div className="absolute -inset-4 bg-gradient-to-r from-amber-400/0 via-amber-400/40 to-amber-400/0 animate-[spin_3s_linear_infinite] pointer-events-none rounded-full blur-xl mix-blend-screen"></div>
                               )}
                            </div>
                            

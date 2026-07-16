@@ -11,11 +11,13 @@ export const useWheelData = () => {
   const eliminationMode = useAppStore(state => state.eliminationMode);
   const results = useAppStore(state => state.results);
 
+  const wheelType = useAppStore(state => state.wheelType);
+
   const validItems = useMemo(
-    () => items.filter((i) => i.text.trim() !== "" && i.enabled !== false).map(i => {
-      let finalWeight = i.weight || 1;
+    () => items.filter((i) => i.text.trim() !== "" && i.enabled).map(i => {
+      let finalWeight = wheelType === 'horizon' ? 1 : (i.weight || 1);
       let extraWeight = 0;
-      if (pitySystemEnabled && showPitySystemVisually && !eliminationMode) {
+      if (pitySystemEnabled && showPitySystemVisually && !eliminationMode && wheelType !== 'horizon') {
         const idx = results.findIndex((r) => 
           r.id === i.id || r.text.trim().toLowerCase() === i.text.trim().toLowerCase()
         );
@@ -23,7 +25,7 @@ export const useWheelData = () => {
         finalWeight += extraWeight;
       }
       
-      if (balanceWeightsByWins && showPitySystemVisually && !eliminationMode) {
+      if (balanceWeightsByWins && showPitySystemVisually && !eliminationMode && wheelType !== 'horizon') {
         const winCount = results.filter((r) => r.id === i.id || r.text.trim().toLowerCase() === i.text.trim().toLowerCase()).length;
         if (winCount > 0) {
            finalWeight = finalWeight / (winCount + 1);
@@ -34,7 +36,7 @@ export const useWheelData = () => {
         weight: finalWeight
       };
     }),
-    [items, pitySystemEnabled, balanceWeightsByWins, showPitySystemVisually, eliminationMode, results],
+    [items, pitySystemEnabled, balanceWeightsByWins, showPitySystemVisually, eliminationMode, results, wheelType],
   );
 
   const { conicGradient, slices } = useMemo(() => {
