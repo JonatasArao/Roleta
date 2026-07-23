@@ -30,8 +30,8 @@ export const SystemSettings = () => {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h3 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-4">{t('settings.system.language')}</h3>
-        <div className="bg-[#14151a] border border-slate-700 rounded-xl p-5">
+        <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4 px-1">{t('settings.system.language')}</h3>
+        <div className="bg-slate-900/40 border border-slate-800/80 backdrop-blur-md rounded-2xl p-6 shadow-xl">
           <div className="flex items-center justify-between">
             <div>
               <label className="text-sm font-medium text-slate-300 flex items-center gap-2">
@@ -48,8 +48,8 @@ export const SystemSettings = () => {
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-4">{t('settings.system.data')}</h3>
-        <div className="bg-[#14151a] border border-slate-700 rounded-xl p-5 flex flex-col gap-6">
+        <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4 px-1">{t('settings.system.data')}</h3>
+        <div className="bg-slate-900/40 border border-slate-800/80 backdrop-blur-md rounded-2xl p-6 flex flex-col gap-6 shadow-xl">
           <input 
             type="file" 
             accept=".wheel,application/json" 

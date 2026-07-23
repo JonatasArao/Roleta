@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Item, Result, CustomAudio } from '../types';
+import { Item, Result, CustomAudio, PodiumRacer } from '../types';
 import {
   DEFAULT_WHEEL_TITLE,
   DEFAULT_WIN_MESSAGE,
@@ -33,6 +33,8 @@ interface AppState {
   // Game Modes
   eliminationMode: boolean;
   setEliminationMode: (eliminationMode: boolean) => void;
+  penaltySaveWins: boolean;
+  setPenaltySaveWins: (penaltySaveWins: boolean) => void;
   autoContinueElimination: boolean;
   setAutoContinueElimination: (autoContinueElimination: boolean) => void;
   balanceWeightsByWins: boolean;
@@ -55,8 +57,8 @@ interface AppState {
   setIsAdvancedEntries: (isAdvancedEntries: boolean) => void;
   
   // Visual/Colors
-  wheelType: 'classic' | 'horizon' | 'mystery_box';
-  setWheelType: (wheelType: 'classic' | 'horizon' | 'mystery_box') => void;
+  wheelType: 'classic' | 'horizon' | 'mystery_box' | 'race' | 'penalty_shootout';
+  setWheelType: (wheelType: 'classic' | 'horizon' | 'mystery_box' | 'race' | 'penalty_shootout') => void;
   colors: string[];
   setColors: (colors: string[] | ((prev: string[]) => string[])) => void;
   newColor: string;
@@ -103,6 +105,10 @@ interface AppState {
   setWinner: (winner: Item | null) => void;
   results: Result[];
   setResults: (results: Result[] | ((prev: Result[]) => Result[])) => void;
+  racePodium: PodiumRacer[];
+  setRacePodium: (podium: PodiumRacer[]) => void;
+  penaltySequence: Item[];
+  setPenaltySequence: (sequence: Item[]) => void;
 
   // UI State
   editingEntryId: string | null;
@@ -155,6 +161,8 @@ export const useAppStore = create<AppState>((set) => ({
 
   eliminationMode: false,
   setEliminationMode: (eliminationMode) => set({ eliminationMode }),
+  penaltySaveWins: false,
+  setPenaltySaveWins: (penaltySaveWins) => set({ penaltySaveWins }),
   autoContinueElimination: true,
   setAutoContinueElimination: (autoContinueElimination) => set({ autoContinueElimination }),
   balanceWeightsByWins: false,
@@ -238,6 +246,10 @@ export const useAppStore = create<AppState>((set) => ({
   setWinner: (winner) => set({ winner }),
   results: [],
   setResults: (results) => set((state) => ({ results: typeof results === 'function' ? results(state.results) : results })),
+  racePodium: [],
+  setRacePodium: (racePodium) => set({ racePodium }),
+  penaltySequence: [],
+  setPenaltySequence: (penaltySequence) => set({ penaltySequence }),
 
   editingEntryId: null,
   setEditingEntryId: (editingEntryId) => set({ editingEntryId }),

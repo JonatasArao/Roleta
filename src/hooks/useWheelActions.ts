@@ -204,6 +204,56 @@ export const useWheelActions = () => {
 
     state.setExpectedWinnerId(currentValidItems[winIndex].id);
 
+    // If it's a 3D race, generate the complete podium sequence
+    if (state.wheelType === 'race') {
+      const winnerId = currentValidItems[winIndex].id;
+      
+      const remainingSlices = slices
+        .filter(s => s.item.id !== winnerId)
+        .map(s => ({
+          id: s.item.id,
+          text: s.item.text,
+          color: s.color,
+          score: (s.item.weight || 1) * 0.5 + getSecureRandom() * 5
+        }));
+
+      remainingSlices.sort((a, b) => b.score - a.score);
+
+      const podium = [
+        {
+          id: winnerId,
+          text: currentValidItems[winIndex].text,
+          color: slices[winIndex].color,
+          rank: 1
+        },
+        ...remainingSlices.map((item, index) => ({
+          id: item.id,
+          text: item.text,
+          color: item.color,
+          rank: index + 2
+        }))
+      ];
+      
+      state.setRacePodium(podium);
+    }
+
+    let penaltyDurationMs = 5000;
+    if (state.wheelType === 'penalty_shootout') {
+      const winnerId = currentValidItems[winIndex].id;
+      const expectedWinnerItem = currentValidItems[winIndex];
+
+      const otherItems = currentValidItems.filter(item => item.id !== winnerId);
+      const shuffledOthers = [...otherItems].sort(() => getSecureRandom() - 0.5);
+
+      const sequence = [...shuffledOthers, expectedWinnerItem];
+
+      state.setPenaltySequence(sequence);
+
+      const KICK_DURATION = 1550;
+      const activeKicksCount = sequence.length;
+      penaltyDurationMs = activeKicksCount * KICK_DURATION;
+    }
+
     const randomOffset = state.wheelType === 'horizon' 
       ? 0 
       : getSecureRandom() * (winSlice.angle * SLICE_RANDOM_OFFSET_MULTIPLIER) - winSlice.angle * SLICE_RANDOM_OFFSET_SUBTRACTOR;
@@ -217,7 +267,11 @@ export const useWheelActions = () => {
 
     const isMysteryBox = state.wheelType === 'mystery_box';
     const isInstantSpin = isMysteryBox && fastSpin;
-    const spinDurationMs = isInstantSpin ? 50 : actualSpinTime * 1000;
+    let spinDurationMs = isInstantSpin ? 50 : actualSpinTime * 1000;
+
+    if (state.wheelType === 'penalty_shootout' && !isInstantSpin) {
+      spinDurationMs = penaltyDurationMs;
+    }
     // adding a highly random range of extra rotations to add more chaos to the wheel
     const randomExtraRotations = Math.floor(getSecureRandom() * 15) + 6;
     const extraSpins = isMysteryBox ? 0 : FULL_CIRCLE_DEG * (Math.max(MIN_EXTRA_SPINS, Math.floor(actualSpinTime)) + randomExtraRotations);
@@ -236,23 +290,29 @@ export const useWheelActions = () => {
     const selectedCustomTick = state.customTickAudios.find((a) => a.id === state.tickSoundType);
     const selectedCustomWin = state.customWinAudios.find((a) => a.id === state.winSoundType)?.audioObj || null;
 
-    if (actualVolume > 0 && !isInstantSpin) {
+    if (!isInstantSpin) {
       if (selectedCustomTick && selectedCustomTick.mode === "continuous" && selectedCustomTick.audioObj) {
-        selectedCustomTick.audioObj.volume = actualVolume;
-        selectedCustomTick.audioObj.loop = true;
-        
-        if (state.continuousAudioRef !== selectedCustomTick.audioObj || selectedCustomTick.audioObj.paused) {
-          selectedCustomTick.audioObj.currentTime = 0;
-          selectedCustomTick.audioObj.play().catch(() => {});
+        if (actualVolume > 0) {
+          selectedCustomTick.audioObj.volume = actualVolume;
+          selectedCustomTick.audioObj.loop = true;
+          
+          if (state.continuousAudioRef !== selectedCustomTick.audioObj || selectedCustomTick.audioObj.paused) {
+            selectedCustomTick.audioObj.currentTime = 0;
+            selectedCustomTick.audioObj.play().catch(() => {});
+          }
+          state.setContinuousAudioRef(selectedCustomTick.audioObj);
         }
-        state.setContinuousAudioRef(selectedCustomTick.audioObj);
       } else {
         let delay = TICK_BASE_DELAY_MS;
         let currentTime = 0;
 
         const playNextTickTimer = () => {
           if (currentTime >= spinDurationMs - SPIN_COMPLETION_SOUND_THRESHOLD_MS) return;
-          playTickSound(0.5, state.tickSoundType, selectedCustomTick?.audioObj || null, actualVolume);
+          const liveState = useAppStore.getState();
+          const liveVolume = liveState.soundEnabled ? liveState.masterVolume / 100 : 0;
+          if (liveVolume > 0) {
+            playTickSound(0.5, liveState.tickSoundType, selectedCustomTick?.audioObj || null, liveVolume);
+          }
 
           const progress = currentTime / spinDurationMs;
           delay = TICK_BASE_DELAY_MS + Math.pow(progress, 3) * TICK_DELAY_MULTIPLIER;
@@ -301,19 +361,21 @@ export const useWheelActions = () => {
 
       // Pity system weights are now computed dynamically from results history, no state update needed here.
 
-      if (actualVolume > 0) {
-        if (currentState.eliminationMode && !isFinalRound) {
-          const genericCustomFail = currentState.customWinAudios.find(a => a.id === currentState.eliminationSoundType)?.audioObj || null;
-          playFailureSound(actualVolume, currentState.eliminationSoundType, genericCustomFail);
+      const finalState = useAppStore.getState();
+      const finalVolume = finalState.soundEnabled ? finalState.masterVolume / 100 : 0;
+      if (finalVolume > 0) {
+        if (finalState.eliminationMode && !isFinalRound) {
+          const genericCustomFail = finalState.customWinAudios.find(a => a.id === finalState.eliminationSoundType)?.audioObj || null;
+          playFailureSound(finalVolume, finalState.eliminationSoundType, genericCustomFail);
         } else {
           const customSound = winningItem.sound;
           if (customSound && customSound !== "") {
             const foundCustomAudio =
-              currentState.customWinAudios.find((a) => a.id === customSound)?.audioObj || null;
-            playWinSound(0.6, customSound, foundCustomAudio, actualVolume);
+              finalState.customWinAudios.find((a) => a.id === customSound)?.audioObj || null;
+            playWinSound(0.6, customSound, foundCustomAudio, finalVolume);
           } else {
-            const genericCustomWin = currentState.customWinAudios.find(a => a.id === currentState.winSoundType)?.audioObj || null;
-            playWinSound(0.6, currentState.winSoundType, genericCustomWin, actualVolume);
+            const genericCustomWin = finalState.customWinAudios.find(a => a.id === finalState.winSoundType)?.audioObj || null;
+            playWinSound(0.6, finalState.winSoundType, genericCustomWin, finalVolume);
           }
         }
       }

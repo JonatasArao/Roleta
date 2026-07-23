@@ -56,6 +56,8 @@
       "seconds": "Segundos",
       "eliminationMode": "Modo Eliminação",
       "eliminationModeDesc": "O sorteado não é o ganhador, ele é eliminado. A roleta continua até sobrar uma pessoa.",
+      "penaltySaveWins": "Goleiro Defende Vence (Pênaltis)",
+      "penaltySaveWinsDesc": "Ativa o modo onde quem tem o chute defendido pelo goleiro é o vencedor da disputa, em vez de quem faz o gol.",
       "autoContinue": "Automático (Batalha Rápida)",
       "autoContinueDesc": "Continua girando automaticamente até restar 1 jogador.",
       "fastSpinTime": "Tempo das Rodadas Rápidas",
@@ -78,7 +80,7 @@
       "format": "Formato da Roleta",
       "classic": "Clássica",
       "slot": "Slot",
-      "boxes": "Caixas",
+      "boxes": "Maletas",
       "theme": "TEMA VISUAL (Skins)",
       "textSize": "Tamanho do Texto",
       "centerSize": "Tamanho do Centro",
@@ -133,6 +135,7 @@
     "tabs": {
       "history": "Histórico de Sorteios",
       "ranking": "Classificação (Ranking)",
+      "drySpell": "Dias sem Ganhar ⏳",
       "import": "Importar Resultados"
     },
     "filter": {
@@ -161,7 +164,33 @@
       "win": "Vitória",
       "wins": "Vitórias",
       "showDates": "Ver datas",
-      "hideDates": "Ocultar datas"
+      "hideDates": "Ocultar datas",
+      "daysWithoutWin": "{{days}}d sem ganhar",
+      "wonToday": "Ganhou hoje! 🎉",
+      "neverWon": "Nunca ganhou"
+    },
+    "drySpell": {
+      "title": "Contador de Dias sem Ganhar",
+      "subtitle": "Acompanhe o jejum de vitórias de cada participante",
+      "longestSpell": "Maior Jejum Atual",
+      "averageSpell": "Média do Grupo",
+      "neverWonCount": "Nunca Ganharam",
+      "searchPlaceholder": "Buscar participante...",
+      "sortBy": "Ordenar por:",
+      "sortLongest": "Maior tempo sem ganhar",
+      "sortShortest": "Menor tempo sem ganhar",
+      "sortMostWins": "Mais vitórias",
+      "sortName": "Nome (A-Z)",
+      "wonToday": "Ganhou hoje! 🎉",
+      "daysWithoutWin": "{{count}} dia(s) sem ganhar",
+      "neverWon": "Nunca ganhou",
+      "lastWinDate": "Última vitória: {{date}}",
+      "firstSeen": "Cadastrado/Visto em: {{date}}",
+      "drawsCount": "{{count}} sorteio(s) atrás",
+      "activeOnWheel": "Na Roleta",
+      "inactive": "Fora da Roleta",
+      "onlyOnWheel": "Apenas na roleta",
+      "noParticipants": "Nenhum participante encontrado."
     },
     "import": {
       "title": "Adicionar vencedores manualmente",
@@ -276,7 +305,11 @@
     "wheelFormat": "Formato da Roleta",
     "classic": "Clássica",
     "slot": "Slot",
-    "boxes": "Caixas",
+    "horizon": "Slot",
+    "boxes": "Maletas",
+    "mystery_box": "Maletas",
+    "race": "Corrida",
+    "penalty_shootout": "Pênaltis",
     "visualTheme": "TEMA VISUAL (Skins)",
     "textSize": "Tamanho do Texto",
     "centerSize": "Tamanho do Centro",
@@ -312,15 +345,39 @@
   },
   "mysteryBox": {
     "mixing": "Misturando...",
-    "chosen": "A Escolhida!",
-    "choose": "Escolher",
-    "clickBoxOr": "Clique em uma caixa ou",
+    "chosen": "Maleta Escolhida!",
+    "choose": "Escolha uma Maleta",
+    "clickBoxOr": "Clique em uma maleta ou",
     "shuffling": "Embaralhando...",
-    "randomChoice": "Escolha Aleatória"
+    "randomChoice": "Escolha Aleatória",
+    "shuffling_stage_1": "Embaralhando Maletas...",
+    "shuffling_stage_2": "Analisando Probabilidades...",
+    "shuffling_stage_3": "Afunilando Seleção...",
+    "shuffling_stage_4": "Decidindo Ganhador!"
   },
   "resultItem": {
     "winner": "Vencedor",
     "eliminated": "Eliminado",
     "grandChampion": "Grande Campeão"
+  },
+  "penaltyDisplay": {
+    "copaElimination": "COPA ELIMINAÇÃO",
+    "defenseWins": "PÊNALTIS (DEFESA VENCE)",
+    "shootout": "DISPUTA DE PÊNALTIS",
+    "goals": "GOLS",
+    "saves": "DEFESAS",
+    "kick": "Cobrança",
+    "champion": "CAMPEÃO",
+    "readyToStart": "Pronto para começar",
+    "kicker": "Batedor",
+    "kicking": "Cobrando",
+    "goalEmoji": "GOL ⚽",
+    "saveEmoji": "DEFESA 🧤",
+    "goal": "GOL",
+    "save": "DEFESA",
+    "ongoing": "Disputa em Andamento...",
+    "completed": "Disputa Concluída!",
+    "kickPenalties": "Cobrar Pênaltis",
+    "tip": "Pressione <kbd>Ctrl + Enter</kbd> para chutar o pênalti rapidamente"
   }
 }

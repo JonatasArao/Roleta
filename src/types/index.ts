@@ -18,6 +18,13 @@ export interface Result extends Item {
   timestamp?: number;
 }
 
+export interface PodiumRacer {
+  id: string;
+  text: string;
+  color: string;
+  rank: number;
+}
+
 export interface CustomAudioItem {
   id: string;
   categories: ("tick" | "win")[];
@@ -77,4 +84,5 @@ export interface AppSettings {
   eliminationSoundType?: string;
   eliminationSpinTime?: number;
   wheelTheme?: string;
+  penaltySaveWins?: boolean;
 }

@@ -37,12 +37,15 @@ export const GeneralSettings = () => {
   const setPitySystemEnabled = useAppStore(s => s.setPitySystemEnabled);
   const showPitySystemVisually = useAppStore(s => s.showPitySystemVisually);
   const setShowPitySystemVisually = useAppStore(s => s.setShowPitySystemVisually);
+  const wheelType = useAppStore(s => s.wheelType);
+  const penaltySaveWins = useAppStore(s => s.penaltySaveWins);
+  const setPenaltySaveWins = useAppStore(s => s.setPenaltySaveWins);
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300 pb-10">
       <div>
         <h3 className="text-lg font-bold text-white mb-4">{t('settings.general.title')}</h3>
-        <div className="bg-[#252733] border border-slate-700 rounded-xl p-5 space-y-6">
+        <div className="bg-slate-900/40 border border-slate-800/80 backdrop-blur-md rounded-2xl p-6 space-y-6 shadow-xl">
           <div className="space-y-2 flex flex-col">
             <label className="text-sm font-medium text-slate-300">{t('settings.general.drawName')}</label>
             <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full bg-[#14151a] border border-slate-700 rounded-lg p-3 text-white focus:border-blue-500 outline-none transition-colors" />
@@ -71,7 +74,7 @@ export const GeneralSettings = () => {
               <label className="text-sm font-medium text-slate-300 flex items-center gap-2"><Clock size={16}/> {eliminationMode ? t('settings.general.spinTimeFinal') : t('settings.general.spinTime')}</label>
               <span className="text-xs font-bold bg-blue-600/20 px-2 py-1 rounded text-blue-400 border border-blue-500/20">{spinTime} {t('settings.general.seconds')}</span>
             </div>
-            <input type="range" min="1" max="15" value={spinTime} onChange={(e) => setSpinTime(Number(e.target.value))} className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500 mt-3" />
+            <input type="range" min="1" max="30" value={spinTime} onChange={(e) => setSpinTime(Number(e.target.value))} className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500 mt-3" />
           </div>
 
           <div className="flex flex-col gap-4 pt-4 border-t border-slate-700">
@@ -96,11 +99,21 @@ export const GeneralSettings = () => {
                     <label className="text-sm font-medium text-slate-300 flex items-center gap-2">{t('settings.general.fastSpinTime')}</label>
                     <span className="text-xs font-bold bg-red-600/20 px-2 py-1 rounded text-red-400 border border-red-500/20">{eliminationSpinTime} {t('settings.general.seconds')}</span>
                   </div>
-                  <input type="range" min="0.5" max="10" step="0.5" value={eliminationSpinTime} onChange={(e) => setEliminationSpinTime(Number(e.target.value))} className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-red-500 mt-3" />
+                  <input type="range" min="0.5" max="30" step="0.5" value={eliminationSpinTime} onChange={(e) => setEliminationSpinTime(Number(e.target.value))} className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-red-500 mt-3" />
                 </div>
               </>
             )}
           </div>
+
+          {wheelType === 'penalty_shootout' && (
+            <div className="flex items-center justify-between pt-4 border-t border-slate-700">
+              <div>
+                <label className="text-sm font-medium text-slate-300 flex items-center gap-2">🧤 {t('settings.general.penaltySaveWins')}</label>
+                <p className="text-xs text-slate-500 mt-1">{t('settings.general.penaltySaveWinsDesc')}</p>
+              </div>
+              <Toggle enabled={penaltySaveWins} onChange={setPenaltySaveWins} />
+            </div>
+          )}
 
           <div className="flex items-center justify-between pt-4 border-t border-slate-700">
             <div>
@@ -110,7 +123,7 @@ export const GeneralSettings = () => {
             <Toggle enabled={antiRepetitionEnabled} onChange={setAntiRepetitionEnabled} />
           </div>
           {antiRepetitionEnabled && (
-            <div className="flex items-center justify-between bg-slate-800/40 p-3 rounded-lg border border-slate-700/50 ml-4">
+            <div className="flex items-center justify-between bg-slate-950/30 p-4 rounded-xl border border-slate-800/80 ml-4">
               <label className="text-sm text-slate-300">{t('settings.general.avoidLastX')}</label>
               <input 
                 type="number"
@@ -118,7 +131,7 @@ export const GeneralSettings = () => {
                 max="20"
                 value={antiRepetitionCount}
                 onChange={(e) => setAntiRepetitionCount(Math.max(1, parseInt(e.target.value) || 1))}
-                className="w-16 bg-slate-900 border border-slate-600 rounded px-2 py-1 text-sm text-center focus:border-blue-500 focus:outline-none"
+                className="w-16 bg-slate-950 text-white border border-slate-800 rounded-lg px-2 py-1 text-sm text-center focus:border-blue-500 focus:outline-none"
               />
             </div>
           )}
@@ -141,7 +154,7 @@ export const GeneralSettings = () => {
               <Toggle enabled={pitySystemEnabled} onChange={setPitySystemEnabled} />
             </div>
             {(pitySystemEnabled || balanceWeightsByWins) && (
-              <div className="flex items-center justify-between bg-slate-800/40 p-3 rounded-lg border border-slate-700/50 ml-2">
+              <div className="flex items-center justify-between bg-slate-950/30 p-4 rounded-xl border border-slate-800/80 ml-2">
                 <label className="text-sm text-slate-300">{t('settings.general.showPity')}</label>
                 <Toggle 
                   enabled={showPitySystemVisually}

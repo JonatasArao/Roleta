@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Shuffle, SortAsc, Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../../../store/useAppStore';
@@ -6,10 +6,12 @@ import { useWheelData } from '../../../hooks/useWheelData';
 import { useWheelActions } from '../../../hooks/useWheelActions';
 import { Button } from '../../atoms/Button';
 import { EntryItem } from '../../molecules/EntryItem';
+import { getParticipantStats, ParticipantStat } from '../../../utils/statsUtils';
 
 export const EntriesTab = () => {
   const { t } = useTranslation();
   const items = useAppStore(s => s.items);
+  const results = useAppStore(s => s.results);
   const isSpinning = useAppStore(s => s.isSpinning);
   const colors = useAppStore(s => s.colors);
   const isAdvancedEntries = useAppStore(s => s.isAdvancedEntries);
@@ -23,6 +25,13 @@ export const EntriesTab = () => {
   } = useWheelActions();
 
   const totalWeight = validItems.reduce((acc, item) => acc + (item.weight || 1), 0) || 1;
+
+  const participantStatsMap = useMemo(() => {
+    const stats = getParticipantStats(items, results);
+    const map = new Map<string, ParticipantStat>();
+    stats.forEach(st => map.set(st.name.toLowerCase(), st));
+    return map;
+  }, [items, results]);
 
   return (
     <>
@@ -67,6 +76,7 @@ export const EntriesTab = () => {
               isAdvancedEntries={isAdvancedEntries}
               isSpinning={isSpinning}
               color={colors[index % (colors.length || 1)] || '#cccccc'}
+              stat={participantStatsMap.get(item.text.trim().toLowerCase())}
               onUpdate={handleUpdateItem}
               onRemove={handleRemoveItem}
               onMove={handleMoveItem}

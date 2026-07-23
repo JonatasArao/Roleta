@@ -38,7 +38,7 @@ export const EliminationFeed = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.3 } }}
             layout
-            className="bg-[#1e2029]/80 text-white px-4 py-3 rounded-xl shadow-[0_0_20px_rgba(239,68,68,0.2)] border border-red-500/30 backdrop-blur-md self-start shrink-0 min-w-[220px]"
+            className="bg-slate-950/85 text-white px-4 py-3.5 rounded-2xl shadow-[0_0_30px_rgba(239,68,68,0.15)] border border-red-500/35 backdrop-blur-md self-start shrink-0 min-w-[220px]"
           >
             <div className="flex items-center gap-3">
               <span className="text-2xl drop-shadow-[0_0_10px_rgba(239,68,68,0.8)]">💀</span>

@@ -278,7 +278,7 @@ export const HorizonDisplay = () => {
                    }
                    setWinner(null);
                  }}
-                 className="flex-1 max-w-[200px] bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white px-6 py-3 rounded-xl font-black text-base transition-all hover:-translate-y-1 shadow-[0_10px_30px_rgba(239,68,68,0.3)] border-b-4 border-red-800 hover:border-red-600 active:translate-y-1 active:border-b-0 uppercase tracking-wider"
+                 className="flex-1 max-w-[200px] bg-gradient-to-r from-red-600/25 to-rose-600/25 hover:from-red-600 hover:to-rose-600 text-red-200 hover:text-white px-6 py-3 rounded-2xl font-black text-base transition-all duration-300 hover:-translate-y-1 shadow-[0_10px_30px_rgba(239,68,68,0.15)] hover:shadow-[0_10px_30px_rgba(239,68,68,0.35)] border border-red-500/30 uppercase tracking-wider"
                >
                  {t('horizonDisplay.reject')}
                </button>
@@ -298,7 +298,7 @@ export const HorizonDisplay = () => {
                        setWinner(null);
                    }
                  }}
-                 className="flex-1 max-w-[200px] bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white px-6 py-3 rounded-xl font-black text-base transition-all hover:-translate-y-1 shadow-[0_10px_30px_rgba(16,185,129,0.3)] border-b-4 border-emerald-800 hover:border-emerald-600 active:translate-y-1 active:border-b-0 uppercase tracking-wider"
+                 className="flex-1 max-w-[200px] bg-gradient-to-r from-emerald-600/25 to-teal-600/25 hover:from-emerald-600 hover:to-teal-600 text-emerald-200 hover:text-white px-6 py-3 rounded-2xl font-black text-base transition-all duration-300 hover:-translate-y-1 shadow-[0_10px_30px_rgba(16,185,129,0.15)] hover:shadow-[0_10px_30px_rgba(16,185,129,0.35)] border border-emerald-500/30 uppercase tracking-wider"
                >
                  {t('horizonDisplay.accept')}
                </button>

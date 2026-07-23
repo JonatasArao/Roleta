@@ -65,13 +65,13 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
   };
 
   return (
-    <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-[#1a1b23] border border-slate-700 w-full max-w-md rounded-xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-700/50 bg-[#22242f]">
+    <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="bg-slate-950/80 border border-slate-800/80 backdrop-blur-xl w-full max-w-md rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800/60 bg-slate-900/40">
           <h2 className="text-white font-semibold flex items-center gap-2">
             <Music size={18} className="text-blue-400" /> {t('addAudioModal.title')}
           </h2>
-          <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors">
+          <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-colors">
             <X size={20} />
           </button>
         </div>
@@ -83,20 +83,20 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
             <div className="flex gap-3">
               <button
                 onClick={() => toggleCategory("tick")}
-                className={`flex-1 py-2 rounded-lg text-sm border font-medium transition-all ${
+                className={`flex-1 py-2.5 rounded-xl text-sm border font-medium transition-all ${
                   categories.includes("tick")
-                    ? "bg-blue-600/20 text-blue-400 border-blue-500"
-                    : "bg-[#252733] text-slate-400 border-slate-700 hover:border-slate-500"
+                    ? "bg-blue-600/15 text-blue-400 border-blue-500/50 shadow-md"
+                    : "bg-slate-900/50 text-slate-400 border-slate-800 hover:border-slate-700 hover:bg-slate-900/70"
                 }`}
               >
                 {t('addAudioModal.spin')}
               </button>
               <button
                 onClick={() => toggleCategory("win")}
-                className={`flex-1 py-2 rounded-lg text-sm border font-medium transition-all ${
+                className={`flex-1 py-2.5 rounded-xl text-sm border font-medium transition-all ${
                   categories.includes("win")
-                    ? "bg-blue-600/20 text-blue-400 border-blue-500"
-                    : "bg-[#252733] text-slate-400 border-slate-700 hover:border-slate-500"
+                    ? "bg-blue-600/15 text-blue-400 border-blue-500/50 shadow-md"
+                    : "bg-slate-900/50 text-slate-400 border-slate-800 hover:border-slate-700 hover:bg-slate-900/70"
                 }`}
               >
                 {t('addAudioModal.win')}
@@ -113,19 +113,19 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
               <label className="text-sm font-medium text-slate-300">
                 {t('addAudioModal.behavior')}
               </label>
-              <div className="flex bg-[#252733] p-1 rounded-lg border border-slate-700 overflow-hidden">
+              <div className="flex bg-slate-950/50 p-1 rounded-xl border border-slate-800/80 overflow-hidden">
                 <button
                   onClick={() => setMode("tick")}
-                  className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                    mode === "tick" ? "bg-slate-600 text-white" : "text-slate-400 hover:text-slate-200"
+                  className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                    mode === "tick" ? "bg-slate-800 text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
                   }`}
                 >
                   {t('addAudioModal.tickMode')}
                 </button>
                 <button
                   onClick={() => setMode("continuous")}
-                  className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                    mode === "continuous" ? "bg-slate-600 text-white" : "text-slate-400 hover:text-slate-200"
+                  className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                    mode === "continuous" ? "bg-slate-800 text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
                   }`}
                 >
                   {t('addAudioModal.musicMode')}
@@ -142,16 +142,16 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
               placeholder={t('addAudioModal.audioNamePlh')}
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-[#252733] text-sm text-white px-3 py-2 rounded-lg border border-slate-700 focus:border-blue-500 focus:outline-none transition-colors"
+              className="w-full bg-slate-950/45 text-sm text-white px-3.5 py-2.5 rounded-xl border border-slate-800 focus:border-blue-500/80 focus:ring-1 focus:ring-blue-500/30 outline-none transition-all shadow-inner"
             />
           </div>
 
           {/* Fonte do Áudio */}
           <div className="space-y-3">
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer group">
+            <div className="flex gap-5">
+              <label className="flex items-center gap-2.5 text-sm text-slate-300 cursor-pointer group">
                 <div className="relative flex items-center justify-center w-4 h-4 rounded-full border border-slate-600 group-hover:border-blue-400 transition-colors">
-                  {inputType === "file" && <div className="w-2 h-2 rounded-full bg-blue-500"></div>}
+                  {inputType === "file" && <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]"></div>}
                 </div>
                 <input
                   type="radio"
@@ -159,11 +159,11 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
                   checked={inputType === "file"}
                   onChange={() => setInputType("file")}
                 />
-                {t('addAudioModal.uploadFile')}
+                <span className="text-sm font-medium select-none text-slate-300 group-hover:text-slate-100 transition-colors">{t('addAudioModal.uploadFile')}</span>
               </label>
-              <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer group">
+              <label className="flex items-center gap-2.5 text-sm text-slate-300 cursor-pointer group">
                 <div className="relative flex items-center justify-center w-4 h-4 rounded-full border border-slate-600 group-hover:border-blue-400 transition-colors">
-                  {inputType === "url" && <div className="w-2 h-2 rounded-full bg-blue-500"></div>}
+                  {inputType === "url" && <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]"></div>}
                 </div>
                 <input
                   type="radio"
@@ -171,13 +171,13 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
                   checked={inputType === "url"}
                   onChange={() => setInputType("url")}
                 />
-                {t('addAudioModal.copyURL')}
+                <span className="text-sm font-medium select-none text-slate-300 group-hover:text-slate-100 transition-colors">{t('addAudioModal.copyURL')}</span>
               </label>
             </div>
 
             {inputType === "file" ? (
               <div
-                className="bg-[#252733] border-2 border-dashed border-slate-700 rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-800 hover:border-blue-500 transition-colors"
+                className="bg-slate-950/30 border-2 border-dashed border-slate-800/80 rounded-xl p-5 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-900/40 hover:border-blue-500/50 transition-all duration-300 group/drop"
                 onClick={() => fileInputRef.current?.click()}
               >
                 <input
@@ -193,13 +193,13 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
                     }
                   }}
                 />
-                <Upload size={24} className="text-slate-400 mb-2" />
+                <Upload size={24} className="text-slate-500 group-hover/drop:text-blue-400 mb-2 transition-colors" />
                 {file ? (
-                  <span className="text-sm font-medium text-blue-400 text-center truncate w-full px-2">
+                  <span className="text-sm font-semibold text-blue-400 text-center truncate w-full px-2">
                     {file.name}
                   </span>
                 ) : (
-                  <span className="text-sm text-slate-400">{t('addAudioModal.clickToSelect')}</span>
+                  <span className="text-xs font-medium text-slate-500 group-hover/drop:text-slate-400 transition-colors">{t('addAudioModal.clickToSelect')}</span>
                 )}
               </div>
             ) : (
@@ -208,19 +208,19 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({ isOpen, onClose })
                 placeholder="https://exemplo.com/audio.mp3"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                className="w-full bg-[#252733] text-sm text-white px-3 py-2 rounded-lg border border-slate-700 focus:border-blue-500 focus:outline-none transition-colors"
+                className="w-full bg-slate-950/45 text-sm text-white px-3.5 py-2.5 rounded-xl border border-slate-800 focus:border-blue-500/80 focus:ring-1 focus:ring-blue-500/30 outline-none transition-all shadow-inner"
               />
             )}
           </div>
         </div>
 
-        <div className="p-4 border-t border-slate-700/50 bg-[#22242f] flex justify-end gap-3">
-          <button onClick={onClose} className="px-4 py-2 rounded-lg font-medium text-slate-300 hover:bg-white/5 transition-colors">
+        <div className="p-4 border-t border-slate-800/60 bg-slate-900/40 flex justify-end gap-3 shrink-0">
+          <button onClick={onClose} className="px-4 py-2 rounded-xl text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800/40 transition-colors">
             {t('addAudioModal.cancel')}
           </button>
           <button
             onClick={handleSave}
-            className="px-6 py-2 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-500 transition-colors"
+            className="px-6 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-md shadow-blue-500/15 transition-all active:scale-95"
           >
             {t('addAudioModal.add')}
           </button>

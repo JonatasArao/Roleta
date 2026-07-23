@@ -31,7 +31,7 @@ export const AudioSettings = () => {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-      <div className="flex justify-between items-center bg-[#252733] border border-slate-700 p-4 rounded-xl">
+      <div className="flex justify-between items-center bg-slate-900/40 border border-slate-800/80 backdrop-blur-md p-5 rounded-2xl shadow-xl">
         <h3 className="font-bold text-white flex items-center gap-3">
           {t('audioSettings.title')}
         </h3>
@@ -39,12 +39,12 @@ export const AudioSettings = () => {
       </div>
 
       <div className={`space-y-6 transition-opacity ${!soundEnabled && "opacity-50 pointer-events-none"}`}>
-        <div className="bg-[#252733] border border-slate-700 rounded-xl p-5 space-y-4">
+        <div className="bg-slate-900/40 border border-slate-800/80 backdrop-blur-md rounded-2xl p-6 space-y-4 shadow-xl">
           <div className="flex justify-between items-center">
             <label className="text-sm font-medium text-slate-300">
               {t('audioSettings.masterVolume')}
             </label>
-            <span className="text-xs font-bold bg-slate-800 px-2 py-1 rounded text-slate-300">
+            <span className="text-xs font-bold bg-slate-950 px-2.5 py-1 rounded-md text-slate-300 border border-slate-800/50">
               {masterVolume}%
             </span>
           </div>
@@ -58,24 +58,24 @@ export const AudioSettings = () => {
           />
         </div>
 
-        <div className="bg-[#252733] border border-slate-700 rounded-xl overflow-hidden">
-          <div className="flex border-b border-slate-700/50 bg-[#1e2029]">
+        <div className="bg-slate-900/40 border border-slate-800/80 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl">
+          <div className="flex border-b border-slate-800/60 bg-slate-950/40">
             <button
               onClick={() => setActiveTab('roleta')}
-              className={`flex-1 py-3 text-sm font-medium transition-colors ${activeTab === 'roleta' ? 'text-blue-400 border-b-2 border-blue-500 bg-[#252733]' : 'text-slate-400 hover:text-slate-200 hover:bg-[#252733]'}`}
+              className={`flex-1 py-3.5 text-sm font-semibold transition-all ${activeTab === 'roleta' ? 'text-blue-400 border-b-2 border-blue-500 bg-blue-500/5 shadow-[inset_0_-2px_8px_rgba(59,130,246,0.05)]' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-950/20'}`}
             >
               {t('audioSettings.tabWheel')}
             </button>
             <button
               onClick={() => setActiveTab('vencedor')}
-              className={`flex-1 py-3 text-sm font-medium transition-colors ${activeTab === 'vencedor' ? 'text-blue-400 border-b-2 border-blue-500 bg-[#252733]' : 'text-slate-400 hover:text-slate-200 hover:bg-[#252733]'}`}
+              className={`flex-1 py-3.5 text-sm font-semibold transition-all ${activeTab === 'vencedor' ? 'text-blue-400 border-b-2 border-blue-500 bg-blue-500/5 shadow-[inset_0_-2px_8px_rgba(59,130,246,0.05)]' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-950/20'}`}
             >
               {t('audioSettings.tabWin')}
             </button>
             {eliminationMode && (
               <button
                 onClick={() => setActiveTab('eliminacao')}
-                className={`flex-1 py-3 text-sm font-medium transition-colors ${activeTab === 'eliminacao' ? 'text-red-400 border-b-2 border-red-500 bg-[#252733]' : 'text-slate-400 hover:text-slate-200 hover:bg-[#252733]'}`}
+                className={`flex-1 py-3.5 text-sm font-semibold transition-all ${activeTab === 'eliminacao' ? 'text-red-400 border-b-2 border-red-500 bg-red-500/5 shadow-[inset_0_-2px_8px_rgba(239,68,68,0.05)]' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-950/20'}`}
               >
                 {t('audioSettings.tabElimination')}
               </button>
@@ -128,11 +128,11 @@ export const AudioSettings = () => {
                     </button>
                   </div>
                   
-                  <div className="space-y-2 max-h-[200px] overflow-y-auto custom-scrollbar bg-[#14151a] rounded-lg border border-slate-700 p-2">
+                  <div className="space-y-2 max-h-[200px] overflow-y-auto custom-scrollbar bg-slate-950/45 rounded-xl border border-slate-800/80 p-3 shadow-inner">
                     {customTickAudios.map((audio) => (
                       <div
                         key={audio.id}
-                        className={`flex items-center justify-between p-2.5 rounded-md border transition-colors ${tickSoundType === audio.id ? "bg-blue-600/20 border-blue-500/50" : "bg-[#1e2029] border-slate-700 hover:border-slate-600"}`}
+                        className={`flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 ${tickSoundType === audio.id ? "bg-blue-600/15 border-blue-500/40 shadow-[0_0_12px_rgba(59,130,246,0.1)]" : "bg-slate-900/40 border-slate-800/60 hover:border-slate-700/60 hover:bg-slate-900/60"}`}
                       >
                         <div
                           className="flex items-center gap-3 overflow-hidden flex-1 cursor-pointer group"
@@ -229,11 +229,11 @@ export const AudioSettings = () => {
                     </button>
                   </div>
                   
-                  <div className="space-y-2 max-h-[200px] overflow-y-auto custom-scrollbar bg-[#14151a] rounded-lg border border-slate-700 p-2">
+                  <div className="space-y-2 max-h-[200px] overflow-y-auto custom-scrollbar bg-slate-950/45 rounded-xl border border-slate-800/80 p-3 shadow-inner">
                     {customWinAudios.map((audio) => (
                       <div
                         key={audio.id}
-                        className={`flex items-center justify-between p-2.5 rounded-md border transition-colors ${winSoundType === audio.id ? "bg-blue-600/20 border-blue-500/50" : "bg-[#1e2029] border-slate-700 hover:border-slate-600"}`}
+                        className={`flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 ${winSoundType === audio.id ? "bg-blue-600/15 border-blue-500/40 shadow-[0_0_12px_rgba(59,130,246,0.1)]" : "bg-slate-900/40 border-slate-800/60 hover:border-slate-700/60 hover:bg-slate-900/60"}`}
                       >
                         <div
                           className="flex items-center gap-3 overflow-hidden flex-1 cursor-pointer group"
@@ -312,11 +312,11 @@ export const AudioSettings = () => {
                     </label>
                   </div>
                   
-                  <div className="space-y-2 max-h-[200px] overflow-y-auto custom-scrollbar bg-[#14151a] rounded-lg border border-slate-700 p-2">
+                  <div className="space-y-2 max-h-[200px] overflow-y-auto custom-scrollbar bg-slate-950/45 rounded-xl border border-slate-800/80 p-3 shadow-inner">
                     {customWinAudios.map((audio) => (
                       <div
                         key={audio.id}
-                        className={`flex items-center justify-between p-2.5 rounded-md border transition-colors ${eliminationSoundType === audio.id ? "bg-red-600/20 border-red-500/50" : "bg-[#1e2029] border-slate-700 hover:border-slate-600"}`}
+                        className={`flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 ${eliminationSoundType === audio.id ? "bg-red-600/15 border-red-500/40 shadow-[0_0_12px_rgba(239,68,68,0.1)]" : "bg-slate-900/40 border-slate-800/60 hover:border-slate-700/60 hover:bg-slate-900/60"}`}
                       >
                         <div
                           className="flex items-center gap-3 overflow-hidden flex-1 cursor-pointer group"

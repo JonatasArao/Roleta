@@ -1,7 +1,8 @@
 import React from 'react';
-import { ArrowUp, ArrowDown, Settings2, X, Palette, Eye, EyeOff } from 'lucide-react';
+import { ArrowUp, ArrowDown, Settings2, X, Palette, Eye, EyeOff, Clock } from 'lucide-react';
 import { Item } from '../../types';
 import { useTranslation } from 'react-i18next';
+import { ParticipantStat } from '../../utils/statsUtils';
 
 function getContrastYIQ(hexcolor: string) {
   if (!hexcolor || typeof hexcolor !== 'string' || !hexcolor.startsWith('#')) return '#ffffff';
@@ -25,6 +26,7 @@ interface EntryItemProps {
   isAdvancedEntries: boolean;
   isSpinning: boolean;
   color: string;
+  stat?: ParticipantStat;
   onUpdate: (id: string, updates: Partial<Item>) => void;
   onRemove: (id: string) => void;
   onMove: (id: string, direction: 'up' | 'down') => void;
@@ -40,6 +42,7 @@ export const EntryItem: React.FC<EntryItemProps> = ({
   isAdvancedEntries,
   isSpinning,
   color,
+  stat,
   onUpdate,
   onRemove,
   onMove,
@@ -52,7 +55,7 @@ export const EntryItem: React.FC<EntryItemProps> = ({
 
   if (!isAdvancedEntries) {
     return (
-      <div className={`flex items-center gap-3 p-2.5 rounded-xl transition-all border border-transparent hover:bg-slate-800/40 hover:border-slate-700/50 group ${item.enabled === false ? 'opacity-50 grayscale' : ''}`}>
+      <div className={`flex items-center gap-2.5 p-2.5 rounded-xl transition-all border border-transparent hover:bg-slate-800/40 hover:border-slate-700/50 group ${item.enabled === false ? 'opacity-50 grayscale' : ''}`}>
         <label 
           className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center shadow-inner ring-2 ring-slate-800 transition-transform hover:scale-110 ${isSpinning ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
           style={{ backgroundColor: itemColor }}
@@ -67,15 +70,30 @@ export const EntryItem: React.FC<EntryItemProps> = ({
           />
         </label>
         
-        <div className="flex-1 flex items-center gap-2 min-w-0">
+        <div className="flex-1 flex items-center gap-1.5 min-w-0">
           <input 
             type="text" 
             value={item.text} 
             onChange={(e) => onUpdate(item.id, { text: e.target.value })}
-            className={`flex-1 min-w-0 bg-transparent border-none text-slate-100 font-medium focus:outline-none focus:ring-0 px-1 py-1 ${item.enabled === false ? 'line-through text-slate-400' : ''}`}
+            className={`flex-1 min-w-0 bg-transparent border-none text-slate-100 font-medium focus:outline-none focus:ring-0 px-1 py-1 text-sm ${item.enabled === false ? 'line-through text-slate-400' : ''}`}
             placeholder={t('entryItem.placeholderCompact')}
             disabled={isSpinning}
           />
+
+          {stat && (
+            <span 
+              className={`text-[10px] font-bold px-1.5 py-0.5 rounded border shrink-0 ${
+                stat.hasWon && stat.daysWithoutWin === 0
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                  : stat.daysWithoutWin > 7 || !stat.hasWon
+                  ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                  : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+              }`}
+              title={stat.hasWon ? `${stat.daysWithoutWin} dia(s) sem ganhar` : 'Nunca ganhou'}
+            >
+              {stat.hasWon ? (stat.daysWithoutWin === 0 ? '🏆 Hoje' : `⏳ ${stat.daysWithoutWin}d`) : '⚠️ Nunca'}
+            </span>
+          )}
         </div>
 
         <div className="flex items-center gap-1">
@@ -132,14 +150,35 @@ export const EntryItem: React.FC<EntryItemProps> = ({
 
       {/* Center: Inputs */}
       <div className="flex-1 flex flex-col gap-3">
-        <input
-          type="text" 
-          value={item.text} 
-          onChange={(e) => onUpdate(item.id, { text: e.target.value })}
-          className={`w-full bg-slate-900/60 border border-slate-700/80 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder-slate-600 ${item.enabled === false ? 'line-through text-slate-400' : ''}`}
-          placeholder={t('entryItem.placeholderFull')}
-          disabled={isSpinning}
-        />
+        <div className="flex items-center gap-2">
+          <input
+            type="text" 
+            value={item.text} 
+            onChange={(e) => onUpdate(item.id, { text: e.target.value })}
+            className={`flex-1 w-full bg-slate-900/60 border border-slate-700/80 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder-slate-600 ${item.enabled === false ? 'line-through text-slate-400' : ''}`}
+            placeholder={t('entryItem.placeholderFull')}
+            disabled={isSpinning}
+          />
+
+          {stat && (
+            <span 
+              className={`text-xs font-semibold px-2.5 py-1.5 rounded-lg border shrink-0 flex items-center gap-1 ${
+                stat.hasWon && stat.daysWithoutWin === 0
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                  : stat.daysWithoutWin > 7 || !stat.hasWon
+                  ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                  : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+              }`}
+              title={stat.hasWon && stat.lastWinTimestamp ? `Última vitória: ${new Date(stat.lastWinTimestamp).toLocaleDateString()}` : 'Nunca ganhou'}
+            >
+              {stat.hasWon ? (
+                stat.daysWithoutWin === 0 ? '🏆 Ganhou hoje' : `⏳ ${stat.daysWithoutWin}d sem ganhar`
+              ) : (
+                '⚠️ Nunca ganhou'
+              )}
+            </span>
+          )}
+        </div>
         
         <div className="flex items-center gap-3">
           <label 

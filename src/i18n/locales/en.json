@@ -56,6 +56,8 @@
       "seconds": "Seconds",
       "eliminationMode": "Elimination Mode",
       "eliminationModeDesc": "The selected person does not win, they are eliminated. The wheel continues until one person remains.",
+      "penaltySaveWins": "Goalkeeper Save Wins (Penalties)",
+      "penaltySaveWinsDesc": "Enables the mode where the player whose shot is saved by the goalkeeper is the winner, instead of the one who scores.",
       "autoContinue": "Auto Continue (Fast Battle)",
       "autoContinueDesc": "Automatically continues spinning until 1 player remains.",
       "fastSpinTime": "Fast Round Spin Time",
@@ -78,7 +80,7 @@
       "format": "Wheel Format",
       "classic": "Classic",
       "slot": "Slot",
-      "boxes": "Boxes",
+      "boxes": "Briefcases",
       "theme": "VISUAL THEME (Skins)",
       "textSize": "Text Size",
       "centerSize": "Center Size",
@@ -133,6 +135,7 @@
     "tabs": {
       "history": "Draw History",
       "ranking": "Leaderboard (Ranking)",
+      "drySpell": "Days Without Win ⏳",
       "import": "Import Results"
     },
     "filter": {
@@ -161,7 +164,33 @@
       "win": "Win",
       "wins": "Wins",
       "showDates": "Show dates",
-      "hideDates": "Hide dates"
+      "hideDates": "Hide dates",
+      "daysWithoutWin": "{{days}}d without win",
+      "wonToday": "Won today! 🎉",
+      "neverWon": "Never won"
+    },
+    "drySpell": {
+      "title": "Days Without Winning Counter",
+      "subtitle": "Track dry spells for each participant",
+      "longestSpell": "Longest Current Dry Spell",
+      "averageSpell": "Group Average",
+      "neverWonCount": "Never Won",
+      "searchPlaceholder": "Search participant...",
+      "sortBy": "Sort by:",
+      "sortLongest": "Longest time without win",
+      "sortShortest": "Shortest time without win",
+      "sortMostWins": "Most wins",
+      "sortName": "Name (A-Z)",
+      "wonToday": "Won today! 🎉",
+      "daysWithoutWin": "{{count}} day(s) without win",
+      "neverWon": "Never won",
+      "lastWinDate": "Last win: {{date}}",
+      "firstSeen": "Registered/Seen on: {{date}}",
+      "drawsCount": "{{count}} draw(s) ago",
+      "activeOnWheel": "On Wheel",
+      "inactive": "Off Wheel",
+      "onlyOnWheel": "Only on wheel",
+      "noParticipants": "No participants found."
     },
     "import": {
       "title": "Add winners manually",
@@ -276,7 +305,11 @@
     "wheelFormat": "Wheel Format",
     "classic": "Classic",
     "slot": "Slot",
-    "boxes": "Boxes",
+    "horizon": "Slot",
+    "boxes": "Briefcases",
+    "mystery_box": "Briefcases",
+    "race": "Race",
+    "penalty_shootout": "Penalties",
     "visualTheme": "VISUAL THEME (Skins)",
     "textSize": "Text Size",
     "centerSize": "Center Size",
@@ -312,15 +345,39 @@
   },
   "mysteryBox": {
     "mixing": "Mixing...",
-    "chosen": "The Chosen One!",
-    "choose": "Choose",
-    "clickBoxOr": "Click a box or",
+    "chosen": "Briefcase Chosen!",
+    "choose": "Choose a Briefcase",
+    "clickBoxOr": "Click a briefcase or",
     "shuffling": "Shuffling...",
-    "randomChoice": "Random Choice"
+    "randomChoice": "Random Choice",
+    "shuffling_stage_1": "Shuffling Briefcases...",
+    "shuffling_stage_2": "Analyzing Probabilities...",
+    "shuffling_stage_3": "Narrowing Selection...",
+    "shuffling_stage_4": "Deciding Winner!"
   },
   "resultItem": {
     "winner": "Winner",
     "eliminated": "Eliminated",
     "grandChampion": "Grand Champion"
+  },
+  "penaltyDisplay": {
+    "copaElimination": "ELIMINATION CUP",
+    "defenseWins": "PENALTIES (DEFENSE WINS)",
+    "shootout": "PENALTY SHOOTOUT",
+    "goals": "GOALS",
+    "saves": "SAVES",
+    "kick": "Kick",
+    "champion": "CHAMPION",
+    "readyToStart": "Ready to start",
+    "kicker": "Kicker",
+    "kicking": "Kicking",
+    "goalEmoji": "GOAL ⚽",
+    "saveEmoji": "SAVE 🧤",
+    "goal": "GOAL",
+    "save": "SAVE",
+    "ongoing": "Shootout in progress...",
+    "completed": "Shootout completed!",
+    "kickPenalties": "Kick Penalties",
+    "tip": "Press <kbd>Ctrl + Enter</kbd> to quickly kick the penalty"
   }
 }

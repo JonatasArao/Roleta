@@ -69,6 +69,7 @@ export const useAppInitialization = () => {
           if (settings.eliminationSoundType !== undefined) state.setEliminationSoundType(settings.eliminationSoundType);
           if (settings.eliminationSpinTime !== undefined) state.setEliminationSpinTime(settings.eliminationSpinTime);
           if (settings.wheelTheme !== undefined) state.setWheelTheme(settings.wheelTheme);
+          if (settings.penaltySaveWins !== undefined) state.setPenaltySaveWins(settings.penaltySaveWins);
         }
 
         const dbAudios = await getAudios();
@@ -159,6 +160,7 @@ export const useAppInitialization = () => {
   const eliminationSoundType = useAppStore(s => s.eliminationSoundType);
   const eliminationSpinTime = useAppStore(s => s.eliminationSpinTime);
   const wheelTheme = useAppStore(s => s.wheelTheme);
+  const penaltySaveWins = useAppStore(s => s.penaltySaveWins);
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -185,14 +187,15 @@ export const useAppInitialization = () => {
       antiRepetitionCount,
       eliminationSoundType,
       eliminationSpinTime,
-      wheelTheme
+      wheelTheme,
+      penaltySaveWins
     });
   }, [
     isLoaded, spinTime, showConfetti, autoRemoveWinner, soundEnabled, 
     masterVolume, tickSoundType, spinSoundMode, winSoundType, textSize, 
     centerSize, isAdvancedEntries, eliminationMessage, grandWinnerMessage,
     eliminationMode, autoContinueElimination, balanceWeightsByWins, pitySystemEnabled, showPitySystemVisually, antiRepetitionEnabled, antiRepetitionCount, eliminationSoundType,
-    eliminationSpinTime, wheelTheme
+    eliminationSpinTime, wheelTheme, penaltySaveWins
   ]);
 
   // Save Results
